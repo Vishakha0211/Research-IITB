@@ -1,0 +1,431 @@
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  PointElement,
+  LineElement,
+  ArcElement,
+  RadialLinearScale,
+  Tooltip,
+  Legend,
+  Filler,
+  Title
+} from 'chart.js';
+import { Bar, Line, Pie, Doughnut, Radar } from 'react-chartjs-2';
+
+ChartJS.register(
+  CategoryScale, LinearScale, BarElement, PointElement, LineElement,
+  ArcElement, RadialLinearScale, Tooltip, Legend, Filler, Title
+);
+
+export const PALETTE = [
+  '#0d86a6', '#17222e', '#f5b301', '#4aa3b8', '#dc3d4b',
+  '#12a17b', '#7e8b99', '#e08a3c', '#0a6c87', '#5b7fa6',
+  '#9bb7c4', '#33475b'
+];
+
+const FONT = { family: "'Inter', 'Segoe UI', system-ui, sans-serif" };
+ChartJS.defaults.font.family = FONT.family;
+ChartJS.defaults.color = '#616d7a';
+
+const baseOptions = {
+  responsive: true,
+  maintainAspectRatio: false,
+  plugins: {
+    legend: { position: 'bottom', labels: { boxWidth: 14, padding: 16, font: { size: 12 } } },
+    tooltip: { backgroundColor: '#16203a', padding: 10, cornerRadius: 8 }
+  }
+};
+
+const num = (v) =>
+  typeof v === 'number' && Math.abs(v) >= 1000
+    ? v.toLocaleString('en-US')
+    : v;
+
+export function ChartBox({ height = 340, children }) {
+  return (
+    <div className="chart-box" style={{ height }}>
+      {children}
+    </div>
+  );
+}
+
+export function BarChart({ labels, data, label = 'Value', color = PALETTE[0], horizontal = false, height = 340, colors }) {
+  return (
+    <ChartBox height={height}>
+      <Bar
+        options={{
+          ...baseOptions,
+          indexAxis: horizontal ? 'y' : 'x',
+          plugins: {
+            ...baseOptions.plugins,
+            legend: { display: false },
+            tooltip: {
+              ...baseOptions.plugins.tooltip,
+              callbacks: { label: (c) => `${c.dataset.label ? c.dataset.label + ': ' : ''}${num(c.parsed[horizontal ? 'x' : 'y'])}` }
+            }
+          },
+          scales: {
+            x: {
+              beginAtZero: horizontal || undefined,
+              grid: { display: horizontal, color: horizontal ? '#eef1f7' : undefined },
+              ticks: { font: { size: 11 }, ...(horizontal ? { callback: (v) => num(v) } : {}) }
+            },
+            y: horizontal
+              ? { grid: { display: false }, ticks: { font: { size: 11 } } }
+              : {
+                  beginAtZero: true,
+                  grid: { color: '#eef1f7' },
+                  ticks: {
+                    font: { size: 11 },
+                    callback: (v) => (typeof v === 'number' && Math.abs(v) >= 1000 ? v.toLocaleString() : v)
+                  }
+                }
+          }
+        }}
+        data={{
+          labels,
+          datasets: [{
+            label,
+            data,
+            backgroundColor: colors || color,
+            borderRadius: 5,
+            maxBarThickness: 46
+          }]
+        }}
+      />
+    </ChartBox>
+  );
+}
+
+export function GroupedBarChart({ labels, datasets, height = 360, horizontal = false, yPercent = false }) {
+  return (
+    <ChartBox height={height}>
+      <Bar
+        options={{
+          ...baseOptions,
+          indexAxis: horizontal ? 'y' : 'x',
+          scales: {
+            x: {
+              beginAtZero: horizontal || undefined,
+              grid: { display: horizontal, color: horizontal ? '#eef1f7' : undefined },
+              ticks: {
+                font: { size: horizontal ? 11 : 10.5 },
+                maxRotation: horizontal ? 0 : 60,
+                autoSkip: !horizontal,
+                ...(horizontal ? { callback: (v) => (yPercent ? `${Math.round(v * 100)}%` : num(v)) } : {})
+              }
+            },
+            y: horizontal
+              ? { grid: { display: false }, ticks: { font: { size: 11 } } }
+              : {
+                  beginAtZero: true,
+                  grid: { color: '#eef1f7' },
+                  ticks: {
+                    font: { size: 11 },
+                    callback: (v) => (yPercent ? `${Math.round(v * 100)}%` : num(v))
+                  }
+                }
+          }
+        }}
+        data={{
+          labels,
+          datasets: datasets.map((d, i) => ({
+            ...d,
+            backgroundColor: d.color || PALETTE[i % PALETTE.length],
+            borderRadius: 4
+          }))
+        }}
+      />
+    </ChartBox>
+  );
+}
+
+export function MultiLineChart({ labels, datasets, height = 380, yPercent = false, fill = false }) {
+  return (
+    <ChartBox height={height}>
+      <Line
+        options={{
+          ...baseOptions,
+          interaction: { mode: 'index', intersect: false },
+          elements: { point: { radius: 3, hoverRadius: 5 } },
+          scales: {
+            x: { grid: { display: false }, ticks: { font: { size: 10.5 }, maxRotation: 60, autoSkip: false } },
+            y: {
+              beginAtZero: true,
+              grid: { color: '#eef1f7' },
+              ticks: { font: { size: 11 }, callback: (v) => (yPercent ? `${Math.round(v * 100)}%` : num(v)) }
+            }
+          }
+        }}
+        data={{
+          labels,
+          datasets: datasets.map((d, i) => ({
+            tension: 0.3,
+            borderWidth: 2.5,
+            pointBackgroundColor: '#fff',
+            pointBorderWidth: 2,
+            fill,
+            ...d,
+            borderColor: d.borderColor || PALETTE[i % PALETTE.length],
+            backgroundColor: d.backgroundColor || (fill ? 'rgba(13,134,166,0.10)' : PALETTE[i % PALETTE.length])
+          }))
+        }}
+      />
+    </ChartBox>
+  );
+}
+
+export function ComboChart({ labels, barData, lineData, barLabel = 'Publications', lineLabel = 'h-index', height = 380, barColor = '#0d86a6', lineColor = '#17222e' }) {
+  return (
+    <ChartBox height={height}>
+      <Bar
+        options={{
+          ...baseOptions,
+          interaction: { mode: 'index', intersect: false },
+          scales: {
+            x: { grid: { display: false }, ticks: { font: { size: 10.5 }, maxRotation: 60, autoSkip: false } },
+            y: {
+              type: 'linear', position: 'left', beginAtZero: true,
+              grid: { color: '#eef1f7' },
+              ticks: { font: { size: 11 }, callback: (v) => num(v) },
+              title: { display: true, text: barLabel, font: { size: 11 } }
+            },
+            y1: {
+              type: 'linear', position: 'right', beginAtZero: true,
+              grid: { drawOnChartArea: false },
+              ticks: { font: { size: 11 }, color: lineColor },
+              title: { display: true, text: lineLabel, font: { size: 11 }, color: lineColor }
+            }
+          }
+        }}
+        data={{
+          labels,
+          datasets: [
+            {
+              type: 'bar', label: barLabel, data: barData,
+              backgroundColor: barColor, borderRadius: 4, yAxisID: 'y', maxBarThickness: 34
+            },
+            {
+              type: 'line', label: lineLabel, data: lineData,
+              borderColor: lineColor, backgroundColor: lineColor,
+              borderWidth: 2.5, tension: 0.3, yAxisID: 'y1',
+              pointRadius: 3.5, pointHoverRadius: 5, pointBackgroundColor: '#fff', pointBorderWidth: 2
+            }
+          ]
+        }}
+      />
+    </ChartBox>
+  );
+}
+
+export function PieChart({ labels, data, height = 340, doughnut = true, colors }) {
+  const chartData = {
+    labels,
+    datasets: [{
+      data,
+      backgroundColor: colors || PALETTE,
+      borderWidth: 2,
+      borderColor: '#fff'
+    }]
+  };
+  const opts = {
+    ...baseOptions,
+    plugins: {
+      ...baseOptions.plugins,
+      tooltip: {
+        ...baseOptions.plugins.tooltip,
+        callbacks: { label: (c) => ` ${c.label}: ${c.parsed}${typeof c.parsed === 'number' && c.parsed <= 100 ? '%' : ''}` }
+      }
+    }
+  };
+  return (
+    <ChartBox height={height}>
+      {doughnut ? <Doughnut data={chartData} options={opts} /> : <Pie data={chartData} options={opts} />}
+    </ChartBox>
+  );
+}
+
+export function RadarChart({ labels, data, label = 'Value', height = 380, color = PALETTE[0] }) {
+  return (
+    <ChartBox height={height}>
+      <Radar
+        options={{
+          ...baseOptions,
+          scales: {
+            r: {
+              beginAtZero: true,
+              grid: { color: '#e4e8f1' },
+              angleLines: { color: '#e4e8f1' },
+              pointLabels: { font: { size: 11 } },
+              ticks: { backdropColor: 'transparent', font: { size: 10 } }
+            }
+          },
+          plugins: { ...baseOptions.plugins, legend: { display: false } }
+        }}
+        data={{
+          labels,
+          datasets: [{
+            label,
+            data,
+            backgroundColor: 'rgba(13,134,166,0.16)',
+            borderColor: color,
+            borderWidth: 2,
+            pointBackgroundColor: color
+          }]
+        }}
+      />
+    </ChartBox>
+  );
+}
+
+/* ---------- Non-Chart.js visuals ---------- */
+
+const CLOUD_COLORS = ['#0d86a6', '#17222e', '#f5b301', '#4aa3b8', '#dc3d4b', '#12a17b', '#0a6c87', '#e08a3c'];
+
+export function WordCloud({ topics, valueKey = 'size' }) {
+  const max = Math.max(...topics.map((t) => t[valueKey]), 1);
+  return (
+    <div className="wordcloud">
+      {topics.map((t, i) => {
+        const v = t[valueKey];
+        const size = 13 + (v / max) * 30;
+        return (
+          <span
+            key={t.topic + i}
+            className="w"
+            title={`${t.topic}: ${v}`}
+            style={{
+              fontSize: `${size}px`,
+              color: CLOUD_COLORS[i % CLOUD_COLORS.length],
+              opacity: 0.55 + (v / max) * 0.45
+            }}
+          >
+            {t.topic}
+          </span>
+        );
+      })}
+    </div>
+  );
+}
+
+// Squarified treemap layout (Bruls et al.)
+function worst(row, rowSum, w, h, total) {
+  if (rowSum === 0 || total === 0) return Infinity;
+  const side = Math.min(w, h);
+  const length = (w >= h ? w : h) * (rowSum / total);
+  let maxRatio = 0;
+  row.forEach((it) => {
+    const cellLen = length > 0 ? (it.value / rowSum) * length : 0;
+    if (cellLen <= 0) return Infinity;
+    const ratio = Math.max(side / cellLen, cellLen / side);
+    maxRatio = Math.max(maxRatio, ratio);
+  });
+  return maxRatio;
+}
+
+function squarify(items, x, y, w, h) {
+  const valid = items.filter((it) => it.value > 0);
+  const total = valid.reduce((s, it) => s + it.value, 0);
+  if (total <= 0 || w <= 0 || h <= 0) return [];
+  const out = [];
+  let list = [...valid];
+  let rx = x, ry = y, rw = w, rh = h;
+
+  while (list.length > 0 && rw > 0.1 && rh > 0.1) {
+    const remaining = list.reduce((s, it) => s + it.value, 0);
+    let row = [];
+    let rowSum = 0;
+
+    while (list.length > 0) {
+      const candidate = [...row, list[0]];
+      const candSum = candidate.reduce((s, it) => s + it.value, 0);
+      const candWorst = worst(candidate, candSum, rw, rh, remaining);
+      const rowWorst = row.length ? worst(row, rowSum, rw, rh, remaining) : Infinity;
+      if (row.length === 0 || candWorst <= rowWorst) {
+        row = candidate;
+        rowSum = candSum;
+        list.shift();
+      } else break;
+    }
+
+    const rowShare = rowSum / remaining;
+    if (rw >= rh) {
+      const rowW = rw * rowShare;
+      let oy = ry;
+      row.forEach((it) => {
+        const hh = rh * (it.value / rowSum);
+        out.push({ ...it, x: rx, y: oy, w: rowW, h: hh });
+        oy += hh;
+      });
+      rx += rowW;
+      rw -= rowW;
+    } else {
+      const rowH = rh * rowShare;
+      let ox = rx;
+      row.forEach((it) => {
+        const ww = rw * (it.value / rowSum);
+        out.push({ ...it, x: ox, y: ry, w: ww, h: rowH });
+        ox += ww;
+      });
+      ry += rowH;
+      rh -= rowH;
+    }
+  }
+  return out;
+}
+
+export function Treemap({ data, labelKey, valueKey, height = 340 }) {
+  const items = data.map((d) => ({ label: d[labelKey], value: d[valueKey] }));
+  const cells = squarify(items, 0, 0, 100, 100);
+  const colors = PALETTE;
+  const total = items.reduce((s, i) => s + i.value, 0) || 1;
+  return (
+    <div className="treemap" style={{ height }}>
+      {cells.map((c, i) => (
+        <div
+          key={c.label + i}
+          className="cell"
+          title={`${c.label}: ${((c.value / total) * 100).toFixed(1)}%`}
+          style={{
+            left: `${c.x}%`, top: `${c.y}%`,
+            width: `${c.w}%`, height: `${c.h}%`,
+            background: colors[i % colors.length]
+          }}
+        >
+          <span className="t">{c.w > 8 && c.h > 12 ? c.label : c.w > 4 ? c.label.slice(0, 6) : ''}</span>
+          {c.w > 7 && c.h > 18 && <span className="v">{((c.value / total) * 100).toFixed(1)}%</span>}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export function LorenzCurve({ data, equalityLine, height = 360 }) {
+  const labels = data.map((d) => `${Math.round(d.cumulative_share_of_authors * 100)}%`);
+  return (
+    <MultiLineChart
+      height={height}
+      labels={labels}
+      datasets={[
+        {
+          label: 'Lorenz curve (cumulative publications)',
+          data: data.map((d) => d.cumulative_share_of_publications),
+          borderColor: '#0d86a6',
+          backgroundColor: 'rgba(13,134,166,0.12)',
+          fill: true
+        },
+        {
+          label: 'Line of perfect equality',
+          data: equalityLine.map((d) => d.cumulative_share_of_publications),
+          borderColor: '#17222e',
+          borderDash: [6, 5],
+          pointRadius: 0,
+          fill: false
+        }
+      ]}
+      yPercent
+    />
+  );
+}
