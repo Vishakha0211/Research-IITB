@@ -9,6 +9,7 @@ import Topics from './pages/Topics';
 import Collaborations from './pages/Collaborations';
 import Funding from './pages/Funding';
 import Professors from './pages/Professors';
+import About from './pages/About';
 import Admin from './pages/Admin';
 
 const NAV = [
@@ -19,7 +20,8 @@ const NAV = [
   { to: '/topics', label: 'Topics' },
   { to: '/collaborations', label: 'Collaborations' },
   { to: '/funding', label: 'Funding' },
-  { to: '/professors', label: 'Professors' }
+  { to: '/professors', label: 'Professors' },
+  { to: '/about', label: 'About' }
 ];
 
 const stat = (report, metric) => {
@@ -115,6 +117,7 @@ export default function App() {
           <Route path="/collaborations" element={<Collaborations />} />
           <Route path="/funding" element={<Funding />} />
           <Route path="/professors" element={<Professors />} />
+          <Route path="/about" element={<About />} />
           <Route path="/admin" element={<Admin />} />
         </Routes>
       </main>
