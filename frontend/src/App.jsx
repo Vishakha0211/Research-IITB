@@ -73,6 +73,7 @@ export default function App() {
 
       <header className="site-header">
         <Link to="/" className="brand" onClick={() => setOpen(false)}>
+          <img className="brand-logo" src="/ugac-logo.svg" alt="UGAC" />
           <span>
             RESEARCH <b>@ IITB</b>
           </span>

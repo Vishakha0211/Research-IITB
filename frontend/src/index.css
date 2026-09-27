@@ -94,6 +94,7 @@ a { color: var(--teal); }
   font-size: 13px; font-weight: 700;
   font-family: var(--font-head);
 }
+.brand-logo { height: 36px; width: auto; flex-shrink: 0; transform: translate(-7px, -5px); }
 .brand b { color: var(--teal); }
 
 .site-nav { display: flex; gap: 4px; flex: 1; flex-wrap: wrap; }
@@ -448,6 +449,15 @@ table.data tr:hover td { background: #f7faf9; }
   font-weight: 700; color: var(--ink); margin-bottom: 3px;
 }
 .member-role { font-size: 13.5px; color: var(--ink-soft); }
+.member-links { display: flex; justify-content: center; gap: 8px; margin-top: 12px; }
+.member-link {
+  width: 30px; height: 30px; border-radius: 6px;
+  border: 1.5px solid var(--line); background: var(--card);
+  display: flex; align-items: center; justify-content: center;
+  transition: border-color 0.15s, background 0.15s;
+}
+.member-link svg { fill: var(--teal); }
+.member-link:hover { border-color: var(--teal); background: #eaf6f9; }
 
 /* ---------- Responsive ---------- */
 @media (max-width: 1000px) {
