@@ -73,7 +73,6 @@ export default function App() {
 
       <header className="site-header">
         <Link to="/" className="brand" onClick={() => setOpen(false)}>
-          <span className="brand-mark">IITB</span>
           <span>
             RESEARCH <b>@ IITB</b>
           </span>
