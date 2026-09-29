@@ -4,19 +4,47 @@ A full web portal rendering the entire "RESEARCH @ IITB" report with interactive
 All charts and tables read live from a backend data file, so any figure can be updated later
 without touching code.
 
-## Run
+## Running locally
+
+**Prerequisites:** [Node.js](https://nodejs.org) 18+ and Git.
 
 ```bash
-npm install-all     # install backend + frontend deps (once)
-npm run build       # build the frontend into frontend/dist
-npm start           # start API + portal on http://localhost:5000
+# 1. Clone the repository
+git clone https://github.com/zubairalmamoon2006-dev/Research-IITB.git
+cd Research-IITB
+
+# 2. Install dependencies (backend + frontend)
+npm run install-all
+
+# 3. Build the frontend into frontend/dist
+npm run build
+
+# 4. Start the portal (API + website on port 5000)
+npm start
 ```
 
-Development (hot reload frontend on :3000, API on :5000):
+Open **http://localhost:5000** in your browser.
+
+### Development mode (hot reload)
 
 ```bash
-npm run dev:backend
-npm run dev:frontend
+npm run dev:backend    # API on http://localhost:5000
+npm run dev:frontend   # Vite dev server on http://localhost:3000
+```
+
+Work on code in `frontend/src` and reload. Edits to `backend/data/report.json` show up on
+page refresh - no restart needed (the API re-reads the file on every request).
+
+### Admin access
+
+Writes through the **Update Data** page (`/admin`) require an admin token. On first start
+the backend creates `backend/.admin-token` and prints it in the server console; paste it
+into the **Admin access** card at the top of `/admin` (see *Updating data* below).
+
+If port 5000 is already in use, stop the other process first:
+
+```powershell
+Get-NetTCPConnection -LocalPort 5000 -State Listen | ForEach-Object { Stop-Process -Id $_.OwningProcess -Force }
 ```
 
 ## Pages
