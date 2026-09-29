@@ -17,8 +17,8 @@ export default function Topics() {
 
   return (
     <>
-      <PageIntro title="Key research topics." accent="2020 – 2024." eyebrow="Trends · Five-year evolution">
-        The evolving landscape of research themes across five years — from foundational science through the pandemic response to the AI boom — plus the topics that attracted the most research funding each year.
+      <PageIntro title="Key research topics." accent="2020 - 2024." eyebrow="Trends · Five-year evolution">
+        The evolving landscape of research themes across five years - from foundational science through the pandemic response to the AI boom - plus the topics that attracted the most research funding each year.
       </PageIntro>
 
       <Section
@@ -67,7 +67,7 @@ export default function Topics() {
               label="Funding priority"
             />
           </Card>
-          <Card title="Funded topics — ranked list">
+          <Card title="Funded topics - ranked list">
             <div className="table-wrap">
               <table className="data">
                 <thead>

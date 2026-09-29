@@ -17,7 +17,7 @@ export default function Dashboard() {
     { to: '/impact', label: 'Research Impact by Department' },
     { to: '/excellence', label: 'Rankings & H-Index' },
     { to: '/publications', label: 'Publications & Authors' },
-    { to: '/topics', label: 'Key Research Topics 2020–2024' },
+    { to: '/topics', label: 'Key Research Topics 2020-2024' },
     { to: '/collaborations', label: 'Domestic & Global Network' },
     { to: '/funding', label: 'Funding Agencies & Departments' },
     { to: '/professors', label: 'Professor Research Database' },

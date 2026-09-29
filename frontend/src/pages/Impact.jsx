@@ -34,7 +34,7 @@ export default function Impact() {
 
       <Section
         title="Faculty Size & Citation Averages"
-        note={`${faculty.context || ''} — ${faculty.correlation_description || ''}`}
+        note={`${faculty.context || ''} - ${faculty.correlation_description || ''}`}
       >
         <div className="grid-2">
           <Card title="Average citations per faculty by department">
@@ -49,7 +49,7 @@ export default function Impact() {
           <Card title="Key findings">
             <Findings
               items={[
-                `Highest research impact: ${faculty.highest_research_impact_department || '—'}`,
+                `Highest research impact: ${faculty.highest_research_impact_department || '-'}`,
                 ...(faculty.largest_departments || []).map((d) => `Largest department: ${d.name} (${d.faculty_count} faculty)`),
                 faculty.correlation_description
               ]}
@@ -81,7 +81,7 @@ export default function Impact() {
             <Findings
               items={[
                 oa.key_finding,
-                `${fmt(oa.total_articles_analyzed)} articles analyzed — ${fmt(oa.open_access_articles)} open access vs ${fmt(oa.not_open_access_articles)} non-open-access.`
+                `${fmt(oa.total_articles_analyzed)} articles analyzed - ${fmt(oa.open_access_articles)} open access vs ${fmt(oa.not_open_access_articles)} non-open-access.`
               ]}
               tone="gold"
             />

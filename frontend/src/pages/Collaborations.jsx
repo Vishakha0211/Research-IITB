@@ -14,7 +14,7 @@ export default function Collaborations() {
   return (
     <>
       <PageIntro title="Collaboration network." accent="Domestic & global." eyebrow="Partners · Institutions & countries">
-        IIT Bombay's research partnerships — the domestic vs international split, the ten key national institutions, top global university partners, and the worldwide reach by country.
+        IIT Bombay's research partnerships - the domestic vs international split, the ten key national institutions, top global university partners, and the worldwide reach by country.
       </PageIntro>
 
       <Section title={breakdown.title} note={breakdown.context}>

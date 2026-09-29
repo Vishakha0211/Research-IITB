@@ -124,7 +124,7 @@ export default function App() {
 
       <footer className="site-footer">
         <span>
-          <strong>RESEARCH @ IITB</strong> — dynamic research impact portal
+          Made with <span className="heart">❤️</span> by DAV Team, UGAC
         </span>
         <span>All charts read live from backend data · updatable via the Update Data page</span>
       </footer>

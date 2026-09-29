@@ -97,7 +97,7 @@ export default function Publications() {
               labels={trend.data_points?.map((d) => String(d.year)) || []}
               datasets={[
                 { label: 'Single author', data: trend.data_points?.map((d) => d.single_author) || [] },
-                { label: '2–5 authors', data: trend.data_points?.map((d) => d['2_5_authors']) || [] },
+                { label: '2-5 authors', data: trend.data_points?.map((d) => d['2_5_authors']) || [] },
                 { label: '6+ authors', data: trend.data_points?.map((d) => d['6_plus_authors']) || [] }
               ]}
             />

@@ -61,7 +61,7 @@ export default function Excellence() {
             <Findings
               items={[
                 `Top performer: ${hvsq.top_performer}`,
-                `Correlation coefficient: ${hvsq.correlation_coefficient} (negative — lower QS rank number associates with higher h-index)`,
+                `Correlation coefficient: ${hvsq.correlation_coefficient} (negative - lower QS rank number associates with higher h-index)`,
                 ...(hvsq.outliers || []).map((o) => `Outlier: ${o}`),
                 ...(hvsq.other_strong_performers || []).map((p) => `Strong performer: ${p}`)
               ]}
@@ -70,7 +70,7 @@ export default function Excellence() {
         </div>
       </Section>
 
-      <Section title="H-Index Comparison — Department Wise" note={hcmp.context}>
+      <Section title="H-Index Comparison - Department Wise" note={hcmp.context}>
         <Card title={hcmp.title}>
           <MultiLineChart
             height={460}

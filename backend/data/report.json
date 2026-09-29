@@ -214,7 +214,7 @@
       }
     ],
     "highest_research_impact_department": "Physics (over 6,000 average citations per faculty)",
-    "context": "Analyzing Faculty Size and Citation Averages (Page 5)"
+    "context": "Analyzing Faculty Size and Citation Averages"
   },
   "access_models_scholarly_publishing": {
     "chart_type": "Bar Chart",
@@ -238,7 +238,7 @@
         "count": 1500
       }
     ],
-    "context": "Access Models in Scholarly Publishing (Page 7)"
+    "context": "Access Models in Scholarly Publishing"
   },
   "open_access_citation_advantage": {
     "chart_type": "Bar Chart",
@@ -259,7 +259,7 @@
     "total_articles_analyzed": 11816,
     "open_access_articles": 2003,
     "not_open_access_articles": 9813,
-    "context": "Significant impact of open access on research visibility and influence (Page 8)"
+    "context": "Significant impact of open access on research visibility and influence"
   },
   "research_impact_across_departments": {
     "chart_type": "Bar Chart",
@@ -382,7 +382,7 @@
         "crossref_citations": 12000
       }
     ],
-    "context": "Research Impact Across Departments (Page 9)"
+    "context": "Research Impact Across Departments"
   },
   "research_excellence_volume_voice": {
     "chart_type": "Combination Chart (Bar & Line)",
@@ -510,7 +510,7 @@
     ],
     "loudest_voice_department": "Physics (highest h-index)",
     "highest_volume_department": "Electrical Engineering (greatest quantity of research papers)",
-    "context": "What Defines Research Excellence: Volume or Voice? (Page 10)"
+    "context": "What Defines Research Excellence: Volume or Voice?"
   },
   "h_index_vs_qs_rankings": {
     "chart_type": "Combination Chart (Bar & Line)",
@@ -582,7 +582,7 @@
       "Mechanical (69)",
       "Computer Science (76)"
     ],
-    "context": "H-Index vs QS Rankings (Page 11)"
+    "context": "H-Index vs QS Rankings"
   },
   "publication_mix_composition": {
     "chart_type": "Bar Chart",
@@ -634,12 +634,12 @@
         "count": 0
       }
     ],
-    "context": "Publication Mix Composition (Page 12)"
+    "context": "Publication Mix Composition"
   },
   "measuring_research_output": {
     "chart_type": "Bar Chart",
     "title": "Measuring Research Output: Publications and Patents",
-    "context": "Comparison with IITs and IISc (Page 14)",
+    "context": "Comparison with IITs and IISc",
     "publications_data": [
       {
         "institution": "IIT Bombay",
@@ -755,7 +755,7 @@
       }
     ],
     "key_finding": "IISc Bangalore stands out with the highest citation count, showcasing its strong research influence. IIT Bombay, IIT Delhi, and IIT Madras also maintain impressive performance.",
-    "context": "Research Impact Across Top Indian Institutes (Page 15)"
+    "context": "Research Impact Across Top Indian Institutes"
   },
   "h_index_comparison_department_wise": {
     "chart_type": "Multi-Line Chart",
@@ -912,11 +912,11 @@
       "IIT Bombay and IIT Madras maintain consistent strength across engineering and interdisciplinary departments.",
       "IIT Kanpur performs well in traditional engineering areas but trails in newer or interdisciplinary fields."
     ],
-    "context": "H-Index comparison department wise (Page 16)"
+    "context": "H-Index comparison department wise"
   },
   "qs_vs_nirf_rankings": {
     "chart_type": "Table",
-    "context": "QS vs. NIRF Rankings for Top Indian Institutes (Page 17)",
+    "context": "QS vs. NIRF Rankings for Top Indian Institutes",
     "headers": [
       "Institution",
       "QS World Ranking (2025)",
@@ -1003,7 +1003,7 @@
       "Experience and seniority strongly correlate with research output.",
       "The dominance of 'Professor (HAG)' highlights institutional concentration of high-impact research within senior faculty ranks."
     ],
-    "context": "Correlation between Academic Rank and Research Output (Page 19)"
+    "context": "Correlation between Academic Rank and Research Output"
   },
   "research_authorship_distribution": {
     "chart_type": "Histogram/Bar Chart",
@@ -1018,7 +1018,7 @@
       "Individual Effort Rules: Research output still thrives on independent or small-group contributions.",
       "Big Teams -> Exceptions: Only a few studies involve large, multi-author collaborations."
     ],
-    "context": "Research Authorship Distribution: Key Insights (Page 20)"
+    "context": "Research Authorship Distribution: Key Insights"
   },
   "key_research_topics_yearly": [
     {
@@ -1280,7 +1280,7 @@
       }
     ],
     "overall_statement": "IITB maintains a well-distributed collaboration profile across global and national levels.",
-    "context": "IIT-Bombay Collaborations: Domestic vs. International Breakdown (Page 28)"
+    "context": "IIT-Bombay Collaborations: Domestic vs. International Breakdown"
   },
   "iit_bombay_domestic_network": {
     "chart_type": "Horizontal Bar Chart",
@@ -1324,7 +1324,7 @@
       }
     ],
     "key_finding": "Primary domestic partners are elite research organizations and top academic institutions. The IITB-Monash Research Academy highlights the success of this specific joint venture.",
-    "context": "Mapping IIT-Bombay's Domestic Network (Page 30)"
+    "context": "Mapping IIT-Bombay's Domestic Network"
   },
   "iit_bombay_global_reach_university_partners": {
     "chart_type": "Horizontal Bar Chart",
@@ -1372,7 +1372,7 @@
       }
     ],
     "key_finding": "Monash University is an exceptional outlier partner. Other partners are world-leading institutions, with collaboration more evenly distributed among them.",
-    "context": "Mapping Global Reach (Page 31)"
+    "context": "Mapping Global Reach"
   },
   "global_reach_countries_collaborating": {
     "chart_type": "Treemap",
@@ -1420,7 +1420,7 @@
       }
     ],
     "key_finding": "The United States is the most significant partner country. Australia is second, explained by the relationship with Monash University. Diverse global network with strong ties to research-intensive nations.",
-    "context": "The Global Reach: Countries Collaborating with IIT-Bombay (Page 32)"
+    "context": "The Global Reach: Countries Collaborating with IIT-Bombay"
   },
   "concentration_of_research_output_among_authors": {
     "chart_type": "Lorenz Curve",
@@ -1476,7 +1476,7 @@
       "Unequal Distribution: Significant disparity in publication output among authors.",
       "High Concentration: A small percentage of authors is responsible for a large majority of published work."
     ],
-    "context": "Concentration of Research Output Among Authors (Page 33)"
+    "context": "Concentration of Research Output Among Authors"
   },
   "changes_in_publication_author_counts": {
     "chart_type": "Line Chart",
@@ -1532,7 +1532,7 @@
       "Decline of Solo Work: Single-author publications are very rare (approx. 2%) and showing a slight decline.",
       "Growth of Large Teams: Research teams with 6 or more authors are responsible for a growing share, increasing from roughly 16% to 18% between 2020 and 2023."
     ],
-    "context": "Changes in Publication Author Counts (Page 34)"
+    "context": "Changes in Publication Author Counts"
   },
   "funded_research_by_department": {
     "chart_type": "Pie Chart",
@@ -1580,7 +1580,7 @@
       "mid_tier": "CSE (13%), ME (9.7%), CE (8.1%).",
       "lowest_funded": "CL (4.9%), ES (5.8%), AE (6.5%)."
     },
-    "context": "% of Funded Research by each Department (Page 36)"
+    "context": "% of Funded Research by each Department"
   },
   "top_funding_agencies": {
     "chart_type": "Bar Chart",
@@ -1631,7 +1631,7 @@
       "ugc_dbt_role": "Provide specialized support.",
       "overall": "Funding is highly concentrated, with the top three agencies responsible for most of the volume."
     },
-    "context": "Top Funding Agencies (Page 37)"
+    "context": "Top Funding Agencies"
   },
   "top_funded_research_topics_yearly": [
     {
@@ -1879,13 +1879,12 @@
     "title": "IITB Professor Research Database",
     "description": "To find professors with particular research interest use Professors Database",
     "how_to_use": [
-      "Press Ctrl + F and search for the topic you're interested in to find professors working on the same area.",
-      "Copy the professor's name and search it on the IRINS IIT Bombay website to explore their publications.",
-      "Click the ★ star on any row to bookmark that professor — your stars are saved in this browser, and the Starred button shows only your shortlist.",
-      "Click a professor's name to open their Vidwan profile (where available)."
+      "Type the topic you're interested in into the search bar to find professors working on the same area.",
+      "Copy the professor's name and search it on the IRINS IIT Bombay website to explore their publications - or click on a professor's name to go directly to their Vidwan profile (where available).",
+      "Click the ★ star on any row to bookmark that professor - your stars are saved in this browser, and the Starred button shows only your shortlist."
     ],
     "website": "iitb.irins.org",
-    "context": "IITB Professor Research Database (Page 44-46)",
+    "context": "IITB Professor Research Database",
     "headers": [
       "Name",
       "Designation",
@@ -6557,7 +6556,7 @@
         "Designation": "Associate Professor",
         "Expert_ID": 155622,
         "Topic": "Sociology",
-        "Research_Interest": "My research has encompassed a mixed method approach to study social exclusion, politics at margins, policy processes and state-civil society relations. I have been using ethnography, with other qualitative research methods and descriptive statistics to underline how social exclusion operates in India. Ethnography has helped me keep my research outcomes nuanced. For instance while studying caste, I have focused on aspects of emotions – humour and anger to theorise caste better. This has helped me",
+        "Research_Interest": "My research has encompassed a mixed method approach to study social exclusion, politics at margins, policy processes and state-civil society relations. I have been using ethnography, with other qualitative research methods and descriptive statistics to underline how social exclusion operates in India. Ethnography has helped me keep my research outcomes nuanced. For instance while studying caste, I have focused on aspects of emotions - humour and anger to theorise caste better. This has helped me",
         "Department": "Department of Humanities and Social Sciences",
         "Scopus Id": "26039520900",
         "Profile_URL": "https://vidwan.inflibnet.ac.in/profile/155622"
@@ -9554,7 +9553,7 @@
         "Designation": "Associate Professor",
         "Expert_ID": 304850,
         "Topic": "Biology",
-        "Research_Interest": "Passionate about understanding host-pathogen interactions with a major focus on fungal molecular patho-biology, chemical effectors, host adaptability and plant biotechnology. We use both plant and animal models of fungal diseases – – Blast disease caused by the Cereal-Killer Magnaporthe oryzae – Mixed-species Invasive Candidiasis",
+        "Research_Interest": "Passionate about understanding host-pathogen interactions with a major focus on fungal molecular patho-biology, chemical effectors, host adaptability and plant biotechnology. We use both plant and animal models of fungal diseases - - Blast disease caused by the Cereal-Killer Magnaporthe oryzae - Mixed-species Invasive Candidiasis",
         "Department": "Department of Biosciences and Bioengineering",
         "Scopus Id": "6507982099"
       },

@@ -92,7 +92,7 @@ export default function Admin() {
     const value = tokenInput.trim();
     setAdminToken(value);
     if (!value) {
-      setTokenStatus({ type: 'err', msg: 'No token entered — saving will fail.' });
+      setTokenStatus({ type: 'err', msg: 'No token entered - saving will fail.' });
       return;
     }
     setTokenStatus({ type: 'ok', msg: 'Checking…' });
@@ -109,7 +109,7 @@ export default function Admin() {
   return (
     <>
       <PageIntro title="Update report data." accent="No code required." eyebrow="Portal · Data management">
-        Every chart and table on this portal reads live from the backend data file. Edit any section below as JSON — invalid JSON or failed saves are reported explicitly. After saving, affected pages re-render with the new data.
+        Every chart and table on this portal reads live from the backend data file. Edit any section below as JSON - invalid JSON or failed saves are reported explicitly. After saving, affected pages re-render with the new data.
       </PageIntro>
 
       <Section
