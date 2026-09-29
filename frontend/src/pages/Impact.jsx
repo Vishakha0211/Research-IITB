@@ -1,9 +1,11 @@
+import { useNavigate } from 'react-router-dom';
 import { useReport } from '../context/ReportContext';
 import { Section, Card, Findings, Callout, fmt, PageIntro } from '../components/ui';
-import { GroupedBarChart, BarChart, ComboChart } from '../components/charts';
+import { GroupedBarChart, BarChart, ComboChart, CH } from '../components/charts';
 
 export default function Impact() {
   const { report } = useReport();
+  const navigate = useNavigate();
   if (!report) return null;
 
   const impact = report.research_impact_across_departments || {};
@@ -11,6 +13,7 @@ export default function Impact() {
   const access = report.access_models_scholarly_publishing || {};
   const oa = report.open_access_citation_advantage || {};
   const instCites = report.research_impact_across_top_indian_institutes || {};
+  const goDept = (label) => navigate(`/department/${encodeURIComponent(label)}`);
 
   return (
     <>
@@ -18,15 +21,16 @@ export default function Impact() {
         Citation analysis across IIT Bombay departments, open-access advantage, and how the institute compares with other top Indian institutions.
       </PageIntro>
 
-      <Section title="Research Impact Across Departments" note={impact.context}>
+      <Section title="Research Impact Across Departments" note={`${impact.context} - click a bar to open that department's page.`}>
         <Card title={impact.title || 'Total citations vs Crossref citations by department'}>
           <GroupedBarChart
             horizontal
             height={520}
+            onPick={goDept}
             labels={impact.data_points?.map((d) => d.department) || []}
             datasets={[
               { label: 'Citations', data: impact.data_points?.map((d) => d.citations) || [], color: '#0d86a6' },
-              { label: 'Crossref Citations', data: impact.data_points?.map((d) => d.crossref_citations) || [], color: '#0d86a6' }
+              { label: 'Crossref Citations', data: impact.data_points?.map((d) => d.crossref_citations) || [], color: CH.navy }
             ]}
           />
         </Card>
@@ -44,6 +48,7 @@ export default function Impact() {
               lineData={faculty.data_points?.map((d) => d.number_of_faculty_x100 * 100) || []}
               barLabel="Avg citations / faculty"
               lineLabel="Faculty count (×100)"
+              onPick={goDept}
             />
           </Card>
           <Card title="Key findings">
@@ -68,7 +73,7 @@ export default function Impact() {
               labels={access.data_points?.map((d) => d.access_type) || []}
               data={access.data_points?.map((d) => d.count) || []}
               label="Count"
-              colors={['#17222e', '#0d86a6', '#4aa3b8', '#f5b301']}
+              colors={[CH.navy, '#0d86a6', '#4aa3b8', '#f5b301']}
             />
           </Card>
           <Card title={oa.title}>
@@ -96,7 +101,7 @@ export default function Impact() {
             data={instCites.data_points?.map((d) => d.citations) || []}
             label="Citations"
             colors={(instCites.data_points || []).map((d) =>
-              d.institution === 'IIT Bombay' ? '#0d86a6' : '#17222e'
+                d.institution === 'IIT Bombay' ? '#0d86a6' : CH.navy
             )}
           />
           <Callout>{instCites.key_finding}</Callout>

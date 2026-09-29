@@ -25,9 +25,74 @@ export const PALETTE = [
   '#9bb7c4', '#33475b'
 ];
 
+export const CH = { navy: '#17222e' };
+const CLOUD_COLORS = ['#0d86a6', '#17222e', '#f5b301', '#4aa3b8', '#dc3d4b', '#12a17b', '#0a6c87', '#e08a3c'];
+
 const FONT = { family: "'Inter', 'Segoe UI', system-ui, sans-serif" };
 ChartJS.defaults.font.family = FONT.family;
 ChartJS.defaults.color = '#616d7a';
+
+let THEME = { grid: '#eef1f7', radar: '#e4e8f1', tick: '#616d7a' };
+
+export function setChartTheme(dark) {
+  THEME = dark
+    ? { grid: '#2b3a49', radar: '#2b3a49', tick: '#9fb0bf' }
+    : { grid: '#eef1f7', radar: '#e4e8f1', tick: '#616d7a' };
+  ChartJS.defaults.color = THEME.tick;
+  CH.navy = dark ? '#9fb3c8' : '#17222e';
+  PALETTE[1] = CH.navy;
+  PALETTE[8] = dark ? '#4db6d0' : '#0a6c87';
+  PALETTE[11] = dark ? '#8ba3bd' : '#33475b';
+  CLOUD_COLORS[1] = CH.navy;
+  CLOUD_COLORS[6] = dark ? '#4db6d0' : '#0a6c87';
+}
+
+// Flags points where a series moves sharply (|change| >= threshold)
+const trendFlags = {
+  id: 'trendFlags',
+  afterDatasetsDraw(chart, args, opts) {
+    if (!opts || !opts.enabled) return;
+    const th = opts.threshold ?? 0.15;
+    const ctx = chart.ctx;
+    ctx.save();
+    ctx.font = '700 10px Inter, sans-serif';
+    ctx.textAlign = 'center';
+    chart.data.datasets.forEach((ds, di) => {
+      const data = ds.data || [];
+      const meta = chart.getDatasetMeta(di);
+      if (meta.hidden) return;
+      for (let i = 1; i < data.length; i++) {
+        const prev = data[i - 1];
+        const cur = data[i];
+        if (typeof prev !== 'number' || typeof cur !== 'number' || prev === 0) continue;
+        const chg = (cur - prev) / Math.abs(prev);
+        if (Math.abs(chg) < th) continue;
+        const pt = meta.data[i];
+        if (!pt) continue;
+        ctx.fillStyle = chg > 0 ? '#12a17b' : '#dc3d4b';
+        ctx.fillText(
+          `${chg > 0 ? '▲' : '▼'}${Math.round(Math.abs(chg) * 100)}%`,
+          pt.x,
+          pt.y - 10
+        );
+      }
+    });
+    ctx.restore();
+  }
+};
+ChartJS.register(trendFlags);
+
+// Shared click/hover wiring for drill-down
+const pickHandlers = (labels, onPick) => ({
+  onClick: (evt, els) => {
+    if (els.length && onPick) onPick(labels[els[0].index], els[0].index);
+  },
+  onHover: (evt, els) => {
+    if (evt.native && evt.native.target) {
+      evt.native.target.style.cursor = els.length && onPick ? 'pointer' : 'default';
+    }
+  }
+});
 
 const baseOptions = {
   responsive: true,
@@ -51,13 +116,14 @@ export function ChartBox({ height = 340, children }) {
   );
 }
 
-export function BarChart({ labels, data, label = 'Value', color = PALETTE[0], horizontal = false, height = 340, colors }) {
+export function BarChart({ labels, data, label = 'Value', color = PALETTE[0], horizontal = false, height = 340, colors, onPick }) {
   return (
     <ChartBox height={height}>
       <Bar
         options={{
           ...baseOptions,
           indexAxis: horizontal ? 'y' : 'x',
+          ...pickHandlers(labels, onPick),
           plugins: {
             ...baseOptions.plugins,
             legend: { display: false },
@@ -69,14 +135,14 @@ export function BarChart({ labels, data, label = 'Value', color = PALETTE[0], ho
           scales: {
             x: {
               beginAtZero: horizontal || undefined,
-              grid: { display: horizontal, color: horizontal ? '#eef1f7' : undefined },
+              grid: { display: horizontal, color: horizontal ? THEME.grid : undefined },
               ticks: { font: { size: 11 }, ...(horizontal ? { callback: (v) => num(v) } : {}) }
             },
             y: horizontal
               ? { grid: { display: false }, ticks: { font: { size: 11 } } }
               : {
                   beginAtZero: true,
-                  grid: { color: '#eef1f7' },
+                  grid: { color: THEME.grid },
                   ticks: {
                     font: { size: 11 },
                     callback: (v) => (typeof v === 'number' && Math.abs(v) >= 1000 ? v.toLocaleString() : v)
@@ -99,17 +165,15 @@ export function BarChart({ labels, data, label = 'Value', color = PALETTE[0], ho
   );
 }
 
-export function GroupedBarChart({ labels, datasets, height = 360, horizontal = false, yPercent = false }) {
-  return (
-    <ChartBox height={height}>
-      <Bar
-        options={{
-          ...baseOptions,
-          indexAxis: horizontal ? 'y' : 'x',
-          scales: {
-            x: {
-              beginAtZero: horizontal || undefined,
-              grid: { display: horizontal, color: horizontal ? '#eef1f7' : undefined },
+export function GroupedBarChart({ labels, datasets, height = 360, horizontal = false, yPercent = false, onPick }) {
+  const opts = {
+    ...baseOptions,
+    indexAxis: horizontal ? 'y' : 'x',
+    ...pickHandlers(labels, onPick),
+    scales: {
+      x: {
+        beginAtZero: horizontal || undefined,
+        grid: { display: horizontal, color: horizontal ? THEME.grid : undefined },
               ticks: {
                 font: { size: horizontal ? 11 : 10.5 },
                 maxRotation: horizontal ? 0 : 60,
@@ -121,14 +185,18 @@ export function GroupedBarChart({ labels, datasets, height = 360, horizontal = f
               ? { grid: { display: false }, ticks: { font: { size: 11 } } }
               : {
                   beginAtZero: true,
-                  grid: { color: '#eef1f7' },
+                  grid: { color: THEME.grid },
                   ticks: {
                     font: { size: 11 },
                     callback: (v) => (yPercent ? `${Math.round(v * 100)}%` : num(v))
                   }
                 }
-          }
-        }}
+      }
+    };
+  return (
+    <ChartBox height={height}>
+      <Bar
+        options={opts}
         data={{
           labels,
           datasets: datasets.map((d, i) => ({
@@ -142,7 +210,7 @@ export function GroupedBarChart({ labels, datasets, height = 360, horizontal = f
   );
 }
 
-export function MultiLineChart({ labels, datasets, height = 380, yPercent = false, fill = false }) {
+export function MultiLineChart({ labels, datasets, height = 380, yPercent = false, fill = false, onPick, trendFlags: flags = false, flagThreshold = 0.15 }) {
   return (
     <ChartBox height={height}>
       <Line
@@ -150,11 +218,16 @@ export function MultiLineChart({ labels, datasets, height = 380, yPercent = fals
           ...baseOptions,
           interaction: { mode: 'index', intersect: false },
           elements: { point: { radius: 3, hoverRadius: 5 } },
+          ...pickHandlers(labels, onPick),
+          plugins: {
+            ...baseOptions.plugins,
+            trendFlags: { enabled: flags, threshold: flagThreshold }
+          },
           scales: {
             x: { grid: { display: false }, ticks: { font: { size: 10.5 }, maxRotation: 60, autoSkip: false } },
             y: {
               beginAtZero: true,
-              grid: { color: '#eef1f7' },
+              grid: { color: THEME.grid },
               ticks: { font: { size: 11 }, callback: (v) => (yPercent ? `${Math.round(v * 100)}%` : num(v)) }
             }
           }
@@ -177,18 +250,19 @@ export function MultiLineChart({ labels, datasets, height = 380, yPercent = fals
   );
 }
 
-export function ComboChart({ labels, barData, lineData, barLabel = 'Publications', lineLabel = 'h-index', height = 380, barColor = '#0d86a6', lineColor = '#17222e' }) {
+export function ComboChart({ labels, barData, lineData, barLabel = 'Publications', lineLabel = 'h-index', height = 380, barColor = '#0d86a6', lineColor = CH.navy, onPick }) {
   return (
     <ChartBox height={height}>
       <Bar
         options={{
           ...baseOptions,
           interaction: { mode: 'index', intersect: false },
+          ...pickHandlers(labels, onPick),
           scales: {
             x: { grid: { display: false }, ticks: { font: { size: 10.5 }, maxRotation: 60, autoSkip: false } },
             y: {
               type: 'linear', position: 'left', beginAtZero: true,
-              grid: { color: '#eef1f7' },
+              grid: { color: THEME.grid },
               ticks: { font: { size: 11 }, callback: (v) => num(v) },
               title: { display: true, text: barLabel, font: { size: 11 } }
             },
@@ -220,7 +294,7 @@ export function ComboChart({ labels, barData, lineData, barLabel = 'Publications
   );
 }
 
-export function PieChart({ labels, data, height = 340, doughnut = true, colors }) {
+export function PieChart({ labels, data, height = 340, doughnut = true, colors, onPick }) {
   const chartData = {
     labels,
     datasets: [{
@@ -232,6 +306,7 @@ export function PieChart({ labels, data, height = 340, doughnut = true, colors }
   };
   const opts = {
     ...baseOptions,
+    ...pickHandlers(labels, onPick),
     plugins: {
       ...baseOptions.plugins,
       tooltip: {
@@ -253,11 +328,11 @@ export function RadarChart({ labels, data, label = 'Value', height = 380, color 
       <Radar
         options={{
           ...baseOptions,
-          scales: {
-            r: {
-              beginAtZero: true,
-              grid: { color: '#e4e8f1' },
-              angleLines: { color: '#e4e8f1' },
+        scales: {
+          r: {
+            beginAtZero: true,
+            grid: { color: THEME.radar },
+            angleLines: { color: THEME.radar },
               pointLabels: { font: { size: 11 } },
               ticks: { backdropColor: 'transparent', font: { size: 10 } }
             }
@@ -281,8 +356,6 @@ export function RadarChart({ labels, data, label = 'Value', height = 380, color 
 }
 
 /* ---------- Non-Chart.js visuals ---------- */
-
-const CLOUD_COLORS = ['#0d86a6', '#17222e', '#f5b301', '#4aa3b8', '#dc3d4b', '#12a17b', '#0a6c87', '#e08a3c'];
 
 export function WordCloud({ topics, valueKey = 'size' }) {
   const max = Math.max(...topics.map((t) => t[valueKey]), 1);
@@ -419,7 +492,7 @@ export function LorenzCurve({ data, equalityLine, height = 360 }) {
         {
           label: 'Line of perfect equality',
           data: equalityLine.map((d) => d.cumulative_share_of_publications),
-          borderColor: '#17222e',
+          borderColor: CH.navy,
           borderDash: [6, 5],
           pointRadius: 0,
           fill: false

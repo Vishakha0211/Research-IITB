@@ -1,105 +1,79 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { useReport } from '../context/ReportContext';
 import { Section, Card, Callout, PageIntro, fmt } from '../components/ui';
+import { tokenize, buildFields, scoreEntries } from '../lib/search';
 
 const PAGE_SIZE = 25;
 const STAR_KEY = 'iitb-starred-professors';
+const CMP_KEY = 'iitb-compare-professors';
+const HIST_KEY = 'iitb-search-history';
 
-const norm = (s) =>
-  String(s ?? '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-
-const tokenize = (s) => norm(s).split(/[^a-z0-9+#]+/).filter(Boolean);
-
-const stem = (w) =>
-  w.replace(/(ies)$/, 'y')
-    .replace(/(ing|ed|es|s)$/, '')
-    .replace(/([a-z])\1$/, '$1');
-
-const WEIGHTED = [
-  ['Name', 10],
-  ['Topic', 7],
-  ['Research_Interest', 5],
-  ['Department', 4],
-  ['Designation', 3]
-];
-
-function lev(a, b, max) {
-  if (a === b) return 0;
-  if (Math.abs(a.length - b.length) > max) return max + 1;
-  let prev = Array.from({ length: b.length + 1 }, (_, j) => j);
-  for (let i = 1; i <= a.length; i++) {
-    const cur = [i];
-    let rowMin = i;
-    for (let j = 1; j <= b.length; j++) {
-      const cost = a[i - 1] === b[j - 1] ? 0 : 1;
-      cur[j] = Math.min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + cost);
-      if (cur[j] < rowMin) rowMin = cur[j];
-    }
-    if (rowMin > max) return max + 1;
-    prev = cur;
-  }
-  return prev[b.length];
-}
-
-function buildFields(p) {
-  const fields = [];
-  const push = (text, w) => text && fields.push({ text, w, tokens: tokenize(text) });
-  for (const [h, w] of WEIGHTED) push(norm(p[h]), w);
-  const weighted = new Set(WEIGHTED.map(([h]) => h));
-  for (const [k, v] of Object.entries(p)) {
-    if (k === 'Profile_URL' || weighted.has(k) || v == null) continue;
-    push(norm(v), 1);
-  }
-  return fields;
-}
-
-function fieldTokenScore(qt, f) {
-  if (f.text.includes(qt)) return 1;
-  if (qt.length > 3) {
-    const variants = qt.endsWith('s')
-      ? [qt.slice(0, -1)]
-      : [`${qt}s`, `${qt}es`, `${qt}ing`, `${qt.slice(0, -1)}ed`];
-    for (const v of variants) if (f.text.includes(v)) return 0.9;
-  }
-  const qs = stem(qt);
-  const maxD = qt.length >= 5 ? 2 : qt.length >= 3 ? 1 : 0;
-  for (const t of f.tokens) {
-    if (qs && stem(t) === qs) return 0.85;
-    if (maxD > 0 && Math.abs(t.length - qt.length) <= maxD) {
-      const d = lev(qt, t, maxD);
-      if (d <= maxD) return d === 1 ? 0.7 : 0.55;
-    }
-  }
-  return 0;
-}
-
-function loadStars() {
+const loadSet = (key) => {
   try {
-    return new Set(JSON.parse(localStorage.getItem(STAR_KEY) || '[]').map(String));
+    return new Set(JSON.parse(localStorage.getItem(key) || '[]').map(String));
   } catch {
     return new Set();
   }
-}
+};
+const loadList = (key) => {
+  try {
+    return JSON.parse(localStorage.getItem(key) || '[]');
+  } catch {
+    return [];
+  }
+};
+const save = (key, val) => {
+  try {
+    localStorage.setItem(key, typeof val === 'string' ? val : JSON.stringify(val));
+  } catch {
+    /* storage unavailable - state stays for this session */
+  }
+};
 
 export default function Professors() {
   const { report } = useReport();
-  const [q, setQ] = useState('');
-  const [dept, setDept] = useState('All');
-  const [desig, setDesig] = useState('All');
-  const [starOnly, setStarOnly] = useState(false);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [q, setQ] = useState(() => searchParams.get('q') || '');
+  const [dept, setDept] = useState(() => searchParams.get('dept') || 'All');
+  const [desig, setDesig] = useState(() => searchParams.get('desig') || 'All');
+  const [starOnly, setStarOnly] = useState(() => searchParams.get('stars') === '1');
   const [page, setPage] = useState(1);
-  const [starred, setStarred] = useState(loadStars);
+  const [starred, setStarred] = useState(() => loadSet(STAR_KEY));
+  const [compare, setCompare] = useState(() => loadSet(CMP_KEY));
+  const [showCmp, setShowCmp] = useState(false);
+  const [history, setHistory] = useState(() => loadList(HIST_KEY));
+  const [showHist, setShowHist] = useState(false);
+  const histTimer = useRef(null);
   const db = report?.professor_research_interest_database;
   const all = useMemo(() => db?.professors || [], [db]);
   const entries = useMemo(() => all.map((p) => ({ p, fields: buildFields(p) })), [all]);
 
+  /* --- URL sync (shareable search links) --- */
   useEffect(() => {
-    try {
-      localStorage.setItem(STAR_KEY, JSON.stringify([...starred]));
-    } catch {
-      /* storage unavailable - stars stay for this session */
-    }
-  }, [starred]);
+    const next = new URLSearchParams();
+    if (q) next.set('q', q);
+    if (dept !== 'All') next.set('dept', dept);
+    if (desig !== 'All') next.set('desig', desig);
+    if (starOnly) next.set('stars', '1');
+    const s = next.toString();
+    if (s !== searchParams.toString()) setSearchParams(s, { replace: true });
+  }, [q, dept, desig, starOnly, searchParams, setSearchParams]);
+
+  useEffect(() => {
+    const uq = searchParams.get('q') || '';
+    const udept = searchParams.get('dept') || 'All';
+    const udesig = searchParams.get('desig') || 'All';
+    const ustars = searchParams.get('stars') === '1';
+    if (uq !== q) setQ(uq);
+    if (udept !== dept) setDept(udept);
+    if (udesig !== desig) setDesig(udesig);
+    if (ustars !== starOnly) setStarOnly(ustars);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams]);
+
+  useEffect(() => save(STAR_KEY, [...starred]), [starred]);
+  useEffect(() => save(CMP_KEY, [...compare]), [compare]);
 
   const keyOf = (p) => String(p.Expert_ID || p.Name || '');
 
@@ -109,6 +83,16 @@ export default function Professors() {
       const next = new Set(prev);
       if (next.has(k)) next.delete(k);
       else next.add(k);
+      return next;
+    });
+  };
+
+  const toggleCompare = (p) => {
+    const k = keyOf(p);
+    setCompare((prev) => {
+      const next = new Set(prev);
+      if (next.has(k)) next.delete(k);
+      else if (next.size < 3) next.add(k);
       return next;
     });
   };
@@ -131,33 +115,34 @@ export default function Professors() {
       return true;
     });
     const qTokens = tokenize(q);
-    if (qTokens.length === 0) return base.map((e) => e.p);
-    const scored = [];
-    for (const e of base) {
-      let total = 0;
-      let ok = true;
-      for (const qt of qTokens) {
-        let best = 0;
-        for (const f of e.fields) {
-          const s = fieldTokenScore(qt, f);
-          if (s > 0) {
-            const v = s * f.w;
-            if (v > best) best = v;
-          }
-        }
-        if (best === 0) {
-          ok = false;
-          break;
-        }
-        total += best;
-      }
-      if (ok) scored.push({ p: e.p, total });
-    }
-    scored.sort((a, b) => b.total - a.total);
-    return scored.map((x) => x.p);
+    return scoreEntries(base, qTokens).map((x) => x.e.p);
   }, [entries, q, dept, desig, starOnly, starred]);
 
   useEffect(() => setPage(1), [q, dept, desig, starOnly]);
+
+  const rememberQuery = () => {
+    const t = q.trim();
+    if (!t) return;
+    setHistory((prev) => {
+      const next = [t, ...prev.filter((x) => x !== t)].slice(0, 5);
+      save(HIST_KEY, next);
+      return next;
+    });
+  };
+
+  const exportCsv = () => {
+    const cols = db?.headers || ['Name', 'Designation', 'Topic', 'Research_Interest', 'Department'];
+    const esc = (v) => `"${String(v ?? '').replace(/"/g, '""')}"`;
+    const csv = [cols.map(esc).join(',')]
+      .concat(professors.map((p) => cols.map((h) => esc(p[h])).join(',')))
+      .join('\r\n');
+    const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `iitb-professors${q ? `-search-${q.replace(/\W+/g, '-')}` : ''}.csv`;
+    a.click();
+    URL.revokeObjectURL(a.href);
+  };
 
   if (!report) return null;
 
@@ -167,6 +152,7 @@ export default function Professors() {
   const rows = professors.slice((current - 1) * PAGE_SIZE, current * PAGE_SIZE);
   const from = professors.length === 0 ? 0 : (current - 1) * PAGE_SIZE + 1;
   const to = Math.min(current * PAGE_SIZE, professors.length);
+  const compareList = all.filter((p) => compare.has(keyOf(p)));
 
   return (
     <>
@@ -182,7 +168,7 @@ export default function Professors() {
 
       <Section title="How to use this database">
         <Card>
-          <ol style={{ margin: 0, paddingLeft: 20, lineHeight: 1.8, color: '#33405c', fontSize: 14 }}>
+          <ol className="howto-list">
             {(db?.how_to_use || []).map((s, i) => (
               <li key={i}>{s}</li>
             ))}
@@ -195,12 +181,37 @@ export default function Professors() {
         note={`${fmt(all.length)} records loaded - combine search with the filters below.`}
       >
         <div className="search-bar">
-          <input
-            type="search"
-            placeholder="Search topic, professor, department… (e.g. chemistry, climate, Kishore)"
-            value={q}
-            onChange={(e) => setQ(e.target.value)}
-          />
+          <div className="search-input-wrap">
+            <input
+              type="search"
+              placeholder="Search topic, professor, department… (e.g. chemistry, climate, Kishore)"
+              value={q}
+              onChange={(e) => setQ(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && rememberQuery()}
+              onFocus={() => setShowHist(true)}
+              onBlur={() => {
+                histTimer.current = setTimeout(() => setShowHist(false), 150);
+              }}
+            />
+            {showHist && !q && history.length > 0 && (
+              <div className="search-history">
+                <div className="search-history-label">Recent searches</div>
+                {history.map((h) => (
+                  <button
+                    key={h}
+                    type="button"
+                    onMouseDown={(e) => e.preventDefault()}
+                    onClick={() => {
+                      setQ(h);
+                      setShowHist(false);
+                    }}
+                  >
+                    🕘 {h}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
           <select className="select" value={dept} onChange={(e) => setDept(e.target.value)} aria-label="Department">
             {departments.map((d) => (
               <option key={d} value={d}>
@@ -222,21 +233,27 @@ export default function Professors() {
             {professors.length !== all.length && ` (filtered from ${fmt(all.length)})`}
             {q.trim() && professors.length > 1 && ' · ranked by relevance'}
           </span>
-          <button
-            type="button"
-            className={`btn chip${starOnly ? ' active' : ''}`}
-            onClick={() => setStarOnly((v) => !v)}
-            aria-pressed={starOnly}
-            title="Show only starred professors"
-          >
-            ★ Starred{starred.size ? ` (${starred.size})` : ''}
-          </button>
+          <span className="result-actions">
+            <button type="button" className="btn chip" onClick={exportCsv} title="Download the filtered list as CSV">
+              ⬇ Export CSV
+            </button>
+            <button
+              type="button"
+              className={`btn chip${starOnly ? ' active' : ''}`}
+              onClick={() => setStarOnly((v) => !v)}
+              aria-pressed={starOnly}
+              title="Show only starred professors"
+            >
+              ★ Starred{starred.size ? ` (${starred.size})` : ''}
+            </button>
+          </span>
         </div>
         <Card>
           <div className="table-wrap">
             <table className="data">
               <thead>
                 <tr>
+                  <th className="star-col" aria-label="Compare" />
                   <th className="star-col" aria-label="Star" />
                   {headers.map((h) => (
                     <th key={h}>{h}</th>
@@ -247,8 +264,19 @@ export default function Professors() {
                 {rows.map((p, i) => {
                   const k = keyOf(p);
                   const isStarred = starred.has(k);
+                  const inCmp = compare.has(k);
                   return (
-                    <tr key={`${k}-${(current - 1) * PAGE_SIZE + i}`}>
+                    <tr key={`${k}-${(current - 1) * PAGE_SIZE + i}`} className={inCmp ? 'row-cmp' : ''}>
+                      <td className="star-cell">
+                        <input
+                          type="checkbox"
+                          className="cmp-box"
+                          checked={inCmp}
+                          onChange={() => toggleCompare(p)}
+                          title={inCmp ? 'Remove from compare' : compare.size >= 3 ? 'Compare holds up to 3' : 'Add to compare'}
+                          aria-label={`Compare ${p.Name}`}
+                        />
+                      </td>
                       <td className="star-cell">
                         <button
                           type="button"
@@ -281,10 +309,7 @@ export default function Professors() {
                 })}
                 {professors.length === 0 && (
                   <tr>
-                    <td
-                      colSpan={headers.length + 1}
-                      style={{ textAlign: 'center', color: '#94a3b8', padding: 24 }}
-                    >
+                    <td colSpan={headers.length + 2} className="empty-cell">
                       {starOnly && starred.size === 0
                         ? 'No starred professors yet - tap the ★ on any row to bookmark it.'
                         : <>No professors match “{q}”{dept !== 'All' ? ` in ${dept}` : ''}</>}
@@ -314,15 +339,71 @@ export default function Professors() {
           </div>
         )}
         <Callout>
-          Tip: click a linked name to open that professor's Vidwan profile, and star ★ professors to build a
-          shortlist - it is saved in this browser and the <strong>Starred</strong> button shows only your
-          picks. For others, copy the name and search it on{' '}
-          <a href={`https://${db?.website || 'iitb.irins.org'}`} target="_blank" rel="noreferrer">
-            {db?.website || 'iitb.irins.org'}
-          </a>
-          .
+          Tip: click a linked name to open that professor's Vidwan profile, star ★ professors to build a
+          shortlist, and tick ☐ up to three professors to <strong>compare</strong> them side by side. Your
+          stars, comparison and search are saved in this browser, and the search link in the address bar can
+          be shared.
         </Callout>
       </Section>
+
+      {compare.size > 0 && !showCmp && (
+        <div className="compare-bar">
+          <span>
+            Compare: {compareList.map((p) => p.Name).join(', ')} ({compare.size}/3)
+          </span>
+          <span className="compare-bar-actions">
+            <button type="button" className="btn" onClick={() => setShowCmp(true)} disabled={compare.size < 2}>
+              Compare →
+            </button>
+            <button type="button" className="btn chip" onClick={() => setCompare(new Set())}>
+              Clear
+            </button>
+          </span>
+        </div>
+      )}
+
+      {showCmp && (
+        <div className="modal-backdrop" onClick={() => setShowCmp(false)}>
+          <div className="modal" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-head">
+              <strong>Compare professors</strong>
+              <button type="button" className="btn chip" onClick={() => setShowCmp(false)}>
+                ✕ Close
+              </button>
+            </div>
+            <div className="table-wrap">
+              <table className="data">
+                <thead>
+                  <tr>
+                    <th>Field</th>
+                    {compareList.map((p) => (
+                      <th key={keyOf(p)}>{p.Name}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {headers.map((h) => (
+                    <tr key={h}>
+                      <td className="cmp-field">{h}</td>
+                      {compareList.map((p) => (
+                        <td key={keyOf(p)}>
+                          {h === 'Name' && p.Profile_URL ? (
+                            <a className="prof-link" href={p.Profile_URL} target="_blank" rel="noreferrer">
+                              <strong>{p[h]}</strong>
+                            </a>
+                          ) : (
+                            p[h] ?? '-'
+                          )}
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }

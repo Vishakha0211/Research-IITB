@@ -1,4 +1,4 @@
-# RESEARCH @ IITB — Dynamic Research Portal
+# RESEARCH @ IITB - Dynamic Research Portal
 
 A full web portal rendering the entire "RESEARCH @ IITB" report with interactive charts.
 All charts and tables read live from a backend data file, so any figure can be updated later
@@ -55,11 +55,18 @@ Get-NetTCPConnection -LocalPort 5000 -State Listen | ForEach-Object { Stop-Proce
 | `/impact` | Department citations vs Crossref, faculty size vs citations, access models, open-access citation advantage, institute citations |
 | `/excellence` | Volume vs voice (bar+line), H-index vs QS, department-wise H-index across 6 institutes, QS/NIRF table |
 | `/publications` | Publication mix, publications & patents by institute, academic-rank pie, authorship distribution, author-count trends, Lorenz curve + concentration pie |
-| `/topics` | Yearly key research topics (word cloud, 2020–2024) and top funded topics (radar) with year tabs |
+| `/topics` | Yearly key research topics (word cloud, 2020-2024) and top funded topics (radar) with year tabs |
 | `/collaborations` | Collaboration split donut, domestic network, global partners, country treemap |
 | `/funding` | Funded research by department (pie), top funding agencies (bars) |
-| `/professors` | Searchable professor research database (links to iitb.irins.org) |
-| `/admin` | **Update Data** — edit any report section as JSON with explicit success/error feedback |
+| `/professors` | Searchable professor research database (links to iitb.irins.org): fuzzy ranked search, URL-synced filters, starred list, CSV export, side-by-side compare (max 3) |
+| `/departments` | All departments from the professor database as clickable profile cards |
+| `/department/:name` | Per-department profile: faculty, top topics, matched citations / publications / h-index / funding stats |
+| `/timeline` | Five-year story: one node per year (key topics, funding mix, author mix, summary) plus a "Now" node |
+| `/admin` | **Update Data** - edit any report section as JSON with explicit success/error feedback |
+
+Chart bars and pie slices on the Impact, Excellence and Funding pages are clickable - they open
+that department's profile. The header has a portal-wide search (`Ctrl+K` or `/`), a dark-mode
+toggle (persisted) and a print-to-PDF button.
 
 ## Updating data
 
@@ -72,13 +79,13 @@ in order: the `ADMIN_TOKEN` environment variable → `backend/.env` (`ADMIN_TOKE
   explicit error toast; successful saves re-render all affected charts. The token is kept in
   browser localStorage.
 - **API** (send `x-admin-token: <token>` or `Authorization: Bearer <token>` on writes):
-  - `GET /api/report` — full report JSON (public)
-  - `GET /api/report/:section` — one top-level section (public)
-  - `PUT /api/report/:section` — replace a section
-  - `PATCH /api/report/:section` — merge fields into a section
-  - `POST /api/report` — replace the whole report
-  - `POST /api/report/reset` — restore `report.backup.json`
-  - `POST /api/auth/verify` — check a token without changing data (401 if wrong)
+  - `GET /api/report` - full report JSON (public)
+  - `GET /api/report/:section` - one top-level section (public)
+  - `PUT /api/report/:section` - replace a section
+  - `PATCH /api/report/:section` - merge fields into a section
+  - `POST /api/report` - replace the whole report
+  - `POST /api/report/reset` - restore `report.backup.json`
+  - `POST /api/auth/verify` - check a token without changing data (401 if wrong)
 
 Data lives in `backend/data/report.json` (single source of truth).
 

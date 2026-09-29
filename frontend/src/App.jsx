@@ -1,6 +1,8 @@
 import { Routes, Route, NavLink, Link, useLocation } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useReport } from './context/ReportContext';
+import { setChartTheme } from './components/charts';
+import SearchOverlay from './components/SearchOverlay';
 import Dashboard from './pages/Dashboard';
 import Impact from './pages/Impact';
 import Excellence from './pages/Excellence';
@@ -11,6 +13,8 @@ import Funding from './pages/Funding';
 import Professors from './pages/Professors';
 import About from './pages/About';
 import Admin from './pages/Admin';
+import { DepartmentList, DepartmentDetail } from './pages/Departments';
+import Timeline from './pages/Timeline';
 
 const NAV = [
   { to: '/', label: 'Dashboard' },
@@ -21,6 +25,8 @@ const NAV = [
   { to: '/collaborations', label: 'Collaborations' },
   { to: '/funding', label: 'Funding' },
   { to: '/professors', label: 'Professors' },
+  { to: '/departments', label: 'Departments' },
+  { to: '/timeline', label: 'Timeline' },
   { to: '/about', label: 'About' }
 ];
 
@@ -32,7 +38,42 @@ const stat = (report, metric) => {
 export default function App() {
   const { report, loading, error, reload } = useReport();
   const [open, setOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [dark, setDark] = useState(() => {
+    try {
+      return localStorage.getItem('iitb-theme') === 'dark';
+    } catch {
+      return false;
+    }
+  });
+  const [, setThemeTick] = useState(0);
   const location = useLocation();
+
+  useEffect(() => {
+    document.body.classList.toggle('dark', dark);
+    setChartTheme(dark);
+    setThemeTick((t) => t + 1);
+    try {
+      localStorage.setItem('iitb-theme', dark ? 'dark' : 'light');
+    } catch {
+      /* storage unavailable */
+    }
+  }, [dark]);
+
+  useEffect(() => {
+    const onKey = (e) => {
+      const t = e.target;
+      const typing =
+        t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.tagName === 'SELECT' || t.isContentEditable);
+      if (typing) return;
+      if (e.key === '/' || ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k')) {
+        e.preventDefault();
+        setSearchOpen(true);
+      }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, []);
 
   if (loading) {
     return (
@@ -102,10 +143,42 @@ export default function App() {
           <img className="header-logo" src="/header-logo.png" alt="DAV" />
         </div>
 
+        <div className="header-tools">
+          <button
+            type="button"
+            className="icon-btn"
+            title="Search the portal (Ctrl+K or /)"
+            aria-label="Search"
+            onClick={() => setSearchOpen(true)}
+          >
+            ⌕
+          </button>
+          <button
+            type="button"
+            className="icon-btn"
+            title={dark ? 'Switch to light mode' : 'Switch to dark mode'}
+            aria-label="Toggle dark mode"
+            onClick={() => setDark((d) => !d)}
+          >
+            {dark ? '☀️' : '🌙'}
+          </button>
+          <button
+            type="button"
+            className="icon-btn"
+            title="Print or save this page as PDF"
+            aria-label="Print"
+            onClick={() => window.print()}
+          >
+            ⎙
+          </button>
+        </div>
+
         <Link to="/admin" className="btn header-cta">
           Update Data
         </Link>
       </header>
+
+      <SearchOverlay open={searchOpen} onClose={() => setSearchOpen(false)} />
 
       <main className="content" key={location.pathname}>
         <Routes>
@@ -117,6 +190,9 @@ export default function App() {
           <Route path="/collaborations" element={<Collaborations />} />
           <Route path="/funding" element={<Funding />} />
           <Route path="/professors" element={<Professors />} />
+          <Route path="/departments" element={<DepartmentList />} />
+          <Route path="/department/:name" element={<DepartmentDetail />} />
+          <Route path="/timeline" element={<Timeline />} />
           <Route path="/about" element={<About />} />
           <Route path="/admin" element={<Admin />} />
         </Routes>

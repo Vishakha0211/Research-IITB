@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 export function PageIntro({ title, accent, eyebrow = 'IIT Bombay · Last 5 years of research', children }) {
   return (
     <div className="page-intro">
@@ -68,6 +70,35 @@ export function Chips({ items }) {
       {items.map((c, i) => (
         <span className="chip" key={i}>{c}</span>
       ))}
+    </div>
+  );
+}
+
+export function DataDetails({ title = 'View underlying data', rows, headers }) {
+  const [open, setOpen] = useState(false);
+  if (!rows || rows.length === 0) return null;
+  const cols = headers || Object.keys(rows[0]);
+  return (
+    <div className="data-details">
+      <button type="button" className="btn chip" onClick={() => setOpen((o) => !o)} aria-expanded={open}>
+        {open ? '▴ Hide data table' : '▾ View data table'}
+      </button>
+      {open && (
+        <div className="table-wrap" style={{ marginTop: 10 }}>
+          <table className="data">
+            <thead>
+              <tr>{cols.map((c) => <th key={c}>{c}</th>)}</tr>
+            </thead>
+            <tbody>
+              {rows.map((r, i) => (
+                <tr key={i}>
+                  {cols.map((c) => <td key={c}>{typeof r[c] === 'number' ? r[c].toLocaleString('en-US') : r[c]}</td>)}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
 }

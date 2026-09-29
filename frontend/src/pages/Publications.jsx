@@ -1,9 +1,16 @@
+import { useState, useMemo } from 'react';
 import { useReport } from '../context/ReportContext';
-import { Section, Card, Findings, Callout, fmt, PageIntro } from '../components/ui';
-import { BarChart, GroupedBarChart, PieChart, MultiLineChart, LorenzCurve, ComboChart } from '../components/charts';
+import { Section, Card, Findings, Callout, fmt, PageIntro, DataDetails } from '../components/ui';
+import { BarChart, GroupedBarChart, PieChart, MultiLineChart, LorenzCurve, ComboChart, CH } from '../components/charts';
+import YearFilter from '../components/YearFilter';
 
 export default function Publications() {
   const { report } = useReport();
+  const [range, setRange] = useState({ from: null, to: null });
+  const years = useMemo(() => {
+    const pts = report?.changes_in_publication_author_counts?.data_points || [];
+    return [...new Set(pts.map((d) => d.year))].sort((a, b) => a - b);
+  }, [report]);
   if (!report) return null;
 
   const mix = report.publication_mix_composition || {};
@@ -13,6 +20,10 @@ export default function Publications() {
   const trend = report.changes_in_publication_author_counts || {};
   const lorenz = report.concentration_of_research_output_among_authors || {};
   const totals = report.publications_patents || {};
+
+  const from = range.from ?? years[0];
+  const to = range.to ?? years[years.length - 1];
+  const trendPoints = (trend.data_points || []).filter((d) => d.year >= from && d.year <= to);
 
   const pubs = output.publications_data || [];
   const pats = output.patents_data || [];
@@ -49,6 +60,10 @@ export default function Publications() {
             label="Count"
             colors={(mix.data_points || []).map((d) => (d.count > 0 ? '#0d86a6' : '#cbd5e1'))}
           />
+          <DataDetails
+            headers={['Publication type', 'Count']}
+            rows={(mix.data_points || []).map((d) => ({ 'Publication type': d.publication_type, Count: d.count }))}
+          />
         </Card>
       </Section>
 
@@ -59,7 +74,7 @@ export default function Publications() {
             labels={institutions}
             datasets={[
               { label: 'Publications', data: institutions.map((i) => pubs.find((p) => p.institution === i)?.publications || 0), color: '#0d86a6' },
-              { label: 'Patents (×50 scale shown as raw)', data: institutions.map((i) => patentsByInst[i] || 0), color: '#17222e' }
+              { label: 'Patents (×50 scale shown as raw)', data: institutions.map((i) => patentsByInst[i] || 0), color: CH.navy }
             ]}
           />
           <Findings items={output.key_findings} tone="gold" />
@@ -88,17 +103,25 @@ export default function Publications() {
         </Section>
       </div>
 
-      <Section title="Changes in Publication Author Counts" note={trend.context}>
+      <Section
+        title="Changes in Publication Author Counts"
+        note={`${trend.context} - sharp year-on-year moves are flagged with ▲/▼ percentages.`}
+      >
+        <div style={{ marginBottom: 12 }}>
+          <YearFilter years={years} from={from} to={to} onChange={setRange} label="Author-count trend" />
+        </div>
         <div className="grid-2">
           <Card title={trend.title}>
             <MultiLineChart
               height={340}
               yPercent
-              labels={trend.data_points?.map((d) => String(d.year)) || []}
+              trendFlags
+              flagThreshold={0.12}
+              labels={trendPoints.map((d) => String(d.year))}
               datasets={[
-                { label: 'Single author', data: trend.data_points?.map((d) => d.single_author) || [] },
-                { label: '2-5 authors', data: trend.data_points?.map((d) => d['2_5_authors']) || [] },
-                { label: '6+ authors', data: trend.data_points?.map((d) => d['6_plus_authors']) || [] }
+                { label: 'Single author', data: trendPoints.map((d) => d.single_author) },
+                { label: '2-5 authors', data: trendPoints.map((d) => d['2_5_authors']) },
+                { label: '6+ authors', data: trendPoints.map((d) => d['6_plus_authors']) }
               ]}
             />
           </Card>

@@ -1,15 +1,18 @@
+import { useNavigate } from 'react-router-dom';
 import { useReport } from '../context/ReportContext';
 import { Section, Card, Findings, Callout, DataTable, PageIntro } from '../components/ui';
-import { ComboChart, MultiLineChart } from '../components/charts';
+import { ComboChart, MultiLineChart, CH } from '../components/charts';
 
 export default function Excellence() {
   const { report } = useReport();
+  const navigate = useNavigate();
   if (!report) return null;
 
   const volume = report.research_excellence_volume_voice || {};
   const hvsq = report.h_index_vs_qs_rankings || {};
   const table = report.qs_vs_nirf_rankings || {};
   const hcmp = report.h_index_comparison_department_wise || {};
+  const goDept = (label) => navigate(`/department/${encodeURIComponent(label)}`);
 
   const tableHeaders = table.headers || ['Institution', 'QS World Ranking (2025)', 'NIRF Ranking (Overall, 2025)'];
 
@@ -19,7 +22,7 @@ export default function Excellence() {
         Volume versus voice across departments, H-index vs QS rankings, QS/NIRF institute comparisons, and a department-wise H-index benchmark against peer institutes.
       </PageIntro>
 
-      <Section title="What Defines Research Excellence: Volume or Voice?" note={volume.context}>
+      <Section title="What Defines Research Excellence: Volume or Voice?" note={`${volume.context} - click a bar to open that department's page.`}>
         <div className="grid-2">
           <Card title="Publications (bars) vs h-index (line) by department">
             <ComboChart
@@ -28,6 +31,7 @@ export default function Excellence() {
               lineData={volume.data_points?.map((d) => d.h_index) || []}
               barLabel="Publications"
               lineLabel="h-index"
+              onPick={goDept}
             />
           </Card>
           <Card title="Key findings">
@@ -53,8 +57,9 @@ export default function Excellence() {
               lineData={hvsq.data_points?.map((d) => d.h_index) || []}
               barLabel="QS Ranking"
               lineLabel="h-index"
-              barColor="#17222e"
+              barColor={CH.navy}
               lineColor="#0d86a6"
+              onPick={goDept}
             />
           </Card>
           <Card title="Analysis">
@@ -74,6 +79,7 @@ export default function Excellence() {
         <Card title={hcmp.title}>
           <MultiLineChart
             height={460}
+            onPick={goDept}
             labels={hcmp.data_points?.map((d) => d.department) || []}
             datasets={(hcmp.institutions || []).map((inst) => ({
               label: inst,

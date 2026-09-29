@@ -1,6 +1,6 @@
 import { useReport } from '../context/ReportContext';
 import { Section, Card, Findings, Callout, PageIntro } from '../components/ui';
-import { BarChart, PieChart, Treemap } from '../components/charts';
+import { BarChart, PieChart, Treemap, CH } from '../components/charts';
 
 export default function Collaborations() {
   const { report } = useReport();
@@ -23,7 +23,7 @@ export default function Collaborations() {
             <PieChart
               labels={breakdown.data_points?.map((d) => d.collaboration_type) || []}
               data={breakdown.data_points?.map((d) => d.percentage) || []}
-              colors={['#0d86a6', '#17222e', '#f5b301']}
+              colors={['#0d86a6', CH.navy, '#f5b301']}
             />
           </Card>
           <Card title="Overview">
@@ -60,7 +60,7 @@ export default function Collaborations() {
             labels={globalP.data_points?.map((d) => d.university) || []}
             data={globalP.data_points?.map((d) => d.collaborations) || []}
             label="Collaborations"
-            colors="#17222e"
+            colors={CH.navy}
           />
           <Callout><strong>Key finding:</strong> {globalP.key_finding}</Callout>
         </Card>

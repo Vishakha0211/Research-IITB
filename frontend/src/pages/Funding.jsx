@@ -1,14 +1,17 @@
+import { useNavigate } from 'react-router-dom';
 import { useReport } from '../context/ReportContext';
-import { Section, Card, Findings, Callout, PageIntro } from '../components/ui';
+import { Section, Card, Findings, Callout, PageIntro, DataDetails } from '../components/ui';
 import { BarChart, PieChart } from '../components/charts';
 
 export default function Funding() {
   const { report } = useReport();
+  const navigate = useNavigate();
   if (!report) return null;
 
   const byDept = report.funded_research_by_department || {};
   const agencies = report.top_funding_agencies || {};
   const insights = agencies.key_insights || {};
+  const goDept = (label) => navigate(`/department/${encodeURIComponent(label)}`);
 
   return (
     <>
@@ -16,13 +19,18 @@ export default function Funding() {
         How funded research is distributed across departments, which agencies fund the most work, and where the strategic funding gaps lie.
       </PageIntro>
 
-      <Section title={byDept.title} note={byDept.context}>
+      <Section title={byDept.title} note={`${byDept.context} - click a slice to open that department's page.`}>
         <div className="grid-2">
           <Card title="Share of funded research by department">
             <PieChart
               doughnut={false}
               labels={byDept.data_points?.map((d) => d.department) || []}
               data={byDept.data_points?.map((d) => d.percentage) || []}
+              onPick={goDept}
+            />
+            <DataDetails
+              headers={['Department', 'Share (%)']}
+              rows={(byDept.data_points || []).map((d) => ({ Department: d.department, 'Share (%)': d.percentage }))}
             />
           </Card>
           <Card title="Key findings">
@@ -52,6 +60,10 @@ export default function Funding() {
               data={agencies.data_points?.map((d) => d.count) || []}
               label="Projects funded"
               colors="#0d86a6"
+            />
+            <DataDetails
+              headers={['Agency', 'Projects funded']}
+              rows={(agencies.data_points || []).map((d) => ({ Agency: d.agency, 'Projects funded': d.count }))}
             />
           </Card>
           <Card title="Key insights">

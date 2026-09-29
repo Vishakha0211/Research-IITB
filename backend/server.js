@@ -39,7 +39,7 @@ function requireAdmin(req, res, next) {
   const ok = a.length === b.length && crypto.timingSafeEqual(a, b);
   if (!ok) {
     return res.status(401).json({
-      error: 'Admin token required or invalid — enter it on the Update Data page.'
+      error: 'Admin token required or invalid - enter it on the Update Data page.'
     });
   }
   next();
