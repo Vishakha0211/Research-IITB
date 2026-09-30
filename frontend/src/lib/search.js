@@ -142,45 +142,45 @@ export function scoreEntries(entries, qTokens, rawQuery = '') {
 
   const cleanQuery = norm(rawQuery || tokensToUse.join(' '));
 
-  // Collect semantic tokens and resolve fuzzy typo corrections to semantic keys
-  const semanticTokens = new Set();
+  const expByQt = new Map();
   for (const qt of tokensToUse) {
+    const s = new Set();
     const direct = SEMANTIC_EXPANSIONS[qt] || [];
     for (const exp of direct) {
-      for (const t of tokenize(exp)) semanticTokens.add(t);
+      for (const t of tokenize(exp)) s.add(t);
     }
-    // Typo tolerance on semantic concepts (e.g. 'scince' -> 'science')
     if (direct.length === 0 && qt.length >= 4) {
       for (const [key, exps] of Object.entries(SEMANTIC_EXPANSIONS)) {
         if (lev(qt, key, 1) <= 1) {
-          semanticTokens.add(key);
+          s.add(key);
           for (const exp of exps) {
-            for (const t of tokenize(exp)) semanticTokens.add(t);
+            for (const t of tokenize(exp)) s.add(t);
           }
         }
       }
     }
+    if (s.size > 0) expByQt.set(qt, s);
   }
+  const semanticTokens = new Set();
+  for (const s of expByQt.values()) for (const t of s) semanticTokens.add(t);
 
-  // List 1: Exact / Primary Match List
   const exactRanked = [];
-  // List 2: Semantic / Research Concept Match List
   const semanticRanked = [];
-  // List 3: Fuzzy / Typo-tolerant Match List
   const fuzzyRanked = [];
+  const covOf = new Map();
 
   for (const e of entries) {
     let exactScore = 0;
     let semanticScore = 0;
     let fuzzyScore = 0;
+    const covered = new Set();
 
     for (const f of e.fields) {
-      // Phrase matching bonus for multi-word queries
       if (cleanQuery.length > 4 && f.text.includes(cleanQuery)) {
         exactScore += f.w * 8;
+        for (const qt of tokensToUse) covered.add(qt);
       }
 
-      // Token-level and fuzzy matching with word boundaries
       for (const qt of tokensToUse) {
         let matchedExact = false;
         let bestTokenFuzzy = 0;
@@ -189,12 +189,16 @@ export function scoreEntries(entries, qTokens, rawQuery = '') {
           if (ft === qt) {
             matchedExact = true;
             bestTokenFuzzy = Math.max(bestTokenFuzzy, 1);
-          } else if (stem(ft) === stem(qt)) {
+          } else if (stem(ft) === stem(qt) && stem(qt)) {
+            bestTokenFuzzy = Math.max(bestTokenFuzzy, 0.9);
+          } else if (qt.length >= 3 && ft.length > qt.length && ft.startsWith(qt)) {
             bestTokenFuzzy = Math.max(bestTokenFuzzy, 0.9);
           } else if (Math.abs(ft.length - qt.length) <= (qt.length >= 5 ? 2 : 1)) {
-            const d = lev(qt, ft, qt.length >= 5 ? 2 : 1);
-            if (d === 1) bestTokenFuzzy = Math.max(bestTokenFuzzy, 0.8);
-            else if (d === 2) bestTokenFuzzy = Math.max(bestTokenFuzzy, 0.6);
+            const maxD = qt.length >= 5 ? 2 : 1;
+            const d = lev(qt, ft, maxD);
+            if (d <= maxD) {
+              bestTokenFuzzy = Math.max(bestTokenFuzzy, d === 1 ? 0.8 : 0.6);
+            }
           }
         }
 
@@ -204,13 +208,23 @@ export function scoreEntries(entries, qTokens, rawQuery = '') {
         }
         if (bestTokenFuzzy > 0) {
           fuzzyScore += bestTokenFuzzy * f.w;
+          covered.add(qt);
         }
+        if (matchedExact) covered.add(qt);
       }
 
-      // Semantic matching
       for (const st of semanticTokens) {
         if (f.tokens.includes(st) && (f.key === 'Research_Interest' || f.key === 'Topic' || f.key === 'Department')) {
-          semanticScore += (f.key === 'Research_Interest' ? 3 : 2);
+          semanticScore += f.key === 'Research_Interest' ? 3 : 2;
+        }
+      }
+      for (const [qt, s] of expByQt) {
+        if (f.key !== 'Research_Interest' && f.key !== 'Topic' && f.key !== 'Department') continue;
+        for (const st of s) {
+          if (f.tokens.includes(st)) {
+            covered.add(qt);
+            break;
+          }
         }
       }
     }
@@ -218,23 +232,23 @@ export function scoreEntries(entries, qTokens, rawQuery = '') {
     if (exactScore > 0) exactRanked.push({ e, s: exactScore });
     if (semanticScore > 0) semanticRanked.push({ e, s: semanticScore });
     if (fuzzyScore > 0) fuzzyRanked.push({ e, s: fuzzyScore });
+    if (covered.size > 0) covOf.set(e, covered.size);
   }
 
-  // Sort each retrieval list by its individual ranking
   exactRanked.sort((a, b) => b.s - a.s);
   semanticRanked.sort((a, b) => b.s - a.s);
   fuzzyRanked.sort((a, b) => b.s - a.s);
 
-  // Apply Reciprocal Rank Fusion (RRF) across the independent candidate lists
   const rrfMap = reciprocalRankFusion([
     exactRanked.map((x) => x.e),
     semanticRanked.map((x) => x.e),
     fuzzyRanked.map((x) => x.e)
   ], 60);
 
+  const minCov = covOf.size ? Math.max(...covOf.values()) : 0;
   const scored = [];
   for (const [e, total] of rrfMap.entries()) {
-    scored.push({ e, total });
+    if ((covOf.get(e) || 0) >= minCov) scored.push({ e, total });
   }
 
   scored.sort((a, b) => b.total - a.total);
@@ -257,48 +271,28 @@ export function labelScore(query, label) {
   return total;
 }
 
-// Fuse Keyword/Fuzzy search with Neural Semantic search using Reciprocal Rank Fusion (RRF)
-export function fuseWithSemanticRRF(baseEntries, keywordRanked, semanticMatches, k = 60) {
-  if (!baseEntries || baseEntries.length === 0) return [];
-  const hasKeyword = keywordRanked && keywordRanked.length > 0;
-  const hasSemantic = semanticMatches && semanticMatches.length > 0;
-
-  if (!hasKeyword && !hasSemantic) return [];
-  if (!hasSemantic) return keywordRanked.map((x) => x.e?.p || x.p || x);
-
-  const idOf = (p) => String(p.Expert_ID || p.Name);
-  const baseMap = new Map();
-  baseEntries.forEach((item) => {
-    const p = item.e?.p || item.p || item;
-    baseMap.set(idOf(p), p);
+// Fuse keyword-ranked results with neural semantic matches using RRF.
+// Unlike a pure re-ranker, semantic matches may ADD professors from
+// `candidates` (dept/designation/star-filtered entries) that the keyword
+// tier missed entirely — that is the point of semantic recall.
+export function fuseWithSemanticRRF(keywordRanked, semanticMatches, candidates, k = 60) {
+  const pool = candidates && candidates.length ? candidates : (keywordRanked || []).map((x) => x.e);
+  const byId = new Map();
+  for (const e of pool) {
+    const id = String(e.p.Expert_ID || e.p.Name || '');
+    if (!byId.has(id)) byId.set(id, e.p);
+  }
+  const scores = new Map();
+  const bump = (id, rank) => scores.set(id, (scores.get(id) || 0) + 1 / (k + rank + 1));
+  (keywordRanked || []).forEach((x, rank) => {
+    const id = String(x.e.p.Expert_ID || x.e.p.Name || '');
+    if (byId.has(id)) bump(id, rank);
   });
-
-  const rrfScores = new Map();
-
-  // 1. Keyword rank contribution
-  if (hasKeyword) {
-    keywordRanked.forEach((item, rank) => {
-      const p = item.e?.p || item.p || item;
-      const id = idOf(p);
-      if (baseMap.has(id)) {
-        rrfScores.set(id, (rrfScores.get(id) || 0) + 1 / (k + rank + 1));
-      }
-    });
-  }
-
-  // 2. Semantic rank contribution
-  if (hasSemantic) {
-    semanticMatches.forEach((match, rank) => {
-      const id = String(match.id);
-      if (baseMap.has(id)) {
-        rrfScores.set(id, (rrfScores.get(id) || 0) + 1 / (k + rank + 1));
-      }
-    });
-  }
-
-  return Array.from(rrfScores.entries())
-    .filter(([id]) => baseMap.has(id))
+  (semanticMatches || []).forEach((m, rank) => {
+    const id = String(m.id);
+    if (byId.has(id)) bump(id, rank);
+  });
+  return [...scores.entries()]
     .sort((a, b) => b[1] - a[1])
-    .map(([id]) => baseMap.get(id));
+    .map(([id]) => byId.get(id));
 }
-

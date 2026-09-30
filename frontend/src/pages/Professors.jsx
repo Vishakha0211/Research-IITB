@@ -45,35 +45,37 @@ export default function Professors() {
   const [showCmp, setShowCmp] = useState(false);
   const [history, setHistory] = useState(() => loadList(HIST_KEY));
   const [showHist, setShowHist] = useState(false);
-  const [semanticMatches, setSemanticMatches] = useState([]);
+  const [sem, setSem] = useState({ qq: '', matches: [] });
+  const [semState, setSemState] = useState('idle');
   const histTimer = useRef(null);
   const db = report?.professor_research_interest_database;
   const all = useMemo(() => db?.professors || [], [db]);
   const entries = useMemo(() => all.map((p) => ({ p, fields: buildFields(p) })), [all]);
 
-  // Pre-load semantic model quietly in the background
+  /* --- Neural semantic engine: load once, re-validate when data changes --- */
   useEffect(() => {
-    initSemanticEngine().catch(() => {});
-  }, []);
+    if (!all.length) return undefined;
+    let active = true;
+    setSemState('loading');
+    initSemanticEngine(all)
+      .then((ok) => { if (active) setSemState(ok ? 'ready' : 'unavailable'); })
+      .catch(() => { if (active) setSemState('unavailable'); });
+    return () => { active = false; };
+  }, [all]);
 
-  // Compute neural semantic similarities asynchronously when query changes
+  /* --- Debounced semantic query (results keyed to the query they belong to) --- */
   useEffect(() => {
-    const trimmed = q.trim();
-    if (!trimmed || trimmed.length < 2) {
-      setSemanticMatches([]);
-      return;
+    const t = q.trim();
+    if (!t) {
+      setSem({ qq: '', matches: [] });
+      return undefined;
     }
     let active = true;
     const timer = setTimeout(() => {
-      semanticSearch(trimmed)
-        .then((matches) => {
-          if (active) setSemanticMatches(matches || []);
-        })
-        .catch(() => {
-          if (active) setSemanticMatches([]);
-        });
+      semanticSearch(t)
+        .then((m) => { if (active) setSem({ qq: t, matches: m || [] }); })
+        .catch(() => { if (active) setSem({ qq: t, matches: [] }); });
     }, 120);
-
     return () => {
       active = false;
       clearTimeout(timer);
@@ -145,16 +147,13 @@ export default function Professors() {
       if (desig !== 'All' && p.Designation !== desig) return false;
       return true;
     });
-    const qTokens = tokenize(q);
-    const keywordRanked = scoreEntries(base, qTokens, q);
-    if (!q.trim()) {
-      return base.map((x) => x.p);
-    }
-    if (!semanticMatches || semanticMatches.length === 0) {
-      return keywordRanked.map((x) => x.e.p);
-    }
-    return fuseWithSemanticRRF(base, keywordRanked, semanticMatches);
-  }, [entries, q, dept, desig, starOnly, starred, semanticMatches]);
+    const keywordRanked = scoreEntries(base, tokenize(q), q);
+    const semMatches = sem.qq === q.trim() ? sem.matches : [];
+    if (!semMatches.length) return keywordRanked.map((x) => x.e.p);
+    return fuseWithSemanticRRF(keywordRanked, semMatches, base);
+  }, [entries, q, dept, desig, starOnly, starred, sem]);
+
+  const semActive = Boolean(q.trim()) && sem.qq === q.trim() && sem.matches.length > 0;
 
   useEffect(() => setPage(1), [q, dept, desig, starOnly]);
 
@@ -265,11 +264,12 @@ export default function Professors() {
             ))}
           </select>
         </div>
-        <div className="result-count">
+        <div className="result-count" data-sem={semState}>
           <span>
             Showing {fmt(from)}-{fmt(to)} of {fmt(professors.length)} professors
             {professors.length !== all.length && ` (filtered from ${fmt(all.length)})`}
             {q.trim() && professors.length > 1 && ' · ranked by relevance'}
+            {semActive && ' · neural ranking'}
           </span>
           <span className="result-actions">
             <button type="button" className="btn chip" onClick={exportCsv} title="Download the filtered list as CSV">

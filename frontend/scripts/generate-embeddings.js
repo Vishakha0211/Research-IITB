@@ -2,67 +2,59 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { pipeline } from '@xenova/transformers';
+import { embedText, fingerprint } from '../src/lib/semantic.js';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPORT_PATH = path.join(__dirname, '..', '..', 'backend', 'data', 'report.json');
 const OUTPUT_DIR = path.join(__dirname, '..', 'public', 'data');
 const OUTPUT_FILE = path.join(OUTPUT_DIR, 'professor-embeddings.json');
 
 async function main() {
-  console.log('Loading report data from:', REPORT_PATH);
   const report = JSON.parse(fs.readFileSync(REPORT_PATH, 'utf8'));
-  const professors = report?.professor_research_interest_database?.professors || [];
-  console.log(`Found ${professors.length} professors.`);
+  const profs = report?.professor_research_interest_database?.professors || [];
+  if (profs.length === 0) throw new Error('No professors found in report.json');
+  console.log(`Embedding ${profs.length} professors from ${REPORT_PATH}`);
 
-  console.log('Initializing feature-extraction pipeline (Xenova/all-MiniLM-L6-v2)...');
+  console.log('Loading Xenova/all-MiniLM-L6-v2 (first run downloads ~23 MB)...');
   const extractor = await pipeline('feature-extraction', 'Xenova/all-MiniLM-L6-v2', {
     quantized: true
   });
 
   const embeddings = [];
-  const batchSize = 32;
-
-  for (let i = 0; i < professors.length; i += batchSize) {
-    const batch = professors.slice(i, i + batchSize);
-    const texts = batch.map((p) => {
-      const parts = [
-        p.Name,
-        p.Department,
-        p.Topic,
-        p.Research_Interest
-      ].filter(Boolean);
-      return parts.join(' | ');
-    });
-
-    const output = await extractor(texts, { pooling: 'mean', normalize: true });
-    const data = output.tolist();
-
-    for (let j = 0; j < batch.length; j++) {
-      const p = batch[j];
-      const id = String(p.Expert_ID || p.Name);
+  const BATCH = 32;
+  for (let i = 0; i < profs.length; i += BATCH) {
+    const batch = profs.slice(i, i + BATCH);
+    const out = await extractor(batch.map(embedText), { pooling: 'mean', normalize: true });
+    const vecs = out.tolist();
+    batch.forEach((p, j) => {
       embeddings.push({
-        id,
+        id: String(p.Expert_ID || p.Name || ''),
         name: p.Name,
-        vector: data[j].map((v) => Number(v.toFixed(5))) // 5 decimal places keeps JSON ~1.1MB
+        vector: vecs[j].map((v) => Number(v.toFixed(5)))
       });
-    }
-
-    console.log(`Processed ${Math.min(i + batchSize, professors.length)} / ${professors.length}...`);
+    });
+    console.log(`  ${Math.min(i + BATCH, profs.length)} / ${profs.length}`);
   }
 
-  if (!fs.existsSync(OUTPUT_DIR)) {
-    fs.mkdirSync(OUTPUT_DIR, { recursive: true });
-  }
+  const payload = {
+    meta: {
+      model: 'Xenova/all-MiniLM-L6-v2',
+      dims: 384,
+      count: embeddings.length,
+      hash: fingerprint(profs),
+      generatedAt: new Date().toISOString()
+    },
+    embeddings
+  };
 
-  fs.writeFileSync(OUTPUT_FILE, JSON.stringify(embeddings));
-  const stats = fs.statSync(OUTPUT_FILE);
-  console.log(`Successfully saved ${embeddings.length} embeddings to ${OUTPUT_FILE}`);
-  console.log(`File size: ${(stats.size / (1024 * 1024)).toFixed(2)} MB`);
+  fs.mkdirSync(OUTPUT_DIR, { recursive: true });
+  fs.writeFileSync(OUTPUT_FILE, JSON.stringify(payload));
+  const size = fs.statSync(OUTPUT_FILE).size / 1048576;
+  console.log(`Saved ${embeddings.length} embeddings to ${OUTPUT_FILE} (${size.toFixed(2)} MB)`);
+  console.log(`Fingerprint: ${payload.meta.hash}`);
 }
 
 main().catch((err) => {
-  console.error('Error generating embeddings:', err);
+  console.error('Embedding generation failed:', err);
   process.exit(1);
 });

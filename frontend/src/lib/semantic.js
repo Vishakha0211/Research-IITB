@@ -1,101 +1,121 @@
-import { pipeline, env } from '@xenova/transformers';
+// Neural semantic search: query embedding via transformers.js (lazy-loaded)
+// plus precomputed professor embeddings (frontend/public/data/professor-embeddings.json).
+// Degrades to keyword-only search whenever the model, the network, or the
+// embeddings are unavailable — keyword search never depends on this module.
 
-// Configure transformers to use remote CDN models in browser
-env.allowLocalModels = false;
-env.useBrowserCache = true;
+const MODEL = 'Xenova/all-MiniLM-L6-v2';
+const EMB_URL = '/data/professor-embeddings.json';
 
-let extractorPromise = null;
-let extractorInstance = null;
-let embeddingsData = null;
-let embeddingsPromise = null;
-
-// 1. Fetch precomputed professor embeddings (/data/professor-embeddings.json)
-export async function loadEmbeddings() {
-  if (embeddingsData) return embeddingsData;
-  if (!embeddingsPromise) {
-    const url = typeof window !== 'undefined' && window.location?.origin
-      ? `${window.location.origin}/data/professor-embeddings.json`
-      : '/data/professor-embeddings.json';
-
-    embeddingsPromise = fetch(url)
-      .then((res) => {
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        return res.json();
-      })
-      .then((data) => {
-        embeddingsData = data;
-        return data;
-      })
-      .catch((err) => {
-        console.warn('Could not load professor embeddings:', err.message);
-        embeddingsPromise = null;
-        return null;
-      });
-  }
-  return embeddingsPromise;
+export function embedText(p) {
+  return [p.Name, p.Department, p.Topic, p.Research_Interest].filter(Boolean).join(' | ');
 }
 
-// 2. Initialize the lightweight all-MiniLM-L6-v2 pipeline in browser
-export async function initSemanticEngine() {
-  if (extractorInstance && embeddingsData) return extractorInstance;
-  if (!extractorPromise) {
-    extractorPromise = (async () => {
+// FNV-1a hash over the exact texts the embeddings were generated from.
+// scripts/generate-embeddings.js imports this so the stored hash and the
+// in-browser check always agree. If professors are edited in-app the hash
+// changes and semantic search disables itself until `npm run embed` runs.
+export function fingerprint(profs) {
+  let h = 0x811c9dc5;
+  for (const p of profs || []) {
+    const s = String(p.Expert_ID || p.Name || '') + '\u0000' + embedText(p) + '\n';
+    for (let i = 0; i < s.length; i++) {
+      h ^= s.charCodeAt(i);
+      h = Math.imul(h, 0x01000193);
+    }
+  }
+  return (h >>> 0).toString(16).padStart(8, '0');
+}
+
+let model = null;
+let embData = null;
+let promise = null;
+let status = 'idle'; // idle | loading | ready | unavailable
+let reason = '';
+
+export function semanticStatus() {
+  return { status, reason };
+}
+
+async function loadEmbeddings() {
+  const res = await fetch(EMB_URL);
+  if (!res.ok) throw new Error(`embeddings HTTP ${res.status}`);
+  const data = await res.json();
+  if (Array.isArray(data)) return { meta: null, embeddings: data };
+  if (!data || !Array.isArray(data.embeddings)) throw new Error('bad embeddings file');
+  return data;
+}
+
+export function teardownSemantic() {
+  model = null;
+  embData = null;
+  promise = null;
+  status = 'unavailable';
+}
+
+// Load embeddings + model exactly once. `profs` (current report data) is used
+// to verify the embeddings are still in sync; safe to call repeatedly.
+export async function initSemanticEngine(profs) {
+  if (status === 'unavailable') return false;
+  if (!promise) {
+    status = 'loading';
+    promise = (async () => {
       try {
-        const [extractor] = await Promise.all([
-          pipeline('feature-extraction', 'Xenova/all-MiniLM-L6-v2', {
-            quantized: true
-          }),
+        const [{ pipeline, env }, data] = await Promise.all([
+          import('@xenova/transformers'),
           loadEmbeddings()
         ]);
-        extractorInstance = extractor;
-        return extractor;
+        env.allowLocalModels = false;
+        env.useBrowserCache = true;
+        const extractor = await pipeline('feature-extraction', MODEL, { quantized: true });
+        model = extractor;
+        embData = data;
+        status = 'ready';
+        return true;
       } catch (err) {
-        console.warn('Semantic search model initialization deferred/failed:', err.message);
-        extractorPromise = null;
-        return null;
+        model = null;
+        embData = null;
+        promise = null;
+        status = 'unavailable';
+        reason = String((err && err.message) || err);
+        console.warn('Semantic search unavailable:', reason);
+        return false;
       }
     })();
   }
-  return extractorPromise;
-}
-
-export function isSemanticReady() {
-  return extractorInstance != null && embeddingsData != null;
-}
-
-// 3. Dot product of two normalized 384-d vectors (equivalent to cosine similarity)
-function dotProduct(a, b) {
-  let sum = 0;
-  const len = Math.min(a.length, b.length);
-  for (let i = 0; i < len; i++) {
-    sum += a[i] * b[i];
-  }
-  return sum;
-}
-
-// 4. Semantic Search query execution
-export async function semanticSearch(query, minScore = 0.23) {
-  if (!query || query.trim().length < 2) return [];
-  const extractor = await initSemanticEngine();
-  if (!extractor || !embeddingsData) return [];
-
-  try {
-    const output = await extractor(query.trim(), { pooling: 'mean', normalize: true });
-    const queryVector = output.data;
-
-    const results = [];
-    for (let i = 0; i < embeddingsData.length; i++) {
-      const item = embeddingsData[i];
-      const sim = dotProduct(queryVector, item.vector);
-      if (sim >= minScore) {
-        results.push({ id: item.id, score: sim, name: item.name });
-      }
+  const ok = await promise;
+  if (!ok) return false;
+  if (profs && profs.length && embData.meta) {
+    if (fingerprint(profs) !== embData.meta.hash) {
+      teardownSemantic();
+      reason = 'embeddings stale - re-run npm run embed';
+      console.warn('Semantic search disabled:', reason);
+      return false;
     }
+  }
+  status = 'ready';
+  return true;
+}
 
-    results.sort((a, b) => b.score - a.score);
-    return results;
+export async function semanticSearch(query, minScore = 0.3) {
+  const q = String(query || '').trim();
+  if (!q) return [];
+  if (status === 'loading' && promise) await promise;
+  if (status !== 'ready' || !model || !embData) return [];
+  try {
+    const out = await model(q, { pooling: 'mean', normalize: true });
+    const qv = out.data;
+    const hits = [];
+    for (const item of embData.embeddings) {
+      let s = 0;
+      const v = item.vector;
+      const n = Math.min(v.length, qv.length);
+      for (let i = 0; i < n; i++) s += qv[i] * v[i];
+      if (s >= minScore) hits.push({ id: item.id, score: s, name: item.name });
+    }
+    hits.sort((a, b) => b.score - a.score);
+    return hits;
   } catch (err) {
-    console.warn('Semantic search error:', err.message);
+    console.warn('Semantic query failed:', String((err && err.message) || err));
     return [];
   }
 }

@@ -757,6 +757,19 @@ body.dark .admin-body textarea:focus,
 body.dark .txt-input:focus,
 body.dark .select:focus,
 body.dark .search-bar input:focus { outline-color: #1d5f74; }
+body.dark input,
+body.dark .search-bar input,
+body.dark .search-overlay-input input,
+body.dark .txt-input,
+body.dark input[type="search"],
+body.dark input[type="text"] {
+  color: #ffffff !important;
+}
+body.dark input::placeholder,
+body.dark .search-bar input::placeholder,
+body.dark .search-overlay-input input::placeholder {
+  color: #9fb0bf;
+}
 body.dark .howto-list strong { color: var(--ink); }
 body.dark .toast.ok { background: #123038; color: #9fdcef; border-color: #1d5f74; }
 body.dark .toast.err { background: #3a1a1f; color: #ff9aa5; border-color: #6b2730; }
