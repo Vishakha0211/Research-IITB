@@ -5,15 +5,19 @@ env.allowLocalModels = false;
 env.useBrowserCache = true;
 
 let extractorPromise = null;
+let extractorInstance = null;
 let embeddingsData = null;
 let embeddingsPromise = null;
-let isReady = false;
 
 // 1. Fetch precomputed professor embeddings (/data/professor-embeddings.json)
 export async function loadEmbeddings() {
   if (embeddingsData) return embeddingsData;
   if (!embeddingsPromise) {
-    embeddingsPromise = fetch('/data/professor-embeddings.json')
+    const url = typeof window !== 'undefined' && window.location?.origin
+      ? `${window.location.origin}/data/professor-embeddings.json`
+      : '/data/professor-embeddings.json';
+
+    embeddingsPromise = fetch(url)
       .then((res) => {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         return res.json();
@@ -33,7 +37,7 @@ export async function loadEmbeddings() {
 
 // 2. Initialize the lightweight all-MiniLM-L6-v2 pipeline in browser
 export async function initSemanticEngine() {
-  if (isReady) return true;
+  if (extractorInstance && embeddingsData) return extractorInstance;
   if (!extractorPromise) {
     extractorPromise = (async () => {
       try {
@@ -43,7 +47,7 @@ export async function initSemanticEngine() {
           }),
           loadEmbeddings()
         ]);
-        isReady = true;
+        extractorInstance = extractor;
         return extractor;
       } catch (err) {
         console.warn('Semantic search model initialization deferred/failed:', err.message);
@@ -56,7 +60,7 @@ export async function initSemanticEngine() {
 }
 
 export function isSemanticReady() {
-  return isReady && embeddingsData != null;
+  return extractorInstance != null && embeddingsData != null;
 }
 
 // 3. Dot product of two normalized 384-d vectors (equivalent to cosine similarity)
@@ -70,8 +74,8 @@ function dotProduct(a, b) {
 }
 
 // 4. Semantic Search query execution
-export async function semanticSearch(query, minScore = 0.25) {
-  if (!query || !query.trim()) return [];
+export async function semanticSearch(query, minScore = 0.23) {
+  if (!query || query.trim().length < 2) return [];
   const extractor = await initSemanticEngine();
   if (!extractor || !embeddingsData) return [];
 

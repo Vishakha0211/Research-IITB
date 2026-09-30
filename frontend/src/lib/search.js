@@ -114,7 +114,8 @@ export function fieldTokenScore(qt, f) {
 
 // Common English stopwords to ignore in multi-word queries
 export const STOP_WORDS = new Set([
-  'and', 'or', 'the', 'of', 'in', 'for', 'with', 'to', 'at', 'by', 'a', 'an', 'is', 'on', 'from', 'into'
+  'and', 'or', 'the', 'of', 'in', 'for', 'with', 'to', 'at', 'by', 'a', 'an', 'is', 'on', 'from', 'into',
+  'dr', 'prof', 'professor'
 ]);
 
 // Reciprocal Rank Fusion (RRF) helper
@@ -257,33 +258,47 @@ export function labelScore(query, label) {
 }
 
 // Fuse Keyword/Fuzzy search with Neural Semantic search using Reciprocal Rank Fusion (RRF)
-export function fuseWithSemanticRRF(baseKeywordEntries, semanticMatches, k = 60) {
-  if (!baseKeywordEntries || baseKeywordEntries.length === 0) return [];
-  if (!semanticMatches || semanticMatches.length === 0) {
-    return baseKeywordEntries.map((x) => x.e?.p || x.p || x);
-  }
+export function fuseWithSemanticRRF(baseEntries, keywordRanked, semanticMatches, k = 60) {
+  if (!baseEntries || baseEntries.length === 0) return [];
+  const hasKeyword = keywordRanked && keywordRanked.length > 0;
+  const hasSemantic = semanticMatches && semanticMatches.length > 0;
+
+  if (!hasKeyword && !hasSemantic) return [];
+  if (!hasSemantic) return keywordRanked.map((x) => x.e?.p || x.p || x);
 
   const idOf = (p) => String(p.Expert_ID || p.Name);
-  const rrfScores = new Map();
-  const candidateMap = new Map();
-
-  baseKeywordEntries.forEach((item, rank) => {
+  const baseMap = new Map();
+  baseEntries.forEach((item) => {
     const p = item.e?.p || item.p || item;
-    const id = idOf(p);
-    candidateMap.set(id, p);
-    rrfScores.set(id, (rrfScores.get(id) || 0) + 1 / (k + rank + 1));
+    baseMap.set(idOf(p), p);
   });
 
-  semanticMatches.forEach((match, rank) => {
-    const id = String(match.id);
-    if (candidateMap.has(id)) {
-      rrfScores.set(id, (rrfScores.get(id) || 0) + 1 / (k + rank + 1));
-    }
-  });
+  const rrfScores = new Map();
+
+  // 1. Keyword rank contribution
+  if (hasKeyword) {
+    keywordRanked.forEach((item, rank) => {
+      const p = item.e?.p || item.p || item;
+      const id = idOf(p);
+      if (baseMap.has(id)) {
+        rrfScores.set(id, (rrfScores.get(id) || 0) + 1 / (k + rank + 1));
+      }
+    });
+  }
+
+  // 2. Semantic rank contribution
+  if (hasSemantic) {
+    semanticMatches.forEach((match, rank) => {
+      const id = String(match.id);
+      if (baseMap.has(id)) {
+        rrfScores.set(id, (rrfScores.get(id) || 0) + 1 / (k + rank + 1));
+      }
+    });
+  }
 
   return Array.from(rrfScores.entries())
-    .filter(([id]) => candidateMap.has(id))
+    .filter(([id]) => baseMap.has(id))
     .sort((a, b) => b[1] - a[1])
-    .map(([id]) => candidateMap.get(id));
+    .map(([id]) => baseMap.get(id));
 }
 

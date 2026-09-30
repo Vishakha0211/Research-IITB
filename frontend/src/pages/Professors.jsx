@@ -59,7 +59,7 @@ export default function Professors() {
   // Compute neural semantic similarities asynchronously when query changes
   useEffect(() => {
     const trimmed = q.trim();
-    if (!trimmed) {
+    if (!trimmed || trimmed.length < 2) {
       setSemanticMatches([]);
       return;
     }
@@ -147,10 +147,13 @@ export default function Professors() {
     });
     const qTokens = tokenize(q);
     const keywordRanked = scoreEntries(base, qTokens, q);
+    if (!q.trim()) {
+      return base.map((x) => x.p);
+    }
     if (!semanticMatches || semanticMatches.length === 0) {
       return keywordRanked.map((x) => x.e.p);
     }
-    return fuseWithSemanticRRF(keywordRanked, semanticMatches);
+    return fuseWithSemanticRRF(base, keywordRanked, semanticMatches);
   }, [entries, q, dept, desig, starOnly, starred, semanticMatches]);
 
   useEffect(() => setPage(1), [q, dept, desig, starOnly]);
