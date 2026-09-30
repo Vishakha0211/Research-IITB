@@ -2,7 +2,8 @@ import { useState, useMemo, useEffect, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useReport } from '../context/ReportContext';
 import { Section, Card, Callout, PageIntro, fmt } from '../components/ui';
-import { tokenize, buildFields, scoreEntries } from '../lib/search';
+import { tokenize, buildFields, scoreEntries, fuseWithSemanticRRF } from '../lib/search';
+import { initSemanticEngine, semanticSearch } from '../lib/semantic';
 
 const PAGE_SIZE = 25;
 const STAR_KEY = 'iitb-starred-professors';
@@ -44,10 +45,40 @@ export default function Professors() {
   const [showCmp, setShowCmp] = useState(false);
   const [history, setHistory] = useState(() => loadList(HIST_KEY));
   const [showHist, setShowHist] = useState(false);
+  const [semanticMatches, setSemanticMatches] = useState([]);
   const histTimer = useRef(null);
   const db = report?.professor_research_interest_database;
   const all = useMemo(() => db?.professors || [], [db]);
   const entries = useMemo(() => all.map((p) => ({ p, fields: buildFields(p) })), [all]);
+
+  // Pre-load semantic model quietly in the background
+  useEffect(() => {
+    initSemanticEngine().catch(() => {});
+  }, []);
+
+  // Compute neural semantic similarities asynchronously when query changes
+  useEffect(() => {
+    const trimmed = q.trim();
+    if (!trimmed) {
+      setSemanticMatches([]);
+      return;
+    }
+    let active = true;
+    const timer = setTimeout(() => {
+      semanticSearch(trimmed)
+        .then((matches) => {
+          if (active) setSemanticMatches(matches || []);
+        })
+        .catch(() => {
+          if (active) setSemanticMatches([]);
+        });
+    }, 120);
+
+    return () => {
+      active = false;
+      clearTimeout(timer);
+    };
+  }, [q]);
 
   /* --- URL sync (shareable search links) --- */
   useEffect(() => {
@@ -115,8 +146,12 @@ export default function Professors() {
       return true;
     });
     const qTokens = tokenize(q);
-    return scoreEntries(base, qTokens).map((x) => x.e.p);
-  }, [entries, q, dept, desig, starOnly, starred]);
+    const keywordRanked = scoreEntries(base, qTokens, q);
+    if (!semanticMatches || semanticMatches.length === 0) {
+      return keywordRanked.map((x) => x.e.p);
+    }
+    return fuseWithSemanticRRF(keywordRanked, semanticMatches);
+  }, [entries, q, dept, desig, starOnly, starred, semanticMatches]);
 
   useEffect(() => setPage(1), [q, dept, desig, starOnly]);
 

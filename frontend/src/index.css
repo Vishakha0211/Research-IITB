@@ -362,7 +362,7 @@ table.data tr:hover td { background: #f7faf9; }
 .search-bar input {
   flex: 1; min-width: 240px;
   padding: 13px 16px; border: 1px solid var(--line); border-radius: 9px;
-  font-size: 15px; background: var(--card); font-family: var(--font-body);
+  font-size: 15px; background: var(--card); color: var(--ink); font-family: var(--font-body);
 }
 .search-bar input:focus { outline: 2px solid #bfe0ea; border-color: var(--teal); }
 .result-count {
@@ -740,6 +740,19 @@ body.dark .modal-backdrop .search-overlay { box-shadow: 0 34px 80px rgba(0, 0, 0
 body.dark .search-hit:hover b { color: var(--teal-text); }
 body.dark .icon-btn:hover { color: var(--teal-text); }
 body.dark .tabs .tab.active { color: #06222c; }
+body.dark input,
+body.dark .search-bar input,
+body.dark .search-overlay-input input,
+body.dark .txt-input,
+body.dark input[type="search"],
+body.dark input[type="text"] {
+  color: #ffffff !important;
+}
+body.dark input::placeholder,
+body.dark .search-bar input::placeholder,
+body.dark .search-overlay-input input::placeholder {
+  color: #9fb0bf;
+}
 body.dark .admin-body textarea:focus,
 body.dark .txt-input:focus,
 body.dark .select:focus,
