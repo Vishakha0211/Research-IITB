@@ -51,7 +51,7 @@ export default function SearchOverlay({ open, onClose }) {
     ? departments.map((d) => ({ d, s: labelScore(q, d) })).filter((x) => x.s > 0).sort((a, b) => b.s - a.s).slice(0, 5)
     : [];
   const profHits = qTokens.length
-    ? scoreEntries(entries, qTokens).slice(0, 8).map((x) => x.e.p)
+    ? scoreEntries(entries, qTokens, q).slice(0, 8).map((x) => x.e.p)
     : [];
 
   const go = (to) => {

@@ -25,6 +25,12 @@ npm start
 
 Open **http://localhost:5000** in your browser.
 
+> **Note:** the professor search embeddings (`frontend/public/data/professor-embeddings.json`)
+> ship with the repo. After editing professor records (Admin page or `backend/data/report.json`)
+> run `npm run embed` to regenerate them so neural semantic search stays in sync - otherwise
+> semantic ranking disables itself automatically (keyword search always keeps working).
+> The first `npm run embed` downloads a ~23 MB embedding model.
+
 ### Development mode (hot reload)
 
 ```bash
@@ -58,7 +64,7 @@ Get-NetTCPConnection -LocalPort 5000 -State Listen | ForEach-Object { Stop-Proce
 | `/topics` | Yearly key research topics (word cloud, 2020-2024) and top funded topics (radar) with year tabs |
 | `/collaborations` | Collaboration split donut, domestic network, global partners, country treemap |
 | `/funding` | Funded research by department (pie), top funding agencies (bars) |
-| `/professors` | Searchable professor research database (links to iitb.irins.org): fuzzy ranked search, URL-synced filters, starred list, CSV export, side-by-side compare (max 3) |
+| `/professors` | Searchable professor research database (links to iitb.irins.org): hybrid keyword + neural semantic ranking (RRF-fused), URL-synced filters, starred list, CSV export, side-by-side compare (max 3) |
 | `/departments` | All departments from the professor database as clickable profile cards |
 | `/department/:name` | Per-department profile: faculty, top topics, matched citations / publications / h-index / funding stats |
 | `/timeline` | Five-year story: one node per year (key topics, funding mix, author mix, summary) plus a "Now" node |

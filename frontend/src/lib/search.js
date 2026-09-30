@@ -269,3 +269,29 @@ export function labelScore(query, label) {
   }
   return total;
 }
+
+// Fuse keyword-ranked results with neural semantic matches using RRF.
+// Unlike a pure re-ranker, semantic matches may ADD professors from
+// `candidates` (dept/designation/star-filtered entries) that the keyword
+// tier missed entirely — that is the point of semantic recall.
+export function fuseWithSemanticRRF(keywordRanked, semanticMatches, candidates, k = 60) {
+  const pool = candidates && candidates.length ? candidates : (keywordRanked || []).map((x) => x.e);
+  const byId = new Map();
+  for (const e of pool) {
+    const id = String(e.p.Expert_ID || e.p.Name || '');
+    if (!byId.has(id)) byId.set(id, e.p);
+  }
+  const scores = new Map();
+  const bump = (id, rank) => scores.set(id, (scores.get(id) || 0) + 1 / (k + rank + 1));
+  (keywordRanked || []).forEach((x, rank) => {
+    const id = String(x.e.p.Expert_ID || x.e.p.Name || '');
+    if (byId.has(id)) bump(id, rank);
+  });
+  (semanticMatches || []).forEach((m, rank) => {
+    const id = String(m.id);
+    if (byId.has(id)) bump(id, rank);
+  });
+  return [...scores.entries()]
+    .sort((a, b) => b[1] - a[1])
+    .map(([id]) => byId.get(id));
+}
