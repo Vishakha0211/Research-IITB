@@ -27,9 +27,9 @@ Open **http://localhost:5000** in your browser.
 
 > **Note:** the professor search embeddings (`frontend/public/data/professor-embeddings.json`)
 > ship with the repo. After editing professor records (Admin page or `backend/data/report.json`)
-> run `npm run embed` to regenerate them so neural semantic search stays in sync - otherwise
-> semantic ranking disables itself automatically (keyword search always keeps working).
-> The first `npm run embed` downloads a ~23 MB embedding model.
+> run `npm run embed` and then `npm run build` to regenerate and publish them so neural semantic
+> search stays in sync - otherwise semantic ranking disables itself automatically (keyword search
+> always keeps working). The first `npm run embed` downloads a ~23 MB embedding model (cached after).
 
 ### Development mode (hot reload)
 
