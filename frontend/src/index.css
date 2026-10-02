@@ -110,6 +110,8 @@ a { color: var(--teal); }
 }
 .nav-link:hover { color: var(--ink); background: #f2f5f4; }
 .nav-link.active { color: var(--teal); background: var(--teal-soft); font-weight: 600; }
+.nav-link.featured { color: var(--teal); background: var(--teal-soft); font-weight: 600; }
+.nav-link.featured:hover { color: var(--teal); background: #dceff5; }
 
 .header-cta { flex-shrink: 0; }
 .header-team { display: flex; align-items: center; gap: 9px; flex-shrink: 0; }
@@ -715,6 +717,8 @@ body.dark table.data th { background: #1e2c3a; color: var(--ink); }
 body.dark table.data td { color: #cfd9e2; }
 body.dark table.data tr:hover td { background: #1c2a37; }
 body.dark .nav-link:hover { background: #1e2c3a; color: var(--ink); }
+body.dark .nav-link.featured,
+body.dark .nav-link.featured:hover { background: var(--teal-soft); color: var(--teal-text); }
 body.dark .btn.chip { background: var(--card); color: var(--ink); }
 body.dark .btn.chip:hover { background: #1e2c3a; color: var(--ink); }
 body.dark .btn.secondary { background: var(--card); color: var(--ink); }

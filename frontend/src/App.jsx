@@ -24,8 +24,8 @@ const NAV = [
   { to: '/topics', label: 'Topics' },
   { to: '/collaborations', label: 'Collaborations' },
   { to: '/funding', label: 'Funding' },
-  { to: '/professors', label: 'Professors' },
-  { to: '/departments', label: 'Departments' },
+  { to: '/professors', label: 'Professors', featured: true },
+  { to: '/departments', label: 'Departments', featured: true },
   { to: '/timeline', label: 'Timeline' },
   { to: '/about', label: 'About' }
 ];
@@ -130,7 +130,9 @@ export default function App() {
               key={n.to}
               to={n.to}
               end={n.to === '/'}
-              className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
+              className={({ isActive }) =>
+                `nav-link ${n.featured ? 'featured' : ''} ${isActive ? 'active' : ''}`
+              }
               onClick={() => setOpen(false)}
             >
               {n.label}
