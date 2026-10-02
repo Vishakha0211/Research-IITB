@@ -155,6 +155,12 @@ a { color: var(--teal); }
   letter-spacing: 0.09em;
   margin-bottom: 12px;
 }
+.eyebrow-hero {
+  font-size: 46px;
+  letter-spacing: 0.02em;
+  line-height: 1.1;
+  margin-bottom: 8px;
+}
 .page-intro h2 {
   font-size: 40px;
   line-height: 1.15;
@@ -481,6 +487,7 @@ table.data tr:hover td { background: #f7faf9; }
   .topstrip { padding: 8px 16px; }
   .topstrip .topstrip-stats { display: none; }
   .page-intro h2 { font-size: 30px; }
+  .eyebrow-hero { font-size: 34px; }
   .search-bar { grid-template-columns: 1fr; }
   .header-tools { order: 11; }
 }

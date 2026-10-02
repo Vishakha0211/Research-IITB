@@ -113,11 +113,8 @@ export default function App() {
       </div>
 
       <header className="site-header">
-        <Link to="/" className="brand" onClick={() => setOpen(false)}>
+        <Link to="/" className="brand" onClick={() => setOpen(false)} aria-label="RESEARCH @ IITB home">
           <img className="brand-logo" src="/ugac-logo.svg" alt="UGAC" />
-          <span>
-            RESEARCH <b>@ IITB</b>
-          </span>
         </Link>
 
         <button className="hamburger" onClick={() => setOpen(!open)} aria-label="Menu">

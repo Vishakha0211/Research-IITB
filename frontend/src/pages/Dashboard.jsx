@@ -26,7 +26,12 @@ export default function Dashboard() {
 
   return (
     <>
-      <PageIntro title="Seven years of research." accent="One live portal." eyebrow="IIT Bombay · Executive summary">
+      <PageIntro
+        title="Seven years of research."
+        accent="One live portal."
+        eyebrow="Research @ IITB"
+        eyebrowClass="eyebrow-hero"
+      >
         {report.meta?.executive_summary}
       </PageIntro>
 

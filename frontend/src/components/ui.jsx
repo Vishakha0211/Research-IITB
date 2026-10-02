@@ -1,9 +1,9 @@
 import { useState } from 'react';
 
-export function PageIntro({ title, accent, eyebrow = 'IIT Bombay · Seven years of research', children }) {
+export function PageIntro({ title, accent, eyebrow = 'IIT Bombay · Seven years of research', eyebrowClass = '', children }) {
   return (
     <div className="page-intro">
-      <div className="eyebrow">{eyebrow}</div>
+      <div className={`eyebrow ${eyebrowClass}`}>{eyebrow}</div>
       <h2>
         {title} {accent && <span className="accent">{accent}</span>}
       </h2>
