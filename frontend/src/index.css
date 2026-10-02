@@ -116,7 +116,7 @@ a { color: var(--teal); }
 .header-cta { flex-shrink: 0; }
 .header-team { display: flex; align-items: center; gap: 9px; flex-shrink: 0; }
 .header-team-name {
-  font-family: var(--font-head); font-weight: 700;
+  font-family: var(--font-body); font-weight: 600;
   font-size: 15px; color: var(--ink); white-space: nowrap;
 }
 .header-logo { height: 42px; width: auto; flex-shrink: 0; }
