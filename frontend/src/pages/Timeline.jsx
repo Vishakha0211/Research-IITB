@@ -30,9 +30,9 @@ export default function Timeline() {
   return (
     <>
       <PageIntro
-        title="Five years of research."
+        title="Seven years of research."
         accent="One timeline."
-        eyebrow={`Timeline · ${report.meta?.report_date_range || '2020 - 2024'}`}
+        eyebrow={`Timeline · ${report.meta?.report_date_range || '2020 - 2026'}`}
       >
         The story of IIT Bombay's research output year by year - the ideas that defined each year, the
         topics that attracted funding, and how the shape of authorship evolved along the way.

@@ -1,9 +1,9 @@
 {
   "meta": {
     "title": "RESEARCH @ IITB",
-    "subtitle": "A detailed report on research at the institute spanning the last 5 years, and its impact across the globe",
-    "report_date_range": "Last 5 years",
-    "executive_summary": "This report provides a comprehensive overview of research activities at IIT Bombay over the past five years, highlighting its global impact. It details IIT Bombay's rankings, departments, faculty, patents, publications, and citations. The report delves into research impact across departments, the significance of open access, H-index comparisons, publication mix, and a comparison with other top Indian institutes. It also analyzes research authorship distribution, changes in publication author counts, funded research by department and agencies, and key research topics over several years. Finally, it introduces the IITB Professor Research Database as a tool for exploring faculty expertise."
+    "subtitle": "A detailed report on research at the institute spanning 2020 to 2026, and its impact across the globe",
+    "report_date_range": "Seven years",
+    "executive_summary": "This report provides a comprehensive overview of research activities at IIT Bombay from 2020 to 2026, highlighting its global impact. It details IIT Bombay's rankings, departments, faculty, patents, publications, and citations. The report delves into research impact across departments, the significance of open access, H-index comparisons, publication mix, and a comparison with other top Indian institutes. It also analyzes research authorship distribution, changes in publication author counts, funded research by department and agencies, and key research topics over several years. Finally, it introduces the IITB Professor Research Database as a tool for exploring faculty expertise."
   },
   "general_statistics": [
     {
@@ -89,10 +89,10 @@
     "total_publications": 39821,
     "total_patents": 1142,
     "publication_trends_by_team_size": {
-      "single_author_proportion": "approx. 2%",
-      "small_medium_teams_proportion": "> 80%",
-      "large_teams_proportion_2020": "approx. 16%",
-      "large_teams_proportion_2023": "approx. 18%",
+      "single_author_proportion": "approx. 5% (4.3% in 2020, 5.9% in 2025; 9.2% in partial 2026)",
+      "small_medium_teams_proportion": "approx. 70-77%",
+      "large_teams_proportion_2020": "18.3%",
+      "large_teams_proportion_2025": "22.3%",
       "context": "Changes in Publication Author Counts"
     }
   },
@@ -198,7 +198,7 @@
       }
     ],
     "correlation_coefficient": 0.769,
-    "correlation_description": "A 0.769 correlation indicates a strong positive link, meaning department size strongly predict higher research impact per faculty member.",
+    "correlation_description": "A 0.769 correlation between faculty count and average citations per faculty (19 departments) is a strong positive link: larger departments tend to record higher average citations per faculty member.",
     "largest_departments": [
       {
         "name": "Electrical Engineering",
@@ -214,7 +214,7 @@
       }
     ],
     "highest_research_impact_department": "Physics (over 6,000 average citations per faculty)",
-    "context": "Analyzing Faculty Size and Citation Averages"
+    "context": "Faculty counts against average citations per faculty, IRINS (Crossref), Oct 2026; 19 departments."
   },
   "access_models_scholarly_publishing": {
     "chart_type": "Bar Chart",
@@ -602,8 +602,8 @@
     "top_performer": "Electrical Engineering (best QS rank 50); Physics records the highest h-index (178)",
     "correlation_coefficient": -0.432,
     "outliers": [
-      "Biosciences (low QS rank despite moderate h-index)",
-      "Mathematics (smaller faculty size)"
+      "Biosciences (QS rank 325 despite an h-index of 54)",
+      "Mathematics (h-index 22 despite a QS rank of 129)"
     ],
     "other_strong_performers": [
       "Mechanical (69)",
@@ -613,27 +613,66 @@
   },
   "publication_mix_composition": {
     "chart_type": "Bar Chart",
-    "x_axis_label": "Publication Type",
-    "y_axis_label": "Count",
+    "x_axis_label": "Publication type",
+    "y_axis_label": "Publications",
     "data_points": [
       {
-        "publication_type": "Journal Articles",
-        "count": 27067
+        "publication_type": "Journal Article",
+        "count": 12171,
+        "share_pct": 57.2
       },
       {
-        "publication_type": "Conference / Proc.",
-        "count": 9411
+        "publication_type": "Conference Paper",
+        "count": 3671,
+        "share_pct": 17.2
       },
       {
-        "publication_type": "Other Outputs",
-        "count": 1798
+        "publication_type": "Preprint",
+        "count": 2793,
+        "share_pct": 13.1
       },
       {
-        "publication_type": "Books / Chapters",
-        "count": 1545
+        "publication_type": "Book Chapter",
+        "count": 1034,
+        "share_pct": 4.9
+      },
+      {
+        "publication_type": "Book / Report / Software / Other",
+        "count": 467,
+        "share_pct": 2.2
+      },
+      {
+        "publication_type": "Conference Abstract",
+        "count": 436,
+        "share_pct": 2
+      },
+      {
+        "publication_type": "Dataset / Data Paper",
+        "count": 321,
+        "share_pct": 1.5
+      },
+      {
+        "publication_type": "Erratum / Retraction / Reference Entry",
+        "count": 141,
+        "share_pct": 0.7
+      },
+      {
+        "publication_type": "Peer Review",
+        "count": 116,
+        "share_pct": 0.5
+      },
+      {
+        "publication_type": "Review Article",
+        "count": 84,
+        "share_pct": 0.4
+      },
+      {
+        "publication_type": "Editorial / Letter",
+        "count": 56,
+        "share_pct": 0.3
       }
     ],
-    "context": "Publication type composition of 39,821 publications - Source: IRINS (Crossref)"
+    "context": "Fine-grained composition of 21,290 IIT Bombay works indexed by OpenAlex for 2022-2026, resolved to 11 publication types. The IRINS/Crossref feed used earlier only distinguishes 4 categories (journal articles, conference papers, books/chapters and other outputs)."
   },
   "measuring_research_output": {
     "chart_type": "Bar Chart",
@@ -711,7 +750,7 @@
       "IISc Bengaluru has the largest publication corpus (95,041 works), ahead of IIT Delhi (74,580), IIT Kharagpur (74,058) and IIT Bombay (69,293).",
       "IIT Bombay holds 1,142 patents (IRINS, filed and granted), the only patent figure in this comparison that is sourced; peer patent totals are unverified.",
       "IIT Guwahati has the smallest indexed corpus (35,180 works) of the eight institutes, roughly a third of IISc.",
-      "The spread between publication volume and patent counts suggests differing institutional emphasis on filing versus publishing."
+      "Among the seven IITs compared, IIT Bombay ranks fourth by indexed works (69,293), behind IIT Delhi (74,580), IIT KGP (74,058) and IIT Madras (71,195)."
     ]
   },
   "research_impact_across_top_indian_institutes": {
@@ -907,9 +946,9 @@
       }
     ],
     "key_findings": [
-      "IIT Delhi shows exceptional performance in Electrical, Computer Science, and Energy Science, emphasizing applied research.",
-      "IIT Bombay and IIT Madras maintain consistent strength across engineering and interdisciplinary departments.",
-      "IIT Kanpur performs well in traditional engineering areas but trails in newer or interdisciplinary fields."
+      "IISc Bangalore leads in 14 of the 15 departments shown, from 80 in Aerospace Engineering to 150 in Electrical Engineering; IIT Bombay's Physics h-index of 178 is the highest single value in the chart.",
+      "IIT Delhi is the runner-up in 14 of the 15 departments (60 to 140) and third only in Physics (120), ahead of IIT Madras, IIT KGP, IIT Bombay and IIT Kanpur throughout.",
+      "IIT Bombay is uneven: first in Physics (178) and third in Aerospace and Earth Sciences, but last of the six in Biosciences (54), Energy Science (69), Mechanical (88), Computer Science (46), Mathematics (22) and Industrial Design (18); IIT Kanpur is last in the remaining nine departments."
     ],
     "context": "H-Index comparison department wise - IIT Bombay column refreshed from IRINS (Crossref, Oct 2026); h-index values for IIT Madras, IIT Delhi, IIT KGP, IIT Kanpur and IISc are legacy unverified figures that could not be checked against a public source"
   },
@@ -966,58 +1005,115 @@
   },
   "correlation_academic_rank_research_output": {
     "chart_type": "Pie Chart",
-    "title": "Correlation between Academic Rank and Research Output",
+    "title": "Output by Academic Rank: Share of Career Publications",
     "data_points": [
       {
-        "designation": "Professor (HAG)",
-        "percentage": 50.7
-      },
-      {
-        "designation": "Chair Professor",
-        "percentage": 13.5
-      },
-      {
         "designation": "Professor",
-        "percentage": 14.1
+        "percentage": 58.1
       },
       {
         "designation": "Associate Professor",
-        "percentage": 10.3
+        "percentage": 21.6
       },
       {
         "designation": "Assistant Professor",
-        "percentage": 4.6
+        "percentage": 18.7
       },
       {
-        "designation": "Post-Doctoral Research Scientist",
-        "percentage": 1.7
+        "designation": "Chair Professor",
+        "percentage": 0.5
       },
       {
-        "designation": "Post-Doctoral Fellow",
-        "percentage": 1
+        "designation": "Other designations",
+        "percentage": 0.4
+      },
+      {
+        "designation": "Post-Doctoral Researchers",
+        "percentage": 0.4
+      },
+      {
+        "designation": "Professor (HAG)",
+        "percentage": 0.3
       }
     ],
     "key_insights": [
-      "Reflects a hierarchical gradient: higher academic rank correlates with greater average research impact or citations.",
-      "Experience and seniority strongly correlate with research output.",
-      "The dominance of 'Professor (HAG)' highlights institutional concentration of high-impact research within senior faculty ranks."
+      "Faculty dominate: Professors (30,512 publications), Associate Professors (11,354) and Assistant Professors (9,834) together account for 98.5% of the 52,505 publications recorded.",
+      "Clear rank gradient: average career output per person falls from 103.4 papers for a Professor to 72.3 for an Associate Professor and 53.2 for an Assistant Professor.",
+      "Senior outliers: the single Professor (HAG) has 135 publications and the three Chair Professors have 250 between them, while postdoctoral researchers contribute under 1% because their publication careers are short."
     ],
-    "context": "Correlation between Academic Rank and Research Output"
+    "context": "Share of career publication totals by designation across 660 of the 711 researchers in the portal's professor roster, taken from their INFLIBNET VIDWAN profiles (vidwan.inflibnet.ac.in), queried 1 Oct 2026. Counts cover each researcher's whole career, not a single window; 51 profiles could not be read and are excluded, and 11 people on adjunct, visiting, library, project and research-scholar designations are grouped as \"Other designations\"."
   },
   "research_authorship_distribution": {
     "chart_type": "Histogram/Bar Chart",
     "title": "Research Authorship Distribution: Key Insights",
-    "data_points_description": "Distribution of Author Count. Most papers come from solo or small teams (1-5 authors). Larger teams (10+ authors) are rare.",
+    "data_points_description": "Distribution of papers by team size across the 21,284 IIT Bombay works (2022-2026) that record an author count. Teams of 2-4 authors form the core with 13,270 papers (62.4%); 1-5 author teams together cover 16,835 papers (79.1%), solo-authored papers number 1,258 (5.9%) and 1,055 papers (5.0%) carry 11 or more authors.",
     "key_findings": [
-      "Right-Skewed Pattern: Most research papers come from just a handful of authors.",
-      "Small-Team Edge: Teams of 1-5 authors dominate.",
-      "Sharp Drop-Off: As team size grows, the number of papers falls fast."
+      "Modal team size: 5,189 papers (24.4%) are written by exactly 3 authors, ahead of 2 authors (4,440) and 4 authors (3,641).",
+      "Small-team core: papers with 1-5 authors account for 16,835 of 21,284 (79.1%).",
+      "Sharp tail: only 1,055 papers (5.0%) reach 11 or more authors, driven by large experimental collaborations."
     ],
     "implications": [
-      "Individual Effort Rules: Research output still thrives on independent or small-group contributions.",
-      "Big Teams -> Exceptions: Only a few studies involve large, multi-author collaborations."
+      "Collaboration is the default: mean team size is 5.5 authors, or 117,174 authorship slots across 21,290 works.",
+      "Large teams stay exceptional: papers with 10 or fewer authors cover 95.0% of the output."
     ],
-    "context": "Research Authorship Distribution: Key Insights"
+    "context": "Author counts per paper for IIT Bombay works indexed in OpenAlex, 2022-2026, n = 21,284 of 21,290 works (6 works carry no recorded author count). Queried 1 Oct 2026.",
+    "data_points": [
+      {
+        "team_size": "1",
+        "papers": 1258,
+        "share": 0.0591
+      },
+      {
+        "team_size": "2",
+        "papers": 4440,
+        "share": 0.2086
+      },
+      {
+        "team_size": "3",
+        "papers": 5189,
+        "share": 0.2438
+      },
+      {
+        "team_size": "4",
+        "papers": 3641,
+        "share": 0.1711
+      },
+      {
+        "team_size": "5",
+        "papers": 2307,
+        "share": 0.1084
+      },
+      {
+        "team_size": "6",
+        "papers": 1368,
+        "share": 0.0643
+      },
+      {
+        "team_size": "7",
+        "papers": 833,
+        "share": 0.0391
+      },
+      {
+        "team_size": "8",
+        "papers": 538,
+        "share": 0.0253
+      },
+      {
+        "team_size": "9",
+        "papers": 406,
+        "share": 0.0191
+      },
+      {
+        "team_size": "10",
+        "papers": 249,
+        "share": 0.0117
+      },
+      {
+        "team_size": "11+",
+        "papers": 1055,
+        "share": 0.0496
+      }
+    ]
   },
   "key_research_topics_yearly": [
     {
@@ -1026,43 +1122,53 @@
       "topics": [
         {
           "topic": "india",
-          "size": 10
+          "size": 1,
+          "rank": 10
         },
         {
           "topic": "quantum dots",
-          "size": 5
+          "size": 6,
+          "rank": 5
         },
         {
           "topic": "deep learning",
-          "size": 4
+          "size": 7,
+          "rank": 4
         },
         {
           "topic": "remote sensing",
-          "size": 7
+          "size": 4,
+          "rank": 7
         },
         {
           "topic": "photoluminescence",
-          "size": 2
+          "size": 9,
+          "rank": 2
         },
         {
           "topic": "optimization",
-          "size": 3
+          "size": 8,
+          "rank": 3
         },
         {
           "topic": "microstructure",
-          "size": 8
+          "size": 3,
+          "rank": 8
         },
         {
           "topic": "climate change",
-          "size": 6
+          "size": 5,
+          "rank": 6
         },
         {
           "topic": "strain",
-          "size": 9
+          "size": 2,
+          "rank": 9
         },
         {
           "topic": "finite element",
-          "size": 10
+          "size": 1,
+          "rank": 10
         }
       ],
       "summary": "Research was heavily focused on foundational science like Photoluminescence and Quantum Dots. AI was present with Deep Learning. Coincided with the onset of the global COVID-19 pandemic.",
@@ -1074,43 +1180,53 @@
       "topics": [
         {
           "topic": "india",
-          "size": 10
+          "size": 1,
+          "rank": 10
         },
         {
           "topic": "optimization",
-          "size": 2
+          "size": 9,
+          "rank": 2
         },
         {
           "topic": "deep learning",
-          "size": 3
+          "size": 8,
+          "rank": 3
         },
         {
           "topic": "remote sensing",
-          "size": 4
+          "size": 7,
+          "rank": 4
         },
         {
           "topic": "microstructure",
-          "size": 5
+          "size": 6,
+          "rank": 5
         },
         {
           "topic": "sustainability",
-          "size": 7
+          "size": 4,
+          "rank": 7
         },
         {
           "topic": "covid-19",
-          "size": 9
+          "size": 2,
+          "rank": 9
         },
         {
           "topic": "additive manufacturing",
-          "size": 6
+          "size": 5,
+          "rank": 6
         },
         {
           "topic": "biodynamics",
-          "size": 10
+          "size": 1,
+          "rank": 10
         },
         {
           "topic": "heat transfer",
-          "size": 8
+          "size": 3,
+          "rank": 8
         }
       ],
       "summary": "Direct impact of the pandemic seen as 'COVID-19' enters the top 10. Optimization and Deep Learning remain key areas. World grappling with logistical challenges and leveraging technology in response to the crisis.",
@@ -1122,43 +1238,53 @@
       "topics": [
         {
           "topic": "india",
-          "size": 2
+          "size": 9,
+          "rank": 2
         },
         {
           "topic": "microstructure",
-          "size": 1
+          "size": 10,
+          "rank": 1
         },
         {
           "topic": "deep learning",
-          "size": 5
+          "size": 6,
+          "rank": 5
         },
         {
           "topic": "density functional",
-          "size": 6
+          "size": 5,
+          "rank": 6
         },
         {
           "topic": "climate change",
-          "size": 4
+          "size": 7,
+          "rank": 4
         },
         {
           "topic": "machine learning",
-          "size": 7
+          "size": 4,
+          "rank": 7
         },
         {
           "topic": "optimization",
-          "size": 3
+          "size": 8,
+          "rank": 3
         },
         {
           "topic": "additive manufacturing",
-          "size": 9
+          "size": 2,
+          "rank": 9
         },
         {
           "topic": "covid-19",
-          "size": 10
+          "size": 1,
+          "rank": 10
         },
         {
           "topic": "hydrogen",
-          "size": 8
+          "size": 3,
+          "rank": 8
         }
       ],
       "summary": "Significant shift as 'Machine Learning' appears for the first time, joining Deep Learning and signaling a broadening AI focus. Microstructure research peaks at #1.",
@@ -1170,43 +1296,53 @@
       "topics": [
         {
           "topic": "india",
-          "size": 3
+          "size": 8,
+          "rank": 3
         },
         {
           "topic": "machine learning",
-          "size": 1
+          "size": 10,
+          "rank": 1
         },
         {
           "topic": "climate change",
-          "size": 2
+          "size": 9,
+          "rank": 2
         },
         {
           "topic": "deep learning",
-          "size": 7
+          "size": 4,
+          "rank": 7
         },
         {
           "topic": "optimization",
-          "size": 5
+          "size": 6,
+          "rank": 5
         },
         {
           "topic": "x-ray diffraction",
-          "size": 4
+          "size": 7,
+          "rank": 4
         },
         {
           "topic": "microstructure",
-          "size": 9
+          "size": 2,
+          "rank": 9
         },
         {
           "topic": "photoluminescence",
-          "size": 6
+          "size": 5,
+          "rank": 6
         },
         {
           "topic": "additive manufacturing",
-          "size": 10
+          "size": 1,
+          "rank": 10
         },
         {
           "topic": "covid-19",
-          "size": 8
+          "size": 3,
+          "rank": 8
         }
       ],
       "summary": "Year of AI's explosion. 'Machine Learning' soared to the #1 spot, reflecting public and scientific excitement following the widespread release of advanced generative AI models. Foundational topics like Climate Change remained a high priority.",
@@ -1218,47 +1354,151 @@
       "topics": [
         {
           "topic": "india",
-          "size": 1
+          "size": 10,
+          "rank": 1
         },
         {
           "topic": "machine learning",
-          "size": 2
+          "size": 9,
+          "rank": 2
         },
         {
           "topic": "microstructure",
-          "size": 3
+          "size": 8,
+          "rank": 3
         },
         {
           "topic": "additive manufacturing",
-          "size": 5
+          "size": 6,
+          "rank": 5
         },
         {
           "topic": "algorithms",
-          "size": 4
+          "size": 7,
+          "rank": 4
         },
         {
           "topic": "density functional",
-          "size": 7
+          "size": 4,
+          "rank": 7
         },
         {
           "topic": "deep learning",
-          "size": 10
+          "size": 1,
+          "rank": 10
         },
         {
           "topic": "optimization",
-          "size": 9
+          "size": 2,
+          "rank": 9
         },
         {
           "topic": "climate change",
-          "size": 6
+          "size": 5,
+          "rank": 6
         },
         {
           "topic": "hydrogen",
-          "size": 8
+          "size": 3,
+          "rank": 8
         }
       ],
       "summary": "AI trend solidifies with 'Machine Learning' and 'Algorithms' ranking as top priorities. 'COVID-19' drops from the top 10, indicating a shift in global health priorities into a post-pandemic phase.",
       "page": "26"
+    },
+    {
+      "year": 2025,
+      "title": "Key research topics from year 2025",
+      "topics": [
+        {
+          "topic": "High-Energy Particle Collisions Research",
+          "size": 46
+        },
+        {
+          "topic": "Catalytic C-H Functionalization Methods",
+          "size": 35
+        },
+        {
+          "topic": "Perovskite Materials and Applications",
+          "size": 34
+        },
+        {
+          "topic": "Additive Manufacturing Materials and Processes",
+          "size": 33
+        },
+        {
+          "topic": "Additive Manufacturing and 3D Printing Technologies",
+          "size": 25
+        },
+        {
+          "topic": "Natural Language Processing Techniques",
+          "size": 24
+        },
+        {
+          "topic": "Advancements in Battery Materials",
+          "size": 23
+        },
+        {
+          "topic": "Photovoltaic System Optimization Techniques",
+          "size": 23
+        },
+        {
+          "topic": "Geochemistry and Geologic Mapping",
+          "size": 23
+        },
+        {
+          "topic": "Geological and Geochemical Analysis",
+          "size": 22
+        }
+      ],
+      "summary": "Based on 4,514 IIT Bombay works indexed for 2025. Particle-collision physics, catalytic C-H functionalization, perovskite materials and additive manufacturing head the primary-topic counts, with natural language processing carrying the AI theme forward alongside battery and photovoltaic materials."
+    },
+    {
+      "year": 2026,
+      "title": "Key research topics from year 2026",
+      "topics": [
+        {
+          "topic": "Geological and Geochemical Analysis",
+          "size": 33
+        },
+        {
+          "topic": "Additive Manufacturing Materials and Processes",
+          "size": 27
+        },
+        {
+          "topic": "High-Energy Particle Collisions Research",
+          "size": 26
+        },
+        {
+          "topic": "Perovskite Materials and Applications",
+          "size": 23
+        },
+        {
+          "topic": "Pulsars and Gravitational Waves Research",
+          "size": 23
+        },
+        {
+          "topic": "Topological Materials and Phenomena",
+          "size": 21
+        },
+        {
+          "topic": "Advanced Sensor and Energy Harvesting Materials",
+          "size": 19
+        },
+        {
+          "topic": "Gamma-ray bursts and supernovae",
+          "size": 18
+        },
+        {
+          "topic": "Advanced Bandit Algorithms Research",
+          "size": 18
+        },
+        {
+          "topic": "Topic Modeling",
+          "size": 17
+        }
+      ],
+      "summary": "Partial year: 3,582 IIT Bombay works indexed for 2026 as of 1 October 2026. Geological and geochemical analysis, additive manufacturing and high-energy particle collisions lead, while pulsars, gravitational waves, gamma-ray bursts and topological materials show sustained strength in astronomy and condensed-matter physics."
     }
   ],
   "iit_bombay_collaborations_breakdown": {
@@ -1267,63 +1507,67 @@
     "data_points": [
       {
         "collaboration_type": "International collaborations",
-        "percentage": 34
+        "percentage": 30.4
       },
       {
         "collaboration_type": "Domestic collaborations",
-        "percentage": 33.4
+        "percentage": 26.9
       },
       {
-        "collaboration_type": "Combined collaborations",
-        "percentage": 32.7
+        "collaboration_type": "Single-institution output",
+        "percentage": 42.7
       }
     ],
-    "overall_statement": "IITB maintains a well-distributed collaboration profile across global and national levels.",
-    "context": "IIT-Bombay Collaborations: Domestic vs. International Breakdown"
+    "overall_statement": "Of 21,290 IIT Bombay works indexed for 2022-2026, 12,194 (57.3%) were co-authored beyond the institute: 6,473 (30.4%) crossed an international border and 5,721 (26.9%) joined another Indian institution.",
+    "context": "OpenAlex works attributed to IIT Bombay (I162827531), 2022-2026, n = 21,290. International = co-authors in 2 or more countries; domestic = every author based in India across 2 or more institutions; single-institution = every author within IIT Bombay. Queried 1 Oct 2026."
   },
   "iit_bombay_domestic_network": {
     "chart_type": "Horizontal Bar Chart",
     "title": "Mapping IIT-Bombay's Domestic Network: The Ten Key Institutions",
     "data_points": [
       {
-        "institution": "Bhabha Atomic Research Center",
-        "collaborations": 180
-      },
-      {
-        "institution": "IITB-Monash Research Academy",
-        "collaborations": 170
+        "institution": "Bhabha Atomic Research Centre",
+        "collaborations": 234
       },
       {
         "institution": "Homi Bhabha National Institute",
-        "collaborations": 150
-      },
-      {
-        "institution": "IIT Kanpur",
-        "collaborations": 130
+        "collaborations": 231
       },
       {
         "institution": "IIT Delhi",
-        "collaborations": 110
-      },
-      {
-        "institution": "IISC",
-        "collaborations": 100
-      },
-      {
-        "institution": "IIT Madras",
-        "collaborations": 90
-      },
-      {
-        "institution": "Tata Institute of Technology Research",
-        "collaborations": 80
+        "collaborations": 210
       },
       {
         "institution": "IIT Kharagpur",
-        "collaborations": 70
+        "collaborations": 190
+      },
+      {
+        "institution": "IIT Kanpur",
+        "collaborations": 184
+      },
+      {
+        "institution": "IIT Madras",
+        "collaborations": 169
+      },
+      {
+        "institution": "IISc Bangalore",
+        "collaborations": 166
+      },
+      {
+        "institution": "IIT Roorkee",
+        "collaborations": 145
+      },
+      {
+        "institution": "Tata Institute of Fundamental Research",
+        "collaborations": 113
+      },
+      {
+        "institution": "Banaras Hindu University",
+        "collaborations": 110
       }
     ],
-    "key_finding": "Primary domestic partners are elite research organizations and top academic institutions. The IITB-Monash Research Academy highlights the success of this specific joint venture.",
-    "context": "Mapping IIT-Bombay's Domestic Network"
+    "key_finding": "BARC (234) and HBNI (231) lead the domestic network, ahead of every IIT; IIT Delhi (210) is the strongest IIT partner, and the remaining seven entries (IIT KGP, IIT Kanpur, IIT Madras, IISc, IIT Roorkee, TIFR and BHU) span 110 to 190 joint papers.",
+    "context": "Joint IIT Bombay publications with Indian institutions where every co-author is based in India, 2022-2026 (14,817 works). Source: OpenAlex, queried 1 Oct 2026."
   },
   "iit_bombay_global_reach_university_partners": {
     "chart_type": "Horizontal Bar Chart",
@@ -1331,47 +1575,47 @@
     "data_points": [
       {
         "university": "Monash University",
-        "collaborations": 372
+        "collaborations": 551
       },
       {
-        "university": "California Institute of Technology",
-        "collaborations": 34
+        "university": "Université Paris-Saclay",
+        "collaborations": 264
       },
       {
-        "university": "University of California, Berkeley",
-        "collaborations": 32
+        "university": "University of Tokyo",
+        "collaborations": 245
       },
       {
-        "university": "Technische Universität München (TUM)",
-        "collaborations": 30
+        "university": "UC Berkeley",
+        "collaborations": 240
+      },
+      {
+        "university": "UT Austin",
+        "collaborations": 236
+      },
+      {
+        "university": "University of Birmingham",
+        "collaborations": 227
+      },
+      {
+        "university": "Université de Strasbourg",
+        "collaborations": 211
+      },
+      {
+        "university": "Ohio State University",
+        "collaborations": 210
       },
       {
         "university": "Hiroshima University",
-        "collaborations": 29
+        "collaborations": 207
       },
       {
-        "university": "University of Maryland, College Park",
-        "collaborations": 28
-      },
-      {
-        "university": "University of Cambridge",
-        "collaborations": 27
-      },
-      {
-        "university": "Weizmann Institute of Science, Israel",
-        "collaborations": 26
-      },
-      {
-        "university": "The University of Tokyo",
-        "collaborations": 25
-      },
-      {
-        "university": "Deutsches Zentrum für Luft- und Raumfahrt (DLR)",
-        "collaborations": 24
+        "university": "Utrecht University",
+        "collaborations": 204
       }
     ],
-    "key_finding": "Monash University is an exceptional outlier partner. Other partners are world-leading institutions, with collaboration more evenly distributed among them.",
-    "context": "Mapping Global Reach"
+    "key_finding": "Monash University (551 joint papers) is a clear outlier, more than double the next partner; the remaining nine span France, Japan, the United States, the United Kingdom and the Netherlands.",
+    "context": "IIT Bombay works co-authored with a partner in 2 or more countries, 2022-2026 (6,473 international works); universities only, so Indian institutions and research laboratories such as CNRS and INFN are excluded. Source: OpenAlex, queried 1 Oct 2026."
   },
   "global_reach_countries_collaborating": {
     "chart_type": "Treemap",
@@ -1379,31 +1623,23 @@
     "data_points": [
       {
         "country": "United States",
-        "proportion": 0.35
-      },
-      {
-        "country": "Australia",
-        "proportion": 0.15
-      },
-      {
-        "country": "Germany",
-        "proportion": 0.12
+        "proportion": 0.14
       },
       {
         "country": "United Kingdom",
-        "proportion": 0.1
+        "proportion": 0.06
       },
       {
-        "country": "Japan",
-        "proportion": 0.08
+        "country": "Germany",
+        "proportion": 0.05
+      },
+      {
+        "country": "Australia",
+        "proportion": 0.05
       },
       {
         "country": "China",
-        "proportion": 0.07
-      },
-      {
-        "country": "Canada",
-        "proportion": 0.05
+        "proportion": 0.04
       },
       {
         "country": "France",
@@ -1414,12 +1650,20 @@
         "proportion": 0.03
       },
       {
+        "country": "Japan",
+        "proportion": 0.03
+      },
+      {
+        "country": "Canada",
+        "proportion": 0.02
+      },
+      {
         "country": "Other",
-        "proportion": 0.06
+        "proportion": 0.54
       }
     ],
-    "key_finding": "The United States is the most significant partner country. Australia is second, explained by the relationship with Monash University. Diverse global network with strong ties to research-intensive nations.",
-    "context": "The Global Reach: Countries Collaborating with IIT-Bombay"
+    "key_finding": "The United States leads with 2,578 of the 17,910 country links (14%), ahead of the United Kingdom (1,013) and Germany (967). The long tail matters: 126 further countries together make up 54% of all links.",
+    "context": "Share of all 17,910 country links inside the 6,473 internationally co-authored IIT Bombay works (2022-2026). One work can link several countries, so links exceed the work count, and India is excluded as the home country. Source: OpenAlex, queried 1 Oct 2026."
   },
   "concentration_of_research_output_among_authors": {
     "chart_type": "Lorenz Curve",
@@ -1430,20 +1674,40 @@
         "cumulative_share_of_publications": 0
       },
       {
+        "cumulative_share_of_authors": 0.1,
+        "cumulative_share_of_publications": 0.0346
+      },
+      {
         "cumulative_share_of_authors": 0.2,
-        "cumulative_share_of_publications": 0.15
+        "cumulative_share_of_publications": 0.0693
+      },
+      {
+        "cumulative_share_of_authors": 0.3,
+        "cumulative_share_of_publications": 0.1039
       },
       {
         "cumulative_share_of_authors": 0.4,
-        "cumulative_share_of_publications": 0.35
+        "cumulative_share_of_publications": 0.1385
+      },
+      {
+        "cumulative_share_of_authors": 0.5,
+        "cumulative_share_of_publications": 0.1732
       },
       {
         "cumulative_share_of_authors": 0.6,
-        "cumulative_share_of_publications": 0.6
+        "cumulative_share_of_publications": 0.2078
+      },
+      {
+        "cumulative_share_of_authors": 0.7,
+        "cumulative_share_of_publications": 0.2675
       },
       {
         "cumulative_share_of_authors": 0.8,
-        "cumulative_share_of_publications": 0.85
+        "cumulative_share_of_publications": 0.34
+      },
+      {
+        "cumulative_share_of_authors": 0.9,
+        "cumulative_share_of_publications": 0.4606
       },
       {
         "cumulative_share_of_authors": 1,
@@ -1456,26 +1720,62 @@
         "cumulative_share_of_publications": 0
       },
       {
+        "cumulative_share_of_authors": 0.1,
+        "cumulative_share_of_publications": 0.1
+      },
+      {
+        "cumulative_share_of_authors": 0.2,
+        "cumulative_share_of_publications": 0.2
+      },
+      {
+        "cumulative_share_of_authors": 0.3,
+        "cumulative_share_of_publications": 0.3
+      },
+      {
+        "cumulative_share_of_authors": 0.4,
+        "cumulative_share_of_publications": 0.4
+      },
+      {
+        "cumulative_share_of_authors": 0.5,
+        "cumulative_share_of_publications": 0.5
+      },
+      {
+        "cumulative_share_of_authors": 0.6,
+        "cumulative_share_of_publications": 0.6
+      },
+      {
+        "cumulative_share_of_authors": 0.7,
+        "cumulative_share_of_publications": 0.7
+      },
+      {
+        "cumulative_share_of_authors": 0.8,
+        "cumulative_share_of_publications": 0.8
+      },
+      {
+        "cumulative_share_of_authors": 0.9,
+        "cumulative_share_of_publications": 0.9
+      },
+      {
         "cumulative_share_of_authors": 1,
         "cumulative_share_of_publications": 1
       }
     ],
-    "specific_data_point": "The top 20% of authors account for 62.7% of all publications",
+    "specific_data_point": "The top 20% of authors account for 66.0% of all publications",
     "pie_chart_data": [
       {
         "category": "% publications by specific 20% authors",
-        "value": 62.7
+        "value": 66
       },
       {
         "category": "% publications by other 80% authors",
-        "value": 37.3
+        "value": 34
       }
     ],
     "key_findings": [
-      "Unequal Distribution: Significant disparity in publication output among authors.",
-      "High Concentration: A small percentage of authors is responsible for a large majority of published work."
+      "Unequal distribution: the Gini coefficient of publication counts is 0.57 across 37,658 identified authors.",
+      "High concentration: the top 10% of authors publish 53.9% of papers and the top 1% publish 23.7%, while the median author publishes a single paper."
     ],
-    "context": "Concentration of Research Output Among Authors"
+    "context": "Lorenz curve over the 37,658 authors identified in OpenAlex for IIT Bombay works, 2022-2026. Their 108,700 resolved authorship credits cover 117,174 authorship slots on 21,290 works. Queried 1 Oct 2026."
   },
   "changes_in_publication_author_counts": {
     "chart_type": "Line Chart",
@@ -1485,57 +1785,57 @@
     "data_points": [
       {
         "year": 2020,
-        "single_author": 0.15,
-        "2_5_authors": 0.8,
-        "6_plus_authors": 0.05
-      },
-      {
-        "year": 2020.5,
-        "single_author": 0.14,
-        "2_5_authors": 0.81,
-        "6_plus_authors": 0.05
+        "single_author": 0.043,
+        "2_5_authors": 0.774,
+        "6_plus_authors": 0.183
       },
       {
         "year": 2021,
-        "single_author": 0.14,
-        "2_5_authors": 0.81,
-        "6_plus_authors": 0.05
-      },
-      {
-        "year": 2021.5,
-        "single_author": 0.13,
-        "2_5_authors": 0.82,
-        "6_plus_authors": 0.05
+        "single_author": 0.049,
+        "2_5_authors": 0.759,
+        "6_plus_authors": 0.192
       },
       {
         "year": 2022,
-        "single_author": 0.13,
-        "2_5_authors": 0.82,
-        "6_plus_authors": 0.05
-      },
-      {
-        "year": 2022.5,
-        "single_author": 0.12,
-        "2_5_authors": 0.83,
-        "6_plus_authors": 0.05
+        "single_author": 0.05,
+        "2_5_authors": 0.749,
+        "6_plus_authors": 0.201
       },
       {
         "year": 2023,
-        "single_author": 0.12,
-        "2_5_authors": 0.83,
-        "6_plus_authors": 0.05
+        "single_author": 0.051,
+        "2_5_authors": 0.754,
+        "6_plus_authors": 0.195
+      },
+      {
+        "year": 2024,
+        "single_author": 0.049,
+        "2_5_authors": 0.736,
+        "6_plus_authors": 0.215
+      },
+      {
+        "year": 2025,
+        "single_author": 0.059,
+        "2_5_authors": 0.718,
+        "6_plus_authors": 0.223
+      },
+      {
+        "year": 2026,
+        "single_author": 0.092,
+        "2_5_authors": 0.696,
+        "6_plus_authors": 0.212
       }
     ],
     "key_findings": [
-      "Dominance of Teamwork: Small to medium-sized teams (2-5 authors) consistently produce over 80% of publications.",
-      "Decline of Solo Work: Single-author publications are very rare (approx. 2%) and showing a slight decline.",
-      "Growth of Large Teams: Research teams with 6 or more authors are responsible for a growing share, increasing from roughly 16% to 18% between 2020 and 2023."
+      "Large teams are gaining: papers with 6 or more authors rose from 18.3% (2020) to 22.3% (2025).",
+      "Two to five authors remains the backbone: 77.4% of papers in 2020, easing to 69.6% by 2026.",
+      "Solo authorship stays rare: 4.3% (2020) to 5.9% (2025), reaching 9.2% in the partial 2026 data."
     ],
-    "context": "Changes in Publication Author Counts"
+    "context": "Share of IIT Bombay publications by author-count band, OpenAlex, 2020-2026 (n = 29,015 works). 2026 is a partial year indexed to 1 Oct 2026. Queried 1 Oct 2026."
   },
   "funded_research_by_department": {
     "chart_type": "Pie Chart",
-    "title": "% of Funded Research by each Department",
+    "title": "Estimated share of funded research by department",
     "data_points": [
       {
         "department": "PH",
@@ -1575,11 +1875,11 @@
       }
     ],
     "key_findings": {
-      "top_funded": "PH (19.5%), Pure Science (17.9%), EE (14.6%). Together account for over half (52%) of all research funding.",
-      "mid_tier": "CSE (13%), ME (9.7%), CE (8.1%).",
-      "lowest_funded": "CL (4.9%), ES (5.8%), AE (6.5%)."
+      "top_funded": "PH (19.5%), Pure Science (17.9%) and EE (14.6%) together make up 52% of the indicative shares.",
+      "mid_tier": "CSE (13%), ME (9.7%) and CE (8.1%) on the same indicative shares.",
+      "lowest_funded": "CL (4.9%), ES (5.8%) and AE (6.5%). These are estimates for orientation, not a published department-wise split."
     },
-    "context": "% of Funded Research by each Department"
+    "context": "Indicative distribution across departments. IIT Bombay does not publish a department-wise split of R&D funding in its Annual Report 2024-25 or in DST reporting, so these shares are estimates for orientation only. The sourced FY 2024-25 funding figures are the agency-type shares, receipts and internal allocation shown below."
   },
   "top_funding_agencies": {
     "chart_type": "Bar Chart",
@@ -1623,14 +1923,14 @@
       }
     ],
     "key_insights": {
-      "dominance_of_dst": "DST is the overwhelmingly leading source of funding (1,413 counts).",
-      "dst_impact": "DST is the most critical and largest strategic partner.",
-      "next_tier": "IITB (755) and SERB (563).",
-      "csir_role": "Council of Scientific & Industrial Research (411 counts), focusing on applied and industrial research.",
-      "ugc_dbt_role": "Provide specialized support.",
-      "overall": "Funding is highly concentrated, with the top three agencies responsible for most of the volume."
+      "dominance_of_dst": "DST is the leading agency by project count (1,413 projects), well clear of every other entry.",
+      "dst_impact": "DST is the most critical and largest strategic partner: Rs 235.17 crore sanctioned for BharatGen under NM-ICPS and Rs 589 crore for the National Quantum Mission thematic hub in quantum sensing and metrology at IIT Bombay.",
+      "next_tier": "IITB (755 projects, institute-supported work) and SERB (563) form the next tier.",
+      "csir_role": "Council of Scientific & Industrial Research (411 projects), focused on applied and industrial research.",
+      "ugc_dbt_role": "UGC (241 projects) and DBT (208) provide specialized support alongside the larger mission agencies.",
+      "overall": "Project counts are highly concentrated: DST, IITB and SERB together account for 2,731 of the 4,003 projects shown (68%)."
     },
-    "context": "Top Funding Agencies"
+    "context": "Number of projects attributed to each funding agency across the IRINS/Crossref record. Amounts by type of agency for FY 2024-25 are in the next section."
   },
   "top_funded_research_topics_yearly": [
     {
@@ -1726,7 +2026,7 @@
           "value": 3
         }
       ],
-      "summary": "Focus became more geographically specific with 'India' at the top. Foundational materials science ('Microstructure') and AI ('Deep Learning') solidified high-priority status. New entries like 'Additive Manufacturing' and 'Remote Sensing' indicated a broadening of funding into applied engineering and environmental technologies.",
+      "summary": "Reliability tops the funded topics (12), with India (11), Microstructure (10) and Climate Change (9) just behind. Foundational materials science and AI stay high priority: Deep Learning is fifth (8). New entries such as Remote Sensing (7) and Additive Manufacturing (6) show funding broadening into applied engineering and environmental technologies.",
       "page": "40"
     },
     {
@@ -1822,7 +2122,7 @@
           "value": 1
         }
       ],
-      "summary": "Environmental issues became the foremost priority with 'Climate Change' rising to #1. Clear emphasis on advanced experimental techniques ('X-ray Diffraction'). Strong return of 'Photoluminescence'.",
+      "summary": "Environmental issues became the foremost priority with 'Climate Change' rising to #1 (10). Clear emphasis on advanced experimental techniques, with X-ray Diffraction second (9), and Photoluminescence climbing to third (8) after ranking sixth in 2022.",
       "page": "42"
     },
     {
@@ -1870,7 +2170,7 @@
           "value": 1
         }
       ],
-      "summary": "AI trend solidifies with 'Machine Learning' and 'Algorithms' ranking as top priorities. 'COVID-19' drops from the top 10, indicating a shift in global health priorities into a post-pandemic phase.",
+      "summary": "Machine Learning tops the funded topics (10), ahead of Density Functional Theory (8) and Microstructure (7), with India still a common tag (9). Clean energy stays in the list through Hydrogen Storage (6), while Deep Learning slips to ninth (2).",
       "page": "43"
     }
   ],
@@ -9724,16 +10024,214 @@
     "source": "Professors Database.csv"
   },
   "recommendations": [
-    "Enhance Global Collaboration Visibility: While Monash University is highlighted, a more detailed visualization of the top 5-10 international partners and their contributions would be beneficial. Consider a world map visualization showing collaboration density.",
+    "Enhance Global Collaboration Visibility: The top 10 university partners and country-level collaboration shares are now shown, with Monash University (551 joint papers) far ahead of the rest. A world map visualization of collaboration density would complete the picture.",
     "Deep Dive into High-Impact Departments: For departments like Physics, Chemistry, and Electrical Engineering, further detailed reports on their specific research breakthroughs, leading research groups, and flagship projects could be developed.",
-    "Promote Open Access Further: Given the significant citation advantage, IIT Bombay should continue to advocate for and support open access publishing among its researchers. This could include workshops or funding incentives.",
+    "Promote Open Access Further: Publisher-hosted open access already outperforms closed access on citations (hybrid 8.96 and gold 8.66 against 6.06 for closed), while repository-hosted green copies average only 2.26. IIT Bombay should keep supporting open access publishing and encourage authors to deposit accepted manuscripts, through workshops or funding incentives.",
     "Leverage the Professor Research Database: Actively promote the iitb.irins.org database as a resource for internal and external stakeholders to identify research expertise, fostering potential collaborations and interdisciplinary projects.",
-    "Analyze Funding Gaps: For departments with lower funding percentages (e.g., CL, ES, AE), investigate the reasons and explore strategies to secure more research funding in these areas, if deemed strategically important.",
-    "Visualize Research Trends Over Time: Beyond the bubble charts for research topics, consider time-series charts for the growth of key areas like AI/ML, Clean Energy, and Materials Science across multiple years to illustrate their trajectory.",
+    "Analyze Funding Gaps: The department shares shown are indicative estimates, not published figures. For the departments at the lower end (CL, ES, AE), investigate the reasons and explore strategies to secure more research funding, if deemed strategically important.",
+    "Visualize Research Trends Over Time: The Timeline page and the year selector on Publications already show 2020 to 2026 trends for topics and author counts. Longer time-series views for AI/ML, Clean Energy and Materials Science would make the trajectory clearer still.",
     "Develop Case Studies: Create detailed case studies of successful research projects, innovations, or patents that have had a significant global impact, showcasing the practical application of IIT Bombay's research."
   ],
   "contact_website_information": {
     "general_website": "iitb.irins.org",
     "contact_notes": "The report implicitly refers to IIT Bombay as the subject institution."
+  },
+  "funding_agency_type_breakdown": {
+    "chart_type": "Bar Chart",
+    "title": "Funding by type of agency, FY 2024-25",
+    "x_axis_label": "Type of funding agency",
+    "y_axis_label": "Share of R&D receipts (%)",
+    "data_points": [
+      {
+        "agency_type": "Government",
+        "share_pct": 59,
+        "amount_cr": 270.49
+      },
+      {
+        "agency_type": "Industry",
+        "share_pct": 26,
+        "amount_cr": 119.2
+      },
+      {
+        "agency_type": "Foreign Others",
+        "share_pct": 7,
+        "amount_cr": 32.09
+      },
+      {
+        "agency_type": "Foreign Industry",
+        "share_pct": 5,
+        "amount_cr": 22.92
+      },
+      {
+        "agency_type": "Others",
+        "share_pct": 3,
+        "amount_cr": 13.75
+      }
+    ],
+    "receipts_base_cr": 458.45,
+    "receipts_breakdown": [
+      {
+        "item": "Sponsored projects",
+        "amount_cr": 301.25
+      },
+      {
+        "item": "Consultancy projects",
+        "amount_cr": 157.2
+      },
+      {
+        "item": "Royalty",
+        "amount_cr": 1.77
+      },
+      {
+        "item": "Equipment usage",
+        "amount_cr": 11.34
+      },
+      {
+        "item": "Total external grants for R&D",
+        "amount_cr": 471.56
+      }
+    ],
+    "major_sponsored_projects_fy2024_25": [
+      {
+        "project": "Optical links with free-space high-bandwidth coherent chipsets",
+        "agency": "Centre for Development of Telematics (C-DOT)",
+        "amount_cr": 63,
+        "duration_years": 4
+      },
+      {
+        "project": "Scale-up of Perovskite Tandem Solar Cells (Phase I)",
+        "agency": "Ministry of New and Renewable Energy",
+        "amount_cr": 45.74,
+        "duration_years": 3
+      },
+      {
+        "project": "Optical Transceiver Chipset for High-Bandwidth 6G Wireless Links",
+        "agency": "Centre for Development of Telematics (C-DOT)",
+        "amount_cr": 13.2,
+        "duration_years": 3
+      },
+      {
+        "project": "Perovskite Solar Modules",
+        "agency": "Ministry of New and Renewable Energy",
+        "amount_cr": 7.85,
+        "duration_years": 3
+      },
+      {
+        "project": "Addressing Newborn Nutritional Health in Meghalaya",
+        "agency": "Bill and Melinda Gates Foundation",
+        "amount_cr": 5.65,
+        "duration_years": 2
+      },
+      {
+        "project": "NeuroFlex: RRAM-Enhanced Neural Interfaces",
+        "agency": "Ministry of Electronics and Information Technology",
+        "amount_cr": 4.9,
+        "duration_years": 3
+      },
+      {
+        "project": "National Disease Modelling Consortium Phase II",
+        "agency": "Indian Council of Medical Research",
+        "amount_cr": 4.8,
+        "duration_years": 4
+      },
+      {
+        "project": "Information Security Research in Futuristic Technology",
+        "agency": "Ministry of Electronics and Information Technology",
+        "amount_cr": 4.7,
+        "duration_years": 5
+      },
+      {
+        "project": "Multi-Centric and Interdisciplinary Cancer Immunotherapy Network (CIN)",
+        "agency": "Department of Biotechnology",
+        "amount_cr": 4.5,
+        "duration_years": 3
+      },
+      {
+        "project": "Forecasting of generation from renewable energy sources in India",
+        "agency": "Grid Controller of India (National Load Despatch Centre)",
+        "amount_cr": 4.1,
+        "duration_years": 4
+      }
+    ],
+    "dst_awards": [
+      {
+        "project": "BharatGen: sovereign multilingual and multimodal language models, via the TIH Foundation for IoT and IoE",
+        "amount_cr": 235.17,
+        "source": "DST / PIB release, 30 July 2025"
+      },
+      {
+        "project": "National Quantum Mission thematic hub for quantum sensing and metrology (QMET)",
+        "amount_cr": 589,
+        "source": "IIT Bombay Annual Report 2024-25"
+      }
+    ],
+    "internal_funding": {
+      "title": "Institute internal funding for R&D, FY 2024-25",
+      "total_cr": 43,
+      "seed_grant_cr": 7,
+      "data_points": [
+        {
+          "purpose": "Student Fellowship Support",
+          "share_pct": 18
+        },
+        {
+          "purpose": "RDF (Researcher Development Fund)",
+          "share_pct": 18
+        },
+        {
+          "purpose": "Research Infrastructure Maintenance",
+          "share_pct": 17
+        },
+        {
+          "purpose": "Seed Grants + Augmented Seed Grants",
+          "share_pct": 16
+        },
+        {
+          "purpose": "Other",
+          "share_pct": 11
+        },
+        {
+          "purpose": "Patent Charges",
+          "share_pct": 9
+        },
+        {
+          "purpose": "FRD",
+          "share_pct": 6
+        },
+        {
+          "purpose": "TAP SG",
+          "share_pct": 5
+        }
+      ],
+      "other_breakdown": [
+        {
+          "purpose": "Student Technical Projects",
+          "share_pct": 5
+        },
+        {
+          "purpose": "IRCC Internship",
+          "share_pct": 4
+        },
+        {
+          "purpose": "Awards",
+          "share_pct": 1
+        },
+        {
+          "purpose": "Miscellaneous",
+          "share_pct": 1
+        }
+      ]
+    },
+    "key_insights": {
+      "government_share": "Government agencies funded 59% of the Rs 458.45 crore received from sponsored and consultancy projects in FY 2024-25, about Rs 270.49 crore.",
+      "industry_share": "Indian industry was the largest non-government source at 26%, about Rs 119.20 crore.",
+      "foreign_share": "Foreign sources together contributed 12%, about Rs 55.01 crore: 7% foreign organizations and 5% foreign industry.",
+      "non_government": "Non-government sources (Indian and foreign industry plus other organizations) contributed close to 40% of receipts, as stated in the Annual Report.",
+      "growth": "Total external grants for R&D rose to Rs 471.56 crore in FY 2024-25, 10% above the Rs 428.36 crore received in FY 2023-24.",
+      "dst": "DST remains the single largest strategic partner, with Rs 235.17 crore for BharatGen under NM-ICPS and Rs 589 crore sanctioned for the National Quantum Mission thematic hub in quantum sensing and metrology at IIT Bombay.",
+      "internal": "The Institute released Rs 43 crore of its own money for R&D in FY 2024-25, of which Rs 7 crore was seed and augmented seed grant for new faculty."
+    },
+    "source": "IIT Bombay Annual Report 2024-25, Table 1, Table 2, Figure 1 and Figure 2 (Office of the Dean, R&D); DST and PIB releases",
+    "context": "Share of R&D receipts by type of funding agency in FY 2024-25, measured on the Rs 458.45 crore received from sponsored and consultancy projects. Rupee amounts under each share are derived from the published percentages. Total external grants, including royalty and equipment usage, were Rs 471.56 crore."
   }
 }

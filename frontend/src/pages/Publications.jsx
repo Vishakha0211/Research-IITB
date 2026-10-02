@@ -54,15 +54,20 @@ export default function Publications() {
       <Section title="Publication Mix Composition" note={mix.context}>
         <Card>
           <BarChart
-            height={320}
+            horizontal
+            height={420}
             labels={mix.data_points?.map((d) => d.publication_type) || []}
             data={mix.data_points?.map((d) => d.count) || []}
-            label="Count"
+            label="Publications"
             colors={(mix.data_points || []).map((d) => (d.count > 0 ? '#0d86a6' : '#cbd5e1'))}
           />
           <DataDetails
-            headers={['Publication type', 'Count']}
-            rows={(mix.data_points || []).map((d) => ({ 'Publication type': d.publication_type, Count: d.count }))}
+            headers={['Publication type', 'Publications', 'Share (%)']}
+            rows={(mix.data_points || []).map((d) => ({
+              'Publication type': d.publication_type,
+              Publications: d.count,
+              'Share (%)': d.share_pct
+            }))}
           />
         </Card>
       </Section>
@@ -74,7 +79,7 @@ export default function Publications() {
             labels={institutions}
             datasets={[
               { label: 'Publications', data: institutions.map((i) => pubs.find((p) => p.institution === i)?.publications || 0), color: '#0d86a6' },
-              { label: 'Patents (×50 scale shown as raw)', data: institutions.map((i) => patentsByInst[i] || 0), color: CH.navy }
+              { label: 'Patents (×50 scale)', data: institutions.map((i) => (patentsByInst[i] || 0) * 50), color: CH.navy }
             ]}
           />
           <Findings items={output.key_findings} tone="gold" />
@@ -95,6 +100,13 @@ export default function Publications() {
 
         <Section title="Authorship Distribution" note={auth.context}>
           <Card title={auth.title}>
+            <BarChart
+              height={300}
+              labels={(auth.data_points || []).map((d) => d.team_size)}
+              data={(auth.data_points || []).map((d) => d.papers)}
+              label="Papers"
+              colors={(auth.data_points || []).map((d) => (d.papers > 0 ? '#0d86a6' : '#cbd5e1'))}
+            />
             <Findings items={auth.key_findings} tone="navy" />
             <div className="card-note" style={{ marginTop: 12 }}>Implications</div>
             <Findings items={auth.implications} tone="gold" />
@@ -129,7 +141,7 @@ export default function Publications() {
             <Findings items={trend.key_findings} tone="gold" />
             <Callout>
               {totals.publication_trends_by_team_size &&
-                `Team-size summary: ${totals.publication_trends_by_team_size.single_author_proportion} single author · ${totals.publication_trends_by_team_size.small_medium_teams_proportion} small/medium teams · large teams grew from ${totals.publication_trends_by_team_size.large_teams_proportion_2020} (2020) to ${totals.publication_trends_by_team_size.large_teams_proportion_2023} (2023).`}
+                `Team-size summary: ${totals.publication_trends_by_team_size.single_author_proportion} single author · ${totals.publication_trends_by_team_size.small_medium_teams_proportion} small/medium teams · large teams grew from ${totals.publication_trends_by_team_size.large_teams_proportion_2020} (2020) to ${totals.publication_trends_by_team_size.large_teams_proportion_2025} (2025).`}
             </Callout>
           </Card>
         </div>

@@ -13,7 +13,7 @@ const PAGES = [
   { to: '/funding', label: 'Funding', desc: 'Grants by department and agency' },
   { to: '/professors', label: 'Professors', desc: 'Searchable professor database' },
   { to: '/departments', label: 'Departments', desc: 'Department profiles and faculty' },
-  { to: '/timeline', label: 'Timeline', desc: 'Five-year research story' },
+  { to: '/timeline', label: 'Timeline', desc: 'Year-by-year research story' },
   { to: '/about', label: 'About', desc: 'The DAV team behind the portal' }
 ];
 

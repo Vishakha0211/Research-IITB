@@ -17,7 +17,7 @@ export default function Dashboard() {
     { to: '/impact', label: 'Research Impact by Department' },
     { to: '/excellence', label: 'Rankings & H-Index' },
     { to: '/publications', label: 'Publications & Authors' },
-    { to: '/topics', label: 'Key Research Topics 2020-2024' },
+    { to: '/topics', label: 'Key Research Topics 2020-2026' },
     { to: '/collaborations', label: 'Domestic & Global Network' },
     { to: '/funding', label: 'Funding Agencies & Departments' },
     { to: '/professors', label: 'Professor Research Database' },
@@ -26,7 +26,7 @@ export default function Dashboard() {
 
   return (
     <>
-      <PageIntro title="Five years of research." accent="One live portal." eyebrow="IIT Bombay · Executive summary">
+      <PageIntro title="Seven years of research." accent="One live portal." eyebrow="IIT Bombay · Executive summary">
         {report.meta?.executive_summary}
       </PageIntro>
 
@@ -46,10 +46,11 @@ export default function Dashboard() {
           note={report.publication_mix_composition?.context}
         >
           <BarChart
-            height={300}
+            horizontal
+            height={420}
             labels={pubMix.map((p) => p.publication_type)}
             data={pubMix.map((p) => p.count)}
-            label="Count"
+            label="Publications"
           />
         </Card>
 

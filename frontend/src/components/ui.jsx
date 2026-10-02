@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export function PageIntro({ title, accent, eyebrow = 'IIT Bombay · Last 5 years of research', children }) {
+export function PageIntro({ title, accent, eyebrow = 'IIT Bombay · Seven years of research', children }) {
   return (
     <div className="page-intro">
       <div className="eyebrow">{eyebrow}</div>

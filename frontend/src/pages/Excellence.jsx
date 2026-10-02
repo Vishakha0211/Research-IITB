@@ -66,9 +66,9 @@ export default function Excellence() {
             <Findings
               items={[
                 `Top performer: ${hvsq.top_performer}`,
-                `Correlation coefficient: ${hvsq.correlation_coefficient} (negative - lower QS rank number associates with higher h-index)`,
+                `Correlation coefficient: ${hvsq.correlation_coefficient} (negative: a lower QS rank number, i.e. a better rank, goes with a higher h-index)`,
                 ...(hvsq.outliers || []).map((o) => `Outlier: ${o}`),
-                ...(hvsq.other_strong_performers || []).map((p) => `Strong performer: ${p}`)
+                ...(hvsq.other_strong_performers || []).map((p) => `Competitive QS rank: ${p}`)
               ]}
             />
           </Card>
