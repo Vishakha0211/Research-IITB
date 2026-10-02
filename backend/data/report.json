@@ -8,38 +8,38 @@
   "general_statistics": [
     {
       "metric": "Rank in India",
-      "value": "1st",
-      "context": "QS world ranking"
+      "value": "2nd",
+      "context": "QS World University Rankings 2027 (IIT Delhi 1st)"
     },
     {
       "metric": "QS World Ranking",
-      "value": "118th",
-      "context": "QS world ranking"
+      "value": "134th",
+      "context": "QS World University Rankings 2027 (published 18 June 2026)"
     },
     {
       "metric": "Departments and centres",
-      "value": 26,
-      "context": "IITB at a Glance"
+      "value": 27,
+      "context": "IRINS"
     },
     {
       "metric": "Faculties & scientists",
-      "value": 695,
-      "context": "IITB at a Glance"
+      "value": 613,
+      "context": "IRINS (active researchers; 1,056 present & past)"
     },
     {
       "metric": "Patents",
-      "value": 881,
-      "context": "IITB at a Glance"
+      "value": 1142,
+      "context": "IRINS (filed & granted)"
     },
     {
       "metric": "Publications",
-      "value": 39437,
-      "context": "IITB at a Glance"
+      "value": 39821,
+      "context": "IRINS"
     },
     {
       "metric": "Citations",
-      "value": 876409,
-      "context": "IITB at a Glance"
+      "value": 909949,
+      "context": "IRINS (Scopus)"
     }
   ],
   "named_research_areas_centres": [
@@ -86,8 +86,8 @@
     "Metallurgical & Materials Engg."
   ],
   "publications_patents": {
-    "total_publications": 39437,
-    "total_patents": 881,
+    "total_publications": 39821,
+    "total_patents": 1142,
     "publication_trends_by_team_size": {
       "single_author_proportion": "approx. 2%",
       "small_medium_teams_proportion": "> 80%",
@@ -103,114 +103,114 @@
     "data_points": [
       {
         "department": "Electrical",
-        "number_of_faculty_x100": 0.69,
+        "number_of_faculty_x100": 0.61,
         "average_citations_per_faculty": 3500
       },
       {
         "department": "Mechanical",
-        "number_of_faculty_x100": 0.55,
+        "number_of_faculty_x100": 0.53,
         "average_citations_per_faculty": 3200
       },
       {
         "department": "Civil",
-        "number_of_faculty_x100": 0.51,
+        "number_of_faculty_x100": 0.48,
         "average_citations_per_faculty": 3000
       },
       {
         "department": "Physics",
-        "number_of_faculty_x100": 0.3,
+        "number_of_faculty_x100": 0.38,
         "average_citations_per_faculty": 6500
       },
       {
         "department": "Chemistry",
-        "number_of_faculty_x100": 0.45,
+        "number_of_faculty_x100": 0.33,
         "average_citations_per_faculty": 4500
       },
       {
         "department": "Chemical",
-        "number_of_faculty_x100": 0.35,
+        "number_of_faculty_x100": 0.37,
         "average_citations_per_faculty": 4000
       },
       {
         "department": "HSS",
-        "number_of_faculty_x100": 0.25,
+        "number_of_faculty_x100": 0.38,
         "average_citations_per_faculty": 2500
       },
       {
         "department": "Biosciences",
-        "number_of_faculty_x100": 0.2,
+        "number_of_faculty_x100": 0.26,
         "average_citations_per_faculty": 2300
       },
       {
         "department": "IDC",
-        "number_of_faculty_x100": 0.18,
+        "number_of_faculty_x100": 0.25,
         "average_citations_per_faculty": 1800
       },
       {
         "department": "Aerospace",
-        "number_of_faculty_x100": 0.15,
+        "number_of_faculty_x100": 0.23,
         "average_citations_per_faculty": 1500
       },
       {
         "department": "Earth Science",
-        "number_of_faculty_x100": 0.12,
+        "number_of_faculty_x100": 0.18,
         "average_citations_per_faculty": 1300
       },
       {
         "department": "Management",
-        "number_of_faculty_x100": 0.1,
+        "number_of_faculty_x100": 0.18,
         "average_citations_per_faculty": 1000
       },
       {
         "department": "Energy Science",
-        "number_of_faculty_x100": 0.08,
+        "number_of_faculty_x100": 0.2,
         "average_citations_per_faculty": 800
       },
       {
         "department": "ESED",
-        "number_of_faculty_x100": 0.07,
+        "number_of_faculty_x100": 0.09,
         "average_citations_per_faculty": 700
       },
       {
         "department": "IEOR",
-        "number_of_faculty_x100": 0.06,
+        "number_of_faculty_x100": 0.01,
         "average_citations_per_faculty": 600
       },
       {
         "department": "CTARA",
-        "number_of_faculty_x100": 0.05,
+        "number_of_faculty_x100": 0.11,
         "average_citations_per_faculty": 500
       },
       {
         "department": "C-USE",
-        "number_of_faculty_x100": 0.04,
+        "number_of_faculty_x100": 0.03,
         "average_citations_per_faculty": 400
       },
       {
         "department": "Educational Technology",
-        "number_of_faculty_x100": 0.03,
+        "number_of_faculty_x100": 0.05,
         "average_citations_per_faculty": 300
       },
       {
         "department": "Climate Studies",
-        "number_of_faculty_x100": 0.02,
+        "number_of_faculty_x100": 0.04,
         "average_citations_per_faculty": 200
       }
     ],
-    "correlation_coefficient": 0.322,
-    "correlation_description": "A 0.322 correlation indicates a weak positive link, meaning department size only slightly predicts higher research impact per faculty member.",
+    "correlation_coefficient": 0.769,
+    "correlation_description": "A 0.769 correlation indicates a strong positive link, meaning department size strongly predict higher research impact per faculty member.",
     "largest_departments": [
       {
         "name": "Electrical Engineering",
-        "faculty_count": 69
+        "faculty_count": 61
       },
       {
         "name": "Mechanical Engineering",
-        "faculty_count": 55
+        "faculty_count": 53
       },
       {
         "name": "Civil Engineering",
-        "faculty_count": 51
+        "faculty_count": 48
       }
     ],
     "highest_research_impact_department": "Physics (over 6,000 average citations per faculty)",
@@ -223,22 +223,30 @@
     "data_points": [
       {
         "access_type": "Closed Access",
-        "count": 15000
-      },
-      {
-        "access_type": "Gold Open Access",
-        "count": 2500
+        "count": 11911
       },
       {
         "access_type": "Green Open Access",
-        "count": 1800
+        "count": 4044
+      },
+      {
+        "access_type": "Gold Open Access",
+        "count": 2454
+      },
+      {
+        "access_type": "Hybrid Open Access",
+        "count": 1128
+      },
+      {
+        "access_type": "Diamond Open Access",
+        "count": 983
       },
       {
         "access_type": "Bronze Open Access",
-        "count": 1500
+        "count": 770
       }
     ],
-    "context": "Access Models in Scholarly Publishing"
+    "context": "Open access status of IIT Bombay works published 2022-2026 (n = 21,290), source OpenAlex, queried 1 Oct 2026"
   },
   "open_access_citation_advantage": {
     "chart_type": "Bar Chart",
@@ -247,142 +255,161 @@
     "y_axis_label": "Average Citations",
     "data_points": [
       {
-        "access_type": "Open Access",
-        "average_citations": 10.27
+        "access_type": "Hybrid Open Access",
+        "average_citations": 8.96
       },
       {
-        "access_type": "Not Open Access",
-        "average_citations": 7.68
+        "access_type": "Gold Open Access",
+        "average_citations": 8.66
+      },
+      {
+        "access_type": "Bronze Open Access",
+        "average_citations": 6.27
+      },
+      {
+        "access_type": "Closed Access",
+        "average_citations": 6.06
+      },
+      {
+        "access_type": "Diamond Open Access",
+        "average_citations": 4.94
+      },
+      {
+        "access_type": "Green Open Access",
+        "average_citations": 2.26
       }
     ],
-    "key_finding": "Publications designated as 'Open Access' are cited, on average, 34% more than those that are not open access.",
-    "total_articles_analyzed": 11816,
-    "open_access_articles": 2003,
-    "not_open_access_articles": 9813,
-    "context": "Significant impact of open access on research visibility and influence"
+    "key_finding": "Publisher-hosted open access outperforms closed access: hybrid (8.96) and gold (8.66) papers average more citations than closed papers (6.06). Counting every open-access status together the average is 5.35 citations, below the 6.06 closed-access average, because repository-hosted green copies (2.26) and diamond-journal copies (4.94) make up more than half of the open set.",
+    "total_articles_analyzed": 21290,
+    "open_access_articles": 9379,
+    "not_open_access_articles": 11911,
+    "context": "IIT Bombay works published 2022-2026, source OpenAlex, queried 1 Oct 2026; averages are lifetime citations received by those works",
+    "open_access_average_citations": 5.35,
+    "not_open_access_average_citations": 6.06
   },
   "research_impact_across_departments": {
     "chart_type": "Bar Chart",
     "x_axis_label": "Department",
-    "y_axis_label": "Citations",
+    "y_axis_label": "Count",
     "data_points": [
       {
-        "department": "CRNTS",
-        "citations": 5000,
-        "crossref_citations": 4000
-      },
-      {
-        "department": "CTARA",
-        "citations": 7000,
-        "crossref_citations": 5000
-      },
-      {
-        "department": "C-USE",
-        "citations": 10000,
-        "crossref_citations": 7000
-      },
-      {
-        "department": "CSRE",
-        "citations": 15000,
-        "crossref_citations": 10000
-      },
-      {
-        "department": "Climate Studies",
-        "citations": 20000,
-        "crossref_citations": 12000
-      },
-      {
-        "department": "Aerospace",
-        "citations": 25000,
-        "crossref_citations": 16000
-      },
-      {
-        "department": "BSBE",
-        "citations": 30000,
-        "crossref_citations": 20000
-      },
-      {
-        "department": "Chemical",
-        "citations": 60000,
-        "crossref_citations": 40000
+        "department": "Electrical Engineering",
+        "publications": 5821,
+        "citations": 84549
       },
       {
         "department": "Chemistry",
-        "citations": 120000,
-        "crossref_citations": 90000
-      },
-      {
-        "department": "Civil",
-        "citations": 70000,
-        "crossref_citations": 50000
-      },
-      {
-        "department": "CSE",
-        "citations": 40000,
-        "crossref_citations": 30000
-      },
-      {
-        "department": "Earth Sciences",
-        "citations": 35000,
-        "crossref_citations": 25000
-      },
-      {
-        "department": "EE",
-        "citations": 100000,
-        "crossref_citations": 80000
-      },
-      {
-        "department": "ESE",
-        "citations": 30000,
-        "crossref_citations": 20000
-      },
-      {
-        "department": "HSS",
-        "citations": 15000,
-        "crossref_citations": 10000
-      },
-      {
-        "department": "IDC",
-        "citations": 20000,
-        "crossref_citations": 15000
-      },
-      {
-        "department": "Mathematics",
-        "citations": 45000,
-        "crossref_citations": 35000
-      },
-      {
-        "department": "Mechanical",
-        "citations": 48000,
-        "crossref_citations": 40000
-      },
-      {
-        "department": "MEMS",
-        "citations": 50000,
-        "crossref_citations": 42000
+        "publications": 2858,
+        "citations": 71587
       },
       {
         "department": "Physics",
-        "citations": 170000,
-        "crossref_citations": 150000
+        "publications": 2730,
+        "citations": 162495
       },
       {
-        "department": "SCE",
-        "citations": 40000,
-        "crossref_citations": 30000
+        "department": "Civil Engineering",
+        "publications": 2690,
+        "citations": 53460
       },
       {
-        "department": "ET",
-        "citations": 20000,
-        "crossref_citations": 15000
+        "department": "Mechanical Engineering",
+        "publications": 2530,
+        "citations": 43128
       },
       {
-        "department": "SJMSOM",
-        "citations": 15000,
-        "crossref_citations": 12000
+        "department": "Chemical Engineering",
+        "publications": 2032,
+        "citations": 48769
+      },
+      {
+        "department": "Metallurgical Engineering and Materials Science",
+        "publications": 1718,
+        "citations": 38552
+      },
+      {
+        "department": "Aerospace Engineering",
+        "publications": 1241,
+        "citations": 21701
+      },
+      {
+        "department": "Energy Science and Engineering",
+        "publications": 992,
+        "citations": 20692
+      },
+      {
+        "department": "Earth Sciences",
+        "publications": 830,
+        "citations": 14779
+      },
+      {
+        "department": "Biosciences and Bioengineering",
+        "publications": 716,
+        "citations": 15220
+      },
+      {
+        "department": "Mathematics",
+        "publications": 674,
+        "citations": 4464
+      },
+      {
+        "department": "Centre of Studies in Resources Engineering (CSRE)",
+        "publications": 495,
+        "citations": 7925
+      },
+      {
+        "department": "Environmental Science & Engineering Department (ESED)",
+        "publications": 482,
+        "citations": 21090
+      },
+      {
+        "department": "Computer Science and Engineering",
+        "publications": 422,
+        "citations": 8950
+      },
+      {
+        "department": "Humanities and Social Sciences",
+        "publications": 413,
+        "citations": 5945
+      },
+      {
+        "department": "Systems and Control Engineering",
+        "publications": 392,
+        "citations": 2981
+      },
+      {
+        "department": "Shailesh J Mehta School of Management",
+        "publications": 371,
+        "citations": 6952
+      },
+      {
+        "department": "Centre for Technology Alternatives for Rural Areas(CTARA)",
+        "publications": 301,
+        "citations": 6866
+      },
+      {
+        "department": "Industrial Design Center",
+        "publications": 223,
+        "citations": 1261
+      },
+      {
+        "department": "Educational Technology",
+        "publications": 180,
+        "citations": 1208
+      },
+      {
+        "department": "Climate Studies",
+        "publications": 164,
+        "citations": 4770
+      },
+      {
+        "department": "Centre for Urban Science and Engineering (C-USE)",
+        "publications": 39,
+        "citations": 608
       }
     ],
-    "context": "Research Impact Across Departments"
+    "context": "Research Impact Across Departments - Source: IRINS (Crossref), Oct 2026",
+    "title": "Publications vs Crossref citations by department"
   },
   "research_excellence_volume_voice": {
     "chart_type": "Combination Chart (Bar & Line)",
@@ -393,124 +420,124 @@
     ],
     "data_points": [
       {
-        "department": "CRNTS",
-        "publications": 500,
-        "h_index": 20
-      },
-      {
-        "department": "CTARA",
-        "publications": 800,
-        "h_index": 40
-      },
-      {
-        "department": "C-USE",
-        "publications": 1200,
-        "h_index": 60
-      },
-      {
-        "department": "CSRE",
-        "publications": 1500,
-        "h_index": 80
-      },
-      {
-        "department": "Climate Studies",
-        "publications": 1800,
-        "h_index": 100
-      },
-      {
-        "department": "Aerospace",
-        "publications": 2200,
-        "h_index": 120
-      },
-      {
-        "department": "BSBE",
-        "publications": 2500,
-        "h_index": 150
-      },
-      {
-        "department": "Chemical",
-        "publications": 3000,
-        "h_index": 200
+        "department": "Electrical Engineering",
+        "publications": 5821,
+        "h_index": 110
       },
       {
         "department": "Chemistry",
-        "publications": 4000,
-        "h_index": 300
-      },
-      {
-        "department": "Civil",
-        "publications": 2800,
-        "h_index": 250
-      },
-      {
-        "department": "CSE",
-        "publications": 3500,
-        "h_index": 400
-      },
-      {
-        "department": "Earth Sciences",
-        "publications": 2000,
-        "h_index": 150
-      },
-      {
-        "department": "EE",
-        "publications": 6500,
-        "h_index": 500
-      },
-      {
-        "department": "ESE",
-        "publications": 1000,
-        "h_index": 100
-      },
-      {
-        "department": "HSS",
-        "publications": 1800,
-        "h_index": 120
-      },
-      {
-        "department": "IDC",
-        "publications": 1500,
-        "h_index": 130
-      },
-      {
-        "department": "Mathematics",
-        "publications": 2000,
-        "h_index": 160
-      },
-      {
-        "department": "Mechanical",
-        "publications": 3000,
-        "h_index": 250
-      },
-      {
-        "department": "MEMS",
-        "publications": 4000,
-        "h_index": 300
+        "publications": 2858,
+        "h_index": 104
       },
       {
         "department": "Physics",
-        "publications": 2500,
-        "h_index": 5500
+        "publications": 2730,
+        "h_index": 178
       },
       {
-        "department": "SCE",
-        "publications": 1000,
-        "h_index": 100
+        "department": "Civil Engineering",
+        "publications": 2690,
+        "h_index": 95
       },
       {
-        "department": "ET",
-        "publications": 800,
-        "h_index": 80
+        "department": "Mechanical Engineering",
+        "publications": 2530,
+        "h_index": 88
       },
       {
-        "department": "SJMSOM",
-        "publications": 500,
-        "h_index": 50
+        "department": "Chemical Engineering",
+        "publications": 2032,
+        "h_index": 89
+      },
+      {
+        "department": "Metallurgical Engineering and Materials Science",
+        "publications": 1718,
+        "h_index": 85
+      },
+      {
+        "department": "Aerospace Engineering",
+        "publications": 1241,
+        "h_index": 65
+      },
+      {
+        "department": "Energy Science and Engineering",
+        "publications": 992,
+        "h_index": 69
+      },
+      {
+        "department": "Earth Sciences",
+        "publications": 830,
+        "h_index": 58
+      },
+      {
+        "department": "Biosciences and Bioengineering",
+        "publications": 716,
+        "h_index": 54
+      },
+      {
+        "department": "Mathematics",
+        "publications": 674,
+        "h_index": 22
+      },
+      {
+        "department": "Centre of Studies in Resources Engineering (CSRE)",
+        "publications": 495,
+        "h_index": 45
+      },
+      {
+        "department": "Environmental Science & Engineering Department (ESED)",
+        "publications": 482,
+        "h_index": 70
+      },
+      {
+        "department": "Computer Science and Engineering",
+        "publications": 422,
+        "h_index": 46
+      },
+      {
+        "department": "Humanities and Social Sciences",
+        "publications": 413,
+        "h_index": 31
+      },
+      {
+        "department": "Systems and Control Engineering",
+        "publications": 392,
+        "h_index": 26
+      },
+      {
+        "department": "Shailesh J Mehta School of Management",
+        "publications": 371,
+        "h_index": 38
+      },
+      {
+        "department": "Centre for Technology Alternatives for Rural Areas(CTARA)",
+        "publications": 301,
+        "h_index": 42
+      },
+      {
+        "department": "Industrial Design Center",
+        "publications": 223,
+        "h_index": 18
+      },
+      {
+        "department": "Educational Technology",
+        "publications": 180,
+        "h_index": 18
+      },
+      {
+        "department": "Climate Studies",
+        "publications": 164,
+        "h_index": 38
+      },
+      {
+        "department": "Centre for Urban Science and Engineering (C-USE)",
+        "publications": 39,
+        "h_index": 13
       }
     ],
-    "loudest_voice_department": "Physics (highest h-index)",
-    "highest_volume_department": "Electrical Engineering (greatest quantity of research papers)",
-    "context": "What Defines Research Excellence: Volume or Voice?"
+    "loudest_voice_department": "Physics (highest h-index: 178)",
+    "highest_volume_department": "Electrical Engineering (5,821 publications)",
+    "context": "What Defines Research Excellence: Volume or Voice? - Source: IRINS (Crossref), Oct 2026"
   },
   "h_index_vs_qs_rankings": {
     "chart_type": "Combination Chart (Bar & Line)",
@@ -524,56 +551,56 @@
       {
         "department": "Electrical Engg",
         "qs_ranking": 50,
-        "h_index": 1150
+        "h_index": 110
       },
       {
         "department": "Physics",
         "qs_ranking": 75,
-        "h_index": 1100
+        "h_index": 178
       },
       {
         "department": "Chemistry",
         "qs_ranking": 80,
-        "h_index": 1070
+        "h_index": 104
       },
       {
         "department": "Mechanical Engg",
-        "qs_ranking": 90,
-        "h_index": 750
+        "qs_ranking": 69,
+        "h_index": 88
       },
       {
         "department": "Chemical Engg",
         "qs_ranking": 100,
-        "h_index": 800
+        "h_index": 89
       },
       {
         "department": "Metallurgy & Materials",
         "qs_ranking": 104,
-        "h_index": 600
+        "h_index": 85
       },
       {
         "department": "Computer Science",
         "qs_ranking": 76,
-        "h_index": 650
+        "h_index": 46
       },
       {
         "department": "Earth Sciences",
         "qs_ranking": 171,
-        "h_index": 450
+        "h_index": 58
       },
       {
         "department": "Biosciences",
         "qs_ranking": 325,
-        "h_index": 400
+        "h_index": 54
       },
       {
         "department": "Mathematics",
         "qs_ranking": 129,
-        "h_index": 300
+        "h_index": 22
       }
     ],
-    "top_performer": "Electrical Engineering (highest h-index ~1150 and best QS rank 50)",
-    "correlation_coefficient": -0.504,
+    "top_performer": "Electrical Engineering (best QS rank 50); Physics records the highest h-index (178)",
+    "correlation_coefficient": -0.432,
     "outliers": [
       "Biosciences (low QS rank despite moderate h-index)",
       "Mathematics (smaller faculty size)"
@@ -582,7 +609,7 @@
       "Mechanical (69)",
       "Computer Science (76)"
     ],
-    "context": "H-Index vs QS Rankings"
+    "context": "H-Index vs QS Rankings - h-index from IRINS (Crossref, Oct 2026); QS subject ranks from QS World University Rankings by Subject 2025 for Electrical Engg (50), Mechanical Engg (69), Chemical Engg (100) and Computer Science (76); QS subject ranks for Physics, Chemistry, Metallurgy & Materials, Earth Sciences, Biosciences and Mathematics were not obtainable from a published QS list and are unchanged legacy values"
   },
   "publication_mix_composition": {
     "chart_type": "Bar Chart",
@@ -590,94 +617,66 @@
     "y_axis_label": "Count",
     "data_points": [
       {
-        "publication_type": "Article",
-        "count": 2663
+        "publication_type": "Journal Articles",
+        "count": 27067
       },
       {
-        "publication_type": "Conference Paper",
-        "count": 608
+        "publication_type": "Conference / Proc.",
+        "count": 9411
       },
       {
-        "publication_type": "Review",
-        "count": 131
+        "publication_type": "Other Outputs",
+        "count": 1798
       },
       {
-        "publication_type": "Book Chapter",
-        "count": 58
-      },
-      {
-        "publication_type": "Editorial",
-        "count": 0
-      },
-      {
-        "publication_type": "Erratum",
-        "count": 0
-      },
-      {
-        "publication_type": "Note",
-        "count": 0
-      },
-      {
-        "publication_type": "Book",
-        "count": 0
-      },
-      {
-        "publication_type": "Data Paper",
-        "count": 0
-      },
-      {
-        "publication_type": "Short Survey",
-        "count": 0
-      },
-      {
-        "publication_type": "Letter",
-        "count": 0
+        "publication_type": "Books / Chapters",
+        "count": 1545
       }
     ],
-    "context": "Publication Mix Composition"
+    "context": "Publication type composition of 39,821 publications - Source: IRINS (Crossref)"
   },
   "measuring_research_output": {
     "chart_type": "Bar Chart",
     "title": "Measuring Research Output: Publications and Patents",
-    "context": "Comparison with IITs and IISc",
+    "context": "Comparison with IITs and IISc - total works indexed for each institution, source OpenAlex, queried 1 Oct 2026. IIT Bombay IRINS/Scopus total (39,821) is reported in general statistics; peer patent totals could not be verified from any single public source and the peer values shown are legacy unverified figures",
     "publications_data": [
       {
         "institution": "IIT Bombay",
-        "publications": 40000
+        "publications": 69293
       },
       {
         "institution": "IIT Delhi",
-        "publications": 45000
+        "publications": 74580
       },
       {
         "institution": "IIT Madras",
-        "publications": 42000
+        "publications": 71195
       },
       {
         "institution": "IIT KGP",
-        "publications": 38000
+        "publications": 74058
       },
       {
         "institution": "IIT Kanpur",
-        "publications": 25000
+        "publications": 52739
       },
       {
         "institution": "IIT Roorkee",
-        "publications": 23000
+        "publications": 51632
       },
       {
         "institution": "IISC",
-        "publications": 50000
+        "publications": 95041
       },
       {
         "institution": "IIT Guwahati",
-        "publications": 28000
+        "publications": 35180
       }
     ],
     "patents_data": [
       {
         "institution": "IIT Bombay",
-        "patents": 900
+        "patents": 1142
       },
       {
         "institution": "IIT Delhi",
@@ -709,10 +708,10 @@
       }
     ],
     "key_findings": [
-      "IISc demonstrates a strong balance of both academic research (publications) and innovation (patents).",
-      "Some IITs, like Delhi and Bombay, maintain publication strength but show relatively lower patent output.",
-      "IIT Madras stands out as the most balanced IIT, performing strongly in both metrics.",
-      "The disparity between publication and patent counts suggests varying institutional priorities or support systems and funding for innovation and technology transfer."
+      "IISc Bengaluru has the largest publication corpus (95,041 works), ahead of IIT Delhi (74,580), IIT Kharagpur (74,058) and IIT Bombay (69,293).",
+      "IIT Bombay holds 1,142 patents (IRINS, filed and granted), the only patent figure in this comparison that is sourced; peer patent totals are unverified.",
+      "IIT Guwahati has the smallest indexed corpus (35,180 works) of the eight institutes, roughly a third of IISc.",
+      "The spread between publication volume and patent counts suggests differing institutional emphasis on filing versus publishing."
     ]
   },
   "research_impact_across_top_indian_institutes": {
@@ -723,39 +722,39 @@
     "data_points": [
       {
         "institution": "IIT Bombay",
-        "citations": 850000
+        "citations": 3207260
       },
       {
         "institution": "IIT Delhi",
-        "citations": 900000
+        "citations": 3177684
       },
       {
         "institution": "IIT Madras",
-        "citations": 820000
+        "citations": 2754940
       },
       {
         "institution": "IIT KGP",
-        "citations": 920000
+        "citations": 3608464
       },
       {
         "institution": "IIT Kanpur",
-        "citations": 550000
+        "citations": 2421445
       },
       {
         "institution": "IIT Roorkee",
-        "citations": 480000
+        "citations": 2347287
       },
       {
         "institution": "IISC",
-        "citations": 1200000
+        "citations": 4523462
       },
       {
         "institution": "IIT Guwahati",
-        "citations": 250000
+        "citations": 1554342
       }
     ],
-    "key_finding": "IISc Bangalore stands out with the highest citation count, showcasing its strong research influence. IIT Bombay, IIT Delhi, and IIT Madras also maintain impressive performance.",
-    "context": "Research Impact Across Top Indian Institutes"
+    "key_finding": "IISc Bengaluru leads on total citations (4,523,462), followed by IIT Kharagpur (3,608,464) and IIT Bombay (3,207,260). IIT Delhi and IIT Bombay are within 30,000 citations of each other, while IIT Guwahati has the smallest corpus of the eight institutes.",
+    "context": "Research Impact Across Top Indian Institutes - total citations of all works indexed for each institution, source OpenAlex, queried 1 Oct 2026; IIT Bombay Scopus citations via IRINS (909,949) are shown separately in general statistics because IRINS only tracks registered IIT Bombay researchers"
   },
   "h_index_comparison_department_wise": {
     "chart_type": "Multi-Line Chart",
@@ -773,7 +772,7 @@
     "data_points": [
       {
         "department": "Aerospace Engineering",
-        "IIT Bombay": 50,
+        "IIT Bombay": 65,
         "IIT Madras": 60,
         "IIT Delhi": 70,
         "IIT KGP": 55,
@@ -782,7 +781,7 @@
       },
       {
         "department": "Biosciences & Bioengineering",
-        "IIT Bombay": 70,
+        "IIT Bombay": 54,
         "IIT Madras": 80,
         "IIT Delhi": 90,
         "IIT KGP": 75,
@@ -791,7 +790,7 @@
       },
       {
         "department": "Chemical Engineering",
-        "IIT Bombay": 90,
+        "IIT Bombay": 89,
         "IIT Madras": 100,
         "IIT Delhi": 110,
         "IIT KGP": 95,
@@ -800,7 +799,7 @@
       },
       {
         "department": "Chemistry",
-        "IIT Bombay": 110,
+        "IIT Bombay": 104,
         "IIT Madras": 120,
         "IIT Delhi": 130,
         "IIT KGP": 115,
@@ -809,7 +808,7 @@
       },
       {
         "department": "Civil Engineering",
-        "IIT Bombay": 100,
+        "IIT Bombay": 95,
         "IIT Madras": 110,
         "IIT Delhi": 120,
         "IIT KGP": 105,
@@ -818,7 +817,7 @@
       },
       {
         "department": "Computer Science & Engineering",
-        "IIT Bombay": 115,
+        "IIT Bombay": 46,
         "IIT Madras": 125,
         "IIT Delhi": 135,
         "IIT KGP": 120,
@@ -827,7 +826,7 @@
       },
       {
         "department": "Earth Sciences",
-        "IIT Bombay": 40,
+        "IIT Bombay": 58,
         "IIT Madras": 50,
         "IIT Delhi": 60,
         "IIT KGP": 45,
@@ -836,7 +835,7 @@
       },
       {
         "department": "Electrical Engineering",
-        "IIT Bombay": 120,
+        "IIT Bombay": 110,
         "IIT Madras": 130,
         "IIT Delhi": 140,
         "IIT KGP": 125,
@@ -845,7 +844,7 @@
       },
       {
         "department": "Energy Science & Engineering",
-        "IIT Bombay": 80,
+        "IIT Bombay": 69,
         "IIT Madras": 90,
         "IIT Delhi": 100,
         "IIT KGP": 85,
@@ -854,7 +853,7 @@
       },
       {
         "department": "Humanities & Social Sciences",
-        "IIT Bombay": 30,
+        "IIT Bombay": 31,
         "IIT Madras": 40,
         "IIT Delhi": 50,
         "IIT KGP": 35,
@@ -863,7 +862,7 @@
       },
       {
         "department": "Industrial Design Centre (IDC)",
-        "IIT Bombay": 60,
+        "IIT Bombay": 18,
         "IIT Madras": 70,
         "IIT Delhi": 80,
         "IIT KGP": 65,
@@ -872,7 +871,7 @@
       },
       {
         "department": "Mathematics",
-        "IIT Bombay": 70,
+        "IIT Bombay": 22,
         "IIT Madras": 80,
         "IIT Delhi": 90,
         "IIT KGP": 75,
@@ -881,7 +880,7 @@
       },
       {
         "department": "Mechanical Engineering",
-        "IIT Bombay": 105,
+        "IIT Bombay": 88,
         "IIT Madras": 115,
         "IIT Delhi": 125,
         "IIT KGP": 110,
@@ -890,7 +889,7 @@
       },
       {
         "department": "Metallurgical & Materials Engg.",
-        "IIT Bombay": 110,
+        "IIT Bombay": 85,
         "IIT Madras": 120,
         "IIT Delhi": 130,
         "IIT KGP": 115,
@@ -899,7 +898,7 @@
       },
       {
         "department": "Physics",
-        "IIT Bombay": 100,
+        "IIT Bombay": 178,
         "IIT Madras": 110,
         "IIT Delhi": 120,
         "IIT KGP": 105,
@@ -912,56 +911,56 @@
       "IIT Bombay and IIT Madras maintain consistent strength across engineering and interdisciplinary departments.",
       "IIT Kanpur performs well in traditional engineering areas but trails in newer or interdisciplinary fields."
     ],
-    "context": "H-Index comparison department wise"
+    "context": "H-Index comparison department wise - IIT Bombay column refreshed from IRINS (Crossref, Oct 2026); h-index values for IIT Madras, IIT Delhi, IIT KGP, IIT Kanpur and IISc are legacy unverified figures that could not be checked against a public source"
   },
   "qs_vs_nirf_rankings": {
     "chart_type": "Table",
-    "context": "QS vs. NIRF Rankings for Top Indian Institutes",
+    "context": "QS vs. NIRF Rankings for Top Indian Institutes - QS World University Rankings 2027 (18 June 2026) and NIRF India Rankings 2025 Overall (4 September 2025); NIRF 2026 has not been released yet",
     "headers": [
       "Institution",
-      "QS World Ranking (2025)",
+      "QS World Ranking (2027)",
       "NIRF Ranking (Overall, 2025)"
     ],
     "data": [
       {
         "Institution": "IIT Bombay",
-        "QS World Ranking (2025)": 118,
+        "QS World Ranking (2027)": 134,
         "NIRF Ranking (Overall, 2025)": 3
       },
       {
         "Institution": "IIT Delhi",
-        "QS World Ranking (2025)": 150,
+        "QS World Ranking (2027)": 118,
         "NIRF Ranking (Overall, 2025)": 4
       },
       {
         "Institution": "IISC Bangalore",
-        "QS World Ranking (2025)": 211,
+        "QS World Ranking (2027)": 221,
         "NIRF Ranking (Overall, 2025)": 2
       },
       {
         "Institution": "IIT Kharagpur (KGP)",
-        "QS World Ranking (2025)": 222,
+        "QS World Ranking (2027)": 205,
         "NIRF Ranking (Overall, 2025)": 6
       },
       {
         "Institution": "IIT Madras",
-        "QS World Ranking (2025)": 227,
+        "QS World Ranking (2027)": 170,
         "NIRF Ranking (Overall, 2025)": 1
       },
       {
         "Institution": "IIT Kanpur",
-        "QS World Ranking (2025)": 263,
+        "QS World Ranking (2027)": 221,
         "NIRF Ranking (Overall, 2025)": 5
       },
       {
         "Institution": "IIT Roorkee",
-        "QS World Ranking (2025)": 335,
+        "QS World Ranking (2027)": 335,
         "NIRF Ranking (Overall, 2025)": 7
       },
       {
         "Institution": "IIT Guwahati",
-        "QS World Ranking (2025)": 344,
-        "NIRF Ranking (Overall, 2025)": 8
+        "QS World Ranking (2027)": 349,
+        "NIRF Ranking (Overall, 2025)": 11
       }
     ]
   },

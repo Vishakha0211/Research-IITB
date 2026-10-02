@@ -22,15 +22,16 @@ export default function Impact() {
       </PageIntro>
 
       <Section title="Research Impact Across Departments" note={`${impact.context} - click a bar to open that department's page.`}>
-        <Card title={impact.title || 'Total citations vs Crossref citations by department'}>
+        <Card title={impact.title || 'Publications vs Crossref citations by department'}>
           <GroupedBarChart
             horizontal
+            log
             height={520}
             onPick={goDept}
             labels={impact.data_points?.map((d) => d.department) || []}
             datasets={[
-              { label: 'Citations', data: impact.data_points?.map((d) => d.citations) || [], color: '#0d86a6' },
-              { label: 'Crossref Citations', data: impact.data_points?.map((d) => d.crossref_citations) || [], color: CH.navy }
+              { label: 'Publications', data: impact.data_points?.map((d) => d.publications) || [], color: '#0d86a6' },
+              { label: 'Crossref Citations', data: impact.data_points?.map((d) => d.citations) || [], color: CH.navy }
             ]}
           />
         </Card>
@@ -73,7 +74,7 @@ export default function Impact() {
               labels={access.data_points?.map((d) => d.access_type) || []}
               data={access.data_points?.map((d) => d.count) || []}
               label="Count"
-              colors={[CH.navy, '#0d86a6', '#4aa3b8', '#f5b301']}
+              colors={[CH.navy, '#4aa3b8', '#0d86a6', '#2f6f8f', '#94a3b8', '#f5b301']}
             />
           </Card>
           <Card title={oa.title}>
@@ -81,7 +82,7 @@ export default function Impact() {
               labels={oa.data_points?.map((d) => d.access_type) || []}
               data={oa.data_points?.map((d) => d.average_citations) || []}
               label="Average citations"
-              colors={['#0d86a6', '#94a3b8']}
+              colors={['#0d86a6', '#0d86a6', '#4aa3b8', '#94a3b8', '#4aa3b8', '#f5b301']}
             />
             <Findings
               items={[

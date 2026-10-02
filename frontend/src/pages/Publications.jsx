@@ -46,7 +46,7 @@ export default function Publications() {
           <div className="label">Total Patents</div>
         </div>
         <div className="kpi">
-          <div className="value">{report.general_statistics?.find((s) => s.metric === 'Citations')?.value?.toLocaleString?.() || '876,409'}</div>
+          <div className="value">{report.general_statistics?.find((s) => s.metric === 'Citations')?.value?.toLocaleString?.() || '909,949'}</div>
           <div className="label">Total Citations</div>
         </div>
       </div>

@@ -2,6 +2,7 @@ import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
+  LogarithmicScale,
   BarElement,
   PointElement,
   LineElement,
@@ -15,7 +16,7 @@ import {
 import { Bar, Line, Pie, Doughnut, Radar } from 'react-chartjs-2';
 
 ChartJS.register(
-  CategoryScale, LinearScale, BarElement, PointElement, LineElement,
+  CategoryScale, LinearScale, LogarithmicScale, BarElement, PointElement, LineElement,
   ArcElement, RadialLinearScale, Tooltip, Legend, Filler, Title
 );
 
@@ -165,14 +166,16 @@ export function BarChart({ labels, data, label = 'Value', color = PALETTE[0], ho
   );
 }
 
-export function GroupedBarChart({ labels, datasets, height = 360, horizontal = false, yPercent = false, onPick }) {
+export function GroupedBarChart({ labels, datasets, height = 360, horizontal = false, yPercent = false, onPick, log = false }) {
   const opts = {
     ...baseOptions,
     indexAxis: horizontal ? 'y' : 'x',
     ...pickHandlers(labels, onPick),
     scales: {
       x: {
-        beginAtZero: horizontal || undefined,
+        ...(log && horizontal
+          ? { type: 'logarithmic', beginAtZero: false }
+          : { beginAtZero: horizontal || undefined }),
         grid: { display: horizontal, color: horizontal ? THEME.grid : undefined },
               ticks: {
                 font: { size: horizontal ? 11 : 10.5 },

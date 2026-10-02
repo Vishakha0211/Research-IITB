@@ -14,7 +14,7 @@ export default function Excellence() {
   const hcmp = report.h_index_comparison_department_wise || {};
   const goDept = (label) => navigate(`/department/${encodeURIComponent(label)}`);
 
-  const tableHeaders = table.headers || ['Institution', 'QS World Ranking (2025)', 'NIRF Ranking (Overall, 2025)'];
+  const tableHeaders = table.headers || ['Institution', 'QS World Ranking (2027)', 'NIRF Ranking (Overall, 2025)'];
 
   return (
     <>

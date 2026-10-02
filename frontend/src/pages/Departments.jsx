@@ -139,14 +139,20 @@ export function DepartmentDetail() {
 
   const kpis = [
     people.length > 0 && { label: 'Faculty in database', value: fmt(people.length) },
-    impact && { label: 'Total citations', value: fmt(impact.citations) },
+    impact && { label: impact.publications != null ? 'Crossref citations' : 'Total citations', value: fmt(impact.citations) },
     volume && { label: 'Publications', value: fmt(volume.publications) },
     (volume?.h_index || hvsq?.h_index) && { label: 'h-index', value: fmt(volume?.h_index || hvsq?.h_index) },
     funding && { label: 'Funding share', value: `${funding.percentage}%` }
   ].filter(Boolean);
 
   const statRows = [
-    impact && { Measure: 'Citations (vs Crossref)', Value: `${fmt(impact.citations)} citations (Crossref: ${fmt(impact.crossref_citations)})`, Source: 'Research impact' },
+    impact && {
+      Measure: 'Publications / Crossref citations',
+      Value: impact.publications != null
+        ? `${fmt(impact.publications)} publications - ${fmt(impact.citations)} Crossref citations`
+        : `${fmt(impact.citations)} citations (Crossref: ${fmt(impact.crossref_citations)})`,
+      Source: 'IRINS (Crossref)'
+    },
     faculty && { Measure: 'Average citations per faculty', Value: fmt(faculty.average_citations_per_faculty), Source: 'Faculty averages' },
     volume && { Measure: 'Publications / h-index', Value: `${fmt(volume.publications)} / ${fmt(volume.h_index)}`, Source: 'Volume vs voice' },
     hvsq && { Measure: 'QS rank / h-index', Value: `${fmt(hvsq.qs_ranking)} / ${fmt(hvsq.h_index)}`, Source: 'H-index vs QS' },
