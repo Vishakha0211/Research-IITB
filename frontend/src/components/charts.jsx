@@ -180,7 +180,9 @@ export function GroupedBarChart({ labels, datasets, height = 360, horizontal = f
               ticks: {
                 font: { size: horizontal ? 11 : 10.5 },
                 maxRotation: horizontal ? 0 : 60,
-                autoSkip: !horizontal,
+                autoSkip: true,
+                maxTicksLimit: horizontal ? 10 : undefined,
+                padding: horizontal ? 6 : 0,
                 ...(horizontal ? { callback: (v) => (yPercent ? `${Math.round(v * 100)}%` : num(v)) } : {})
               }
             },
