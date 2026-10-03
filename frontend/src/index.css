@@ -173,6 +173,7 @@ a { color: var(--teal); }
 .card-note { font-size: 13px; color: var(--ink-soft); margin-bottom: 14px; }
 .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
 .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.grid-2 > *, .grid-3 > * { min-width: 0; }
 
 /* ---------- KPI ---------- */
 .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(165px, 1fr)); gap: 16px; margin-bottom: 34px; }
@@ -220,6 +221,7 @@ a { color: var(--teal); }
 
 /* ---------- Chart box ---------- */
 .chart-box { position: relative; width: 100%; }
+.chart-box canvas { max-width: 100%; }
 
 /* ---------- Table ---------- */
 .table-wrap { overflow-x: auto; }
@@ -474,7 +476,7 @@ table.data tr:hover td { background: #f7faf9; }
   .page-intro h2 { font-size: 30px; }
   .eyebrow-hero { font-size: 34px; }
   .search-bar { grid-template-columns: 1fr; }
-  .header-tools { order: 11; }
+  .header-tools { order: 5; }
 }
 
 /* ---------- Header tools ---------- */
@@ -488,6 +490,25 @@ table.data tr:hover td { background: #f7faf9; }
   transition: border-color 0.15s, color 0.15s, background 0.15s;
 }
 .icon-btn:hover { border-color: var(--teal); color: var(--teal); background: var(--teal-soft); }
+
+/* ---------- Compact header (mobile / tablet) ----------
+   Logo stays on the left; hamburger, DAV Team, DAV logo and the three
+   tool buttons are pushed to the right on a single row. */
+@media (max-width: 1000px) {
+  .site-header { padding: 9px 10px; gap: 6px; }
+  .brand { margin-right: auto; }
+  .brand-logo { height: 30px; transform: translate(-5px, -4px); }
+  .hamburger { padding: 5px 9px; font-size: 16px; border-radius: 7px; }
+  .header-team { gap: 6px; }
+  .header-team-name { font-size: 12px; }
+  .header-logo { height: 30px; }
+  .header-tools { gap: 5px; }
+  .icon-btn { width: 32px; height: 32px; font-size: 15px; border-radius: 7px; }
+  .header-cta { display: none; }
+}
+@media (max-width: 340px) {
+  .header-team-name { display: none; }
+}
 
 /* ---------- Search input / history ---------- */
 .search-input-wrap { position: relative; }
