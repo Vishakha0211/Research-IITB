@@ -221,7 +221,19 @@ a { color: var(--teal); }
 
 /* ---------- Chart box ---------- */
 .chart-box { position: relative; width: 100%; }
+.chart-inner { position: relative; width: 100%; height: 100%; }
 .chart-box canvas { max-width: 100%; }
+
+/* Category-heavy charts keep a readable width on narrow screens and scroll sideways
+   inside their card instead of squeezing the axis labels. */
+@media (max-width: 860px) {
+  .chart-box-wide { overflow-x: auto; overflow-y: hidden; }
+  .chart-box-wide .chart-inner { min-width: 640px; }
+  .chart-box-wide::-webkit-scrollbar { height: 8px; }
+  .chart-box-wide::-webkit-scrollbar-track { background: transparent; }
+  .chart-box-wide::-webkit-scrollbar-thumb { background: var(--line); border-radius: 8px; }
+  .chart-box-wide::-webkit-scrollbar-thumb:hover { background: var(--teal); }
+}
 
 /* ---------- Table ---------- */
 .table-wrap { overflow-x: auto; }

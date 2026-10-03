@@ -109,17 +109,17 @@ const num = (v) =>
     ? v.toLocaleString('en-US')
     : v;
 
-export function ChartBox({ height = 340, children }) {
+export function ChartBox({ height = 340, wide = false, children }) {
   return (
-    <div className="chart-box" style={{ height }}>
-      {children}
+    <div className={`chart-box${wide ? ' chart-box-wide' : ''}`} style={{ height }}>
+      <div className="chart-inner">{children}</div>
     </div>
   );
 }
 
 export function BarChart({ labels, data, label = 'Value', color = PALETTE[0], horizontal = false, height = 340, colors, onPick }) {
   return (
-    <ChartBox height={height}>
+    <ChartBox height={height} wide={!horizontal}>
       <Bar
         options={{
           ...baseOptions,
@@ -199,7 +199,7 @@ export function GroupedBarChart({ labels, datasets, height = 360, horizontal = f
       }
     };
   return (
-    <ChartBox height={height}>
+    <ChartBox height={height} wide>
       <Bar
         options={opts}
         data={{
@@ -217,7 +217,7 @@ export function GroupedBarChart({ labels, datasets, height = 360, horizontal = f
 
 export function MultiLineChart({ labels, datasets, height = 380, yPercent = false, fill = false, onPick, trendFlags: flags = false, flagThreshold = 0.15 }) {
   return (
-    <ChartBox height={height}>
+    <ChartBox height={height} wide>
       <Line
         options={{
           ...baseOptions,
@@ -257,7 +257,7 @@ export function MultiLineChart({ labels, datasets, height = 380, yPercent = fals
 
 export function ComboChart({ labels, barData, lineData, barLabel = 'Publications', lineLabel = 'h-index', height = 380, barColor = '#0d86a6', lineColor = CH.navy, onPick }) {
   return (
-    <ChartBox height={height}>
+    <ChartBox height={height} wide>
       <Bar
         options={{
           ...baseOptions,
@@ -329,7 +329,7 @@ export function PieChart({ labels, data, height = 340, doughnut = true, colors, 
 
 export function RadarChart({ labels, data, label = 'Value', height = 380, color = PALETTE[0] }) {
   return (
-    <ChartBox height={height}>
+    <ChartBox height={height} wide>
       <Radar
         options={{
           ...baseOptions,
