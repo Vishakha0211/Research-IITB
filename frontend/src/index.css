@@ -146,6 +146,7 @@ a { color: var(--teal); }
   letter-spacing: 0.02em;
   line-height: 1.1;
   margin-bottom: 8px;
+  text-transform: none;
 }
 .page-intro h2 {
   font-size: 40px;
