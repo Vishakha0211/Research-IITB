@@ -30,13 +30,8 @@ const NAV = [
   { to: '/about', label: 'About' }
 ];
 
-const stat = (report, metric) => {
-  const s = report?.general_statistics?.find((x) => x.metric === metric)?.value;
-  return typeof s === 'number' ? s.toLocaleString('en-US') : s;
-};
-
 export default function App() {
-  const { report, loading, error, reload } = useReport();
+  const { loading, error, reload } = useReport();
   const [open, setOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [dark, setDark] = useState(() => {
@@ -95,23 +90,6 @@ export default function App() {
 
   return (
     <div className="layout">
-      <div className="topstrip">
-        <span>
-          <strong>IIT Bombay</strong>
-          <span className="dot">●</span>
-          {report?.meta?.report_date_range} of research data
-          <span className="dot">●</span>
-          QS World Rank <strong>#{stat(report, 'QS World Ranking')}</strong>
-        </span>
-        <span className="topstrip-stats">
-          Publications <strong>{stat(report, 'Publications')}</strong>
-          <span className="dot">·</span>
-          Citations <strong>{stat(report, 'Citations')}</strong>
-          <span className="dot">·</span>
-          Patents <strong>{stat(report, 'Patents')}</strong>
-        </span>
-      </div>
-
       <header className="site-header">
         <Link to="/" className="brand" onClick={() => setOpen(false)} aria-label="RESEARCH @ IITB home">
           <img className="brand-logo" src="/ugac-logo.svg" alt="UGAC" />
