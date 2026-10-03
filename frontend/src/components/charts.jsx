@@ -13,6 +13,7 @@ import {
   Filler,
   Title
 } from 'chart.js';
+import { useEffect, useRef, useState } from 'react';
 import { Bar, Line, Pie, Doughnut, Radar } from 'react-chartjs-2';
 
 ChartJS.register(
@@ -98,6 +99,7 @@ const pickHandlers = (labels, onPick) => ({
 const baseOptions = {
   responsive: true,
   maintainAspectRatio: false,
+  animation: { duration: 1100, easing: 'easeOutQuart' },
   plugins: {
     legend: { position: 'bottom', labels: { boxWidth: 14, padding: 16, font: { size: 12 } } },
     tooltip: { backgroundColor: '#16203a', padding: 10, cornerRadius: 8 }
@@ -110,9 +112,34 @@ const num = (v) =>
     : v;
 
 export function ChartBox({ height = 340, wide = false, children }) {
+  const ref = useRef(null);
+  // Mount the chart the first time it scrolls near the viewport, so Chart.js runs its
+  // grow-from-zero animation where the visitor can actually see it.
+  const [visible, setVisible] = useState(() => typeof IntersectionObserver === 'undefined');
+
+  useEffect(() => {
+    if (visible) return undefined;
+    const el = ref.current;
+    if (!el) {
+      setVisible(true);
+      return undefined;
+    }
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          io.disconnect();
+          setVisible(true);
+        }
+      },
+      { rootMargin: '140px 0px', threshold: 0 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [visible]);
+
   return (
-    <div className={`chart-box${wide ? ' chart-box-wide' : ''}`} style={{ height }}>
-      <div className="chart-inner">{children}</div>
+    <div ref={ref} className={`chart-box${wide ? ' chart-box-wide' : ''}`} style={{ height }}>
+      <div className="chart-inner">{visible ? children : null}</div>
     </div>
   );
 }
