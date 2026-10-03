@@ -1,6 +1,7 @@
 import { Routes, Route, NavLink, Link, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useReport } from './context/ReportContext';
+import { asset } from './lib/paths';
 import { setChartTheme } from './components/charts';
 import SearchOverlay from './components/SearchOverlay';
 import Dashboard from './pages/Dashboard';
@@ -92,7 +93,7 @@ export default function App() {
     <div className="layout">
       <header className="site-header">
         <Link to="/" className="brand" onClick={() => setOpen(false)} aria-label="RESEARCH @ IITB home">
-          <img className="brand-logo" src="/ugac-logo.svg" alt="UGAC" />
+          <img className="brand-logo" src={asset('/ugac-logo.svg')} alt="UGAC" />
         </Link>
 
         <button className="hamburger" onClick={() => setOpen(!open)} aria-label="Menu">
@@ -117,7 +118,7 @@ export default function App() {
 
         <div className="header-team">
           <span className="header-team-name">DAV Team</span>
-          <img className="header-logo" src="/header-logo.png" alt="DAV" />
+          <img className="header-logo" src={asset('/header-logo.png')} alt="DAV" />
         </div>
 
         <div className="header-tools">

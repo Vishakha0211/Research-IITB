@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState, useCallback } from 'react';
+import { API } from '../lib/paths';
 
 const ReportContext = createContext(null);
 
@@ -28,7 +29,7 @@ function authHeaders() {
 
 export async function verifyAdminToken() {
   try {
-    const res = await fetch('/api/auth/verify', { method: 'POST', headers: authHeaders() });
+    const res = await fetch(`${API}/auth/verify`, { method: 'POST', headers: authHeaders() });
     if (res.ok) return { ok: true, status: res.status };
     const body = await res.json().catch(() => ({}));
     return { ok: false, status: res.status, error: body.error || `HTTP ${res.status}` };
@@ -47,7 +48,7 @@ export function ReportProvider({ children }) {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch('/api/report');
+      const res = await fetch(`${API}/report`);
       if (!res.ok) throw new Error(`API returned ${res.status}`);
       const data = await res.json();
       setReport(data);
@@ -81,7 +82,7 @@ export function ReportProvider({ children }) {
 
   // Replace an entire top-level section
   const updateSection = useCallback(async (section, value) => {
-    const res = await fetch(`/api/report/${encodeURIComponent(section)}`, {
+    const res = await fetch(`${API}/report/${encodeURIComponent(section)}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json', ...authHeaders() },
       body: JSON.stringify(value)
@@ -96,7 +97,7 @@ export function ReportProvider({ children }) {
 
   // Merge fields into a section
   const patchSection = useCallback(async (section, partial) => {
-    const res = await fetch(`/api/report/${encodeURIComponent(section)}`, {
+    const res = await fetch(`${API}/report/${encodeURIComponent(section)}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json', ...authHeaders() },
       body: JSON.stringify(partial)
