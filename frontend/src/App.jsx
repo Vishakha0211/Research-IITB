@@ -31,7 +31,7 @@ const NAV = [
 ];
 
 export default function App() {
-  const { loading, error, reload } = useReport();
+  const { loading, error, reload, isAdmin } = useReport();
   const [open, setOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [dark, setDark] = useState(() => {
@@ -150,9 +150,11 @@ export default function App() {
           </button>
         </div>
 
-        <Link to="/admin" className="btn header-cta">
-          Update Data
-        </Link>
+        {isAdmin && (
+          <Link to="/admin" className="btn header-cta">
+            Update Data
+          </Link>
+        )}
       </header>
 
       <SearchOverlay open={searchOpen} onClose={() => setSearchOpen(false)} />
@@ -179,7 +181,11 @@ export default function App() {
         <span>
           Made with <span className="heart">❤️</span> by DAV Team, UGAC
         </span>
-        <span>All charts read live from backend data · updatable via the Update Data page</span>
+        <span>
+          {isAdmin
+            ? 'All charts read live from backend data · updatable via the Update Data page'
+            : 'All charts read live from backend data'}
+        </span>
       </footer>
     </div>
   );

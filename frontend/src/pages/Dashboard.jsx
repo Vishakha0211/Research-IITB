@@ -4,7 +4,7 @@ import { KPI, Section, Card, Findings, Callout, Chips, fmt, PageIntro } from '..
 import { BarChart, PieChart } from '../components/charts';
 
 export default function Dashboard() {
-  const { report } = useReport();
+  const { report, isAdmin } = useReport();
   if (!report) return null;
 
   const stats = report.general_statistics || [];
@@ -21,7 +21,7 @@ export default function Dashboard() {
     { to: '/collaborations', label: 'Domestic & Global Network' },
     { to: '/funding', label: 'Funding Agencies & Departments' },
     { to: '/professors', label: 'Professor Research Database' },
-    { to: '/admin', label: 'Update Report Data' }
+    ...(isAdmin ? [{ to: '/admin', label: 'Update Report Data' }] : [])
   ];
 
   return (

@@ -4,7 +4,7 @@ import { Section, Card, Findings, Callout, PageIntro, DataDetails } from '../com
 import { BarChart, PieChart } from '../components/charts';
 
 export default function Funding() {
-  const { report } = useReport();
+  const { report, isAdmin } = useReport();
   const navigate = useNavigate();
   if (!report) return null;
 
@@ -83,7 +83,12 @@ export default function Funding() {
               tone="navy"
             />
             <Callout>
-              Visit the <strong>Key Research Topics</strong> page for yearly top funded topics (radar charts), or use <strong>Update Data</strong> to refresh these figures.
+              Visit the <strong>Key Research Topics</strong> page for yearly top funded topics (radar charts)
+              {isAdmin ? (
+                <>, or use <strong>Update Data</strong> to refresh these figures.</>
+              ) : (
+                '.'
+              )}
             </Callout>
           </Card>
         </div>

@@ -29,11 +29,11 @@ function authHeaders() {
 export async function verifyAdminToken() {
   try {
     const res = await fetch('/api/auth/verify', { method: 'POST', headers: authHeaders() });
-    if (res.ok) return { ok: true };
+    if (res.ok) return { ok: true, status: res.status };
     const body = await res.json().catch(() => ({}));
-    return { ok: false, error: body.error || `HTTP ${res.status}` };
+    return { ok: false, status: res.status, error: body.error || `HTTP ${res.status}` };
   } catch (e) {
-    return { ok: false, error: e.message };
+    return { ok: false, status: 0, error: e.message };
   }
 }
 
@@ -41,6 +41,7 @@ export function ReportProvider({ children }) {
   const [report, setReport] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isAdmin, setIsAdmin] = useState(() => Boolean(getAdminToken()));
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -60,6 +61,23 @@ export function ReportProvider({ children }) {
   useEffect(() => {
     load();
   }, [load]);
+
+  // Verifies the stored token; admin-only UI is shown only when it is valid.
+  const checkAdmin = useCallback(async () => {
+    const token = getAdminToken();
+    if (!token) {
+      setIsAdmin(false);
+      return false;
+    }
+    const r = await verifyAdminToken();
+    setIsAdmin(r.ok);
+    if (!r.ok && r.status === 401) setAdminToken('');
+    return r.ok;
+  }, []);
+
+  useEffect(() => {
+    checkAdmin();
+  }, [checkAdmin]);
 
   // Replace an entire top-level section
   const updateSection = useCallback(async (section, value) => {
@@ -100,7 +118,7 @@ export function ReportProvider({ children }) {
 
   return (
     <ReportContext.Provider
-      value={{ report, loading, error, reload: load, updateSection, patchSection }}
+      value={{ report, loading, error, reload: load, updateSection, patchSection, isAdmin, checkAdmin }}
     >
       {children}
     </ReportContext.Provider>

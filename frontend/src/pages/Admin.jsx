@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { useReport, getAdminToken, setAdminToken, verifyAdminToken } from '../context/ReportContext';
+import { useReport, getAdminToken, setAdminToken } from '../context/ReportContext';
 import { Section, PageIntro, Card } from '../components/ui';
 
 function AdminRow({ sectionKey, value, onSave }) {
@@ -65,7 +65,7 @@ function AdminRow({ sectionKey, value, onSave }) {
 }
 
 export default function Admin() {
-  const { report, updateSection, reload } = useReport();
+  const { report, updateSection, reload, isAdmin, checkAdmin } = useReport();
   const [filter, setFilter] = useState('');
   const [globalMsg, setGlobalMsg] = useState(null);
   const [tokenInput, setTokenInput] = useState(getAdminToken);
@@ -96,11 +96,11 @@ export default function Admin() {
       return;
     }
     setTokenStatus({ type: 'ok', msg: 'Checking…' });
-    const r = await verifyAdminToken();
+    const ok = await checkAdmin();
     setTokenStatus(
-      r.ok
+      ok
         ? { type: 'ok', msg: 'Token saved and verified ✓' }
-        : { type: 'err', msg: r.error }
+        : { type: 'err', msg: 'Token rejected by the server.' }
     );
   };
 
@@ -109,7 +109,9 @@ export default function Admin() {
   return (
     <>
       <PageIntro title="Update report data." accent="No code required." eyebrow="Portal · Data management">
-        Every chart and table on this portal reads live from the backend data file. Edit any section below as JSON - invalid JSON or failed saves are reported explicitly. After saving, affected pages re-render with the new data.
+        {isAdmin
+          ? 'Every chart and table on this portal reads live from the backend data file. Edit any section below as JSON - invalid JSON or failed saves are reported explicitly. After saving, affected pages re-render with the new data.'
+          : 'Reading report data is public; editing it requires the admin token. Enter the token below to unlock the report sections.'}
       </PageIntro>
 
       <Section
@@ -130,7 +132,7 @@ export default function Admin() {
             <button className="btn" onClick={saveToken}>Save &amp; verify</button>
             <button
               className="btn secondary"
-              onClick={() => { setTokenInput(''); setAdminToken(''); setTokenStatus({ type: 'ok', msg: 'Token cleared.' }); }}
+              onClick={async () => { setTokenInput(''); setAdminToken(''); await checkAdmin(); setTokenStatus({ type: 'ok', msg: 'Token cleared.' }); }}
             >
               Clear
             </button>
@@ -141,26 +143,43 @@ export default function Admin() {
 
       <Section
         title="Report sections"
-        note={`${keys.length} sections available. Click a section to expand and edit its JSON.`}
+        note={
+          isAdmin
+            ? `${keys.length} sections available. Click a section to expand and edit its JSON.`
+            : 'Locked - enter a valid admin token above to unlock report editing.'
+        }
         actions={
-          <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-            <input
-              className="txt-input"
-              placeholder="Filter sections…"
-              value={filter}
-              onChange={(e) => setFilter(e.target.value)}
-            />
-            <button className="btn secondary" onClick={download}>Download JSON</button>
-            <button className="btn secondary" onClick={async () => { await reload(); setGlobalMsg({ type: 'ok', msg: 'Reloaded from server.' }); }}>
-              Reload from server
-            </button>
-          </div>
+          isAdmin ? (
+            <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+              <input
+                className="txt-input"
+                placeholder="Filter sections…"
+                value={filter}
+                onChange={(e) => setFilter(e.target.value)}
+              />
+              <button className="btn secondary" onClick={download}>Download JSON</button>
+              <button className="btn secondary" onClick={async () => { await reload(); setGlobalMsg({ type: 'ok', msg: 'Reloaded from server.' }); }}>
+                Reload from server
+              </button>
+            </div>
+          ) : undefined
         }
       >
-        {globalMsg && <div className={`toast ${globalMsg.type}`} style={{ marginBottom: 12 }}>{globalMsg.msg}</div>}
-        {keys.map((k) => (
-          <AdminRow key={k + JSON.stringify(report[k])?.slice(0, 40)} sectionKey={k} value={report[k]} onSave={updateSection} />
-        ))}
+        {isAdmin ? (
+          <>
+            {globalMsg && <div className={`toast ${globalMsg.type}`} style={{ marginBottom: 12 }}>{globalMsg.msg}</div>}
+            {keys.map((k) => (
+              <AdminRow key={k + JSON.stringify(report[k])?.slice(0, 40)} sectionKey={k} value={report[k]} onSave={updateSection} />
+            ))}
+          </>
+        ) : (
+          <Card>
+            <p style={{ margin: 0, fontSize: 14.5, color: 'var(--ink-soft)' }}>
+              Report sections stay hidden until a valid admin token is verified. The token is
+              printed in the backend server console on start-up, or stored in backend/.admin-token.
+            </p>
+          </Card>
+        )}
       </Section>
     </>
   );
