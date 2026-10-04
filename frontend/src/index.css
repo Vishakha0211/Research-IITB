@@ -809,8 +809,20 @@ body.dark .toast.ok { background: #123038; color: #9fdcef; border-color: #1d5f74
 body.dark .toast.err { background: #3a1a1f; color: #ff9aa5; border-color: #6b2730; }
 body.dark .header-cta { color: #fff; }
 
+/* ---------- Scroll reveal (page blocks fade up as they enter view) ---------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.55s ease, transform 0.55s ease;
+}
+.reveal.in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+}
+
 /* ---------- Print ---------- */
 @media print {
+  .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
   .site-header,
   .site-footer,
   .pager,

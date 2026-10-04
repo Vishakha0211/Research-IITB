@@ -1,5 +1,5 @@
 import { Routes, Route, NavLink, Link, useLocation } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useLayoutEffect } from 'react';
 import { useReport } from './context/ReportContext';
 import { asset } from './lib/paths';
 import { setChartTheme } from './components/charts';
@@ -70,6 +70,38 @@ export default function App() {
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   }, []);
+
+  // Fade each page block in the first time it scrolls into view.
+  useLayoutEffect(() => {
+    const root = document.querySelector('main.content');
+    if (!root || typeof IntersectionObserver === 'undefined') return undefined;
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.classList.add('in');
+            io.unobserve(e.target);
+          }
+        });
+      },
+      { rootMargin: '0px 0px -40px 0px' }
+    );
+    const scan = () => {
+      Array.from(root.children).forEach((el) => {
+        if (!el.classList.contains('reveal')) {
+          el.classList.add('reveal');
+          io.observe(el);
+        }
+      });
+    };
+    scan();
+    const mo = new MutationObserver(scan);
+    mo.observe(root, { childList: true });
+    return () => {
+      io.disconnect();
+      mo.disconnect();
+    };
+  }, [location.pathname, loading, error]);
 
   if (loading) {
     return (
