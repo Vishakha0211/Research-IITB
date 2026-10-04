@@ -115,6 +115,9 @@ $env:VITE_BASE='/Research-IITB/'; npm run build
   and every public asset goes through `asset()` from `frontend/src/lib/paths.js`.
 - API calls default to `/api` at the site root. Publish the API under the same sub-path by
   setting `VITE_API_BASE=/Research-IITB/api` when building.
+- Tell Express where the build lives by setting `BASE_PATH=/Research-IITB` in
+  `backend/.env` (or the process env): it serves `frontend/dist` at both `/` and
+  `/Research-IITB`, and also answers `/Research-IITB/api/*` so no proxy rewrite is needed.
 - Keep the server copy free of local edits (`git status` clean) so `git pull` stays conflict-free.
 
 ## Stack

@@ -8,6 +8,25 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 const DATA_FILE = path.join(__dirname, 'data', 'report.json');
 
+// ----- Base path (optional sub-path hosting) -----
+// The site can live under a sub-path, e.g. https://host/Research-IITB/.
+// Set BASE_PATH=/Research-IITB in backend/.env (or the process env) and build
+// the front-end with VITE_BASE=/Research-IITB/ so both halves agree.
+// Default '/' keeps the usual domain-root deployment.
+function readEnvFile() {
+  const envFile = path.join(__dirname, '.env');
+  if (!fs.existsSync(envFile)) return {};
+  const out = {};
+  fs.readFileSync(envFile, 'utf8').split(/\r?\n/).forEach((line) => {
+    const m = line.match(/^\s*([A-Za-z0-9_]+)\s*=\s*(.*?)\s*$/);
+    if (m) out[m[1]] = m[2].replace(/^["']|["']$/g, '');
+  });
+  return out;
+}
+const FILE_ENV = readEnvFile();
+const BASE_PATH = ((process.env.BASE_PATH || FILE_ENV.BASE_PATH || '/').trim() || '/')
+  .replace(/\/+$/, '') || '/';
+
 // ----- Admin token -----
 // Priority: process env ADMIN_TOKEN -> backend/.env (ADMIN_TOKEN=...) -> backend/.admin-token (auto-created)
 function loadAdminToken() {
@@ -47,6 +66,18 @@ function requireAdmin(req, res, next) {
 
 app.use(cors());
 app.use(express.json({ limit: '10mb' }));
+
+// Answer API calls made under the base path as well
+// (front-end built with VITE_API_BASE=/Research-IITB/api), so no proxy has to
+// strip the prefix. Requests for the site itself are left untouched.
+if (BASE_PATH !== '/') {
+  app.use((req, _res, next) => {
+    if (req.path === `${BASE_PATH}/api` || req.path.startsWith(`${BASE_PATH}/api/`)) {
+      req.url = req.url.slice(BASE_PATH.length) || '/';
+    }
+    next();
+  });
+}
 
 async function readData() {
   return fs.readJson(DATA_FILE);
@@ -148,6 +179,8 @@ app.post('/api/report/reset', requireAdmin, async (req, res) => {
 const frontendBuild = path.join(__dirname, '..', 'frontend', 'dist');
 if (fs.existsSync(frontendBuild)) {
   app.use(express.static(frontendBuild));
+  // Same build, also mounted under the base path for sub-path hosting.
+  if (BASE_PATH !== '/') app.use(BASE_PATH, express.static(frontendBuild));
   app.get('*', (req, res) => {
     res.sendFile(path.join(frontendBuild, 'index.html'));
   });
@@ -155,6 +188,7 @@ if (fs.existsSync(frontendBuild)) {
 
 app.listen(PORT, () => {
   console.log(`IITB Research Portal API running on port ${PORT}`);
+  console.log(`Base path: ${BASE_PATH}`);
   console.log(`Write endpoints protected; admin token source: ${TOKEN_SOURCE}`);
   if (TOKEN_SOURCE.startsWith('auto-generated')) {
     console.log(`Admin token: ${ADMIN_TOKEN}`);
