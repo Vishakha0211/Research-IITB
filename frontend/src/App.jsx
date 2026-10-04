@@ -96,10 +96,6 @@ export default function App() {
           <img className="brand-logo" src={asset('/ugac-logo.svg')} alt="UGAC" />
         </Link>
 
-        <button className="hamburger" onClick={() => setOpen(!open)} aria-label="Menu">
-          ☰
-        </button>
-
         <nav className={`site-nav ${open ? 'open' : ''}`}>
           {NAV.map((n) => (
             <NavLink
@@ -121,7 +117,10 @@ export default function App() {
           <img className="header-logo" src={asset('/header-logo.png')} alt="DAV" />
         </div>
 
-        <div className="header-tools">
+        <div className="header-actions">
+          <button className="hamburger" onClick={() => setOpen(!open)} aria-label="Menu">
+            ☰
+          </button>
           <button
             type="button"
             className="icon-btn"
@@ -131,24 +130,26 @@ export default function App() {
           >
             ⌕
           </button>
-          <button
-            type="button"
-            className="icon-btn"
-            title={dark ? 'Switch to light mode' : 'Switch to dark mode'}
-            aria-label="Toggle dark mode"
-            onClick={() => setDark((d) => !d)}
-          >
-            {dark ? '☀️' : '🌙'}
-          </button>
-          <button
-            type="button"
-            className="icon-btn"
-            title="Print or save this page as PDF"
-            aria-label="Print"
-            onClick={() => window.print()}
-          >
-            ⎙
-          </button>
+          <div className="header-tools">
+            <button
+              type="button"
+              className="icon-btn"
+              title={dark ? 'Switch to light mode' : 'Switch to dark mode'}
+              aria-label="Toggle dark mode"
+              onClick={() => setDark((d) => !d)}
+            >
+              {dark ? '☀️' : '🌙'}
+            </button>
+            <button
+              type="button"
+              className="icon-btn"
+              title="Print or save this page as PDF"
+              aria-label="Print"
+              onClick={() => window.print()}
+            >
+              ⎙
+            </button>
+          </div>
         </div>
 
         {isAdmin && (

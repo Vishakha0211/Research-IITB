@@ -492,6 +492,7 @@ table.data tr:hover td { background: #f7faf9; }
 }
 
 /* ---------- Header tools ---------- */
+.header-actions { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
 .header-tools { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
 .icon-btn {
   width: 36px; height: 36px;
@@ -504,22 +505,37 @@ table.data tr:hover td { background: #f7faf9; }
 .icon-btn:hover { border-color: var(--teal); color: var(--teal); background: var(--teal-soft); }
 
 /* ---------- Compact header (mobile / tablet) ----------
-   Logo stays on the left; hamburger, DAV Team, DAV logo and the three
-   tool buttons are pushed to the right on a single row. */
+   Row 1: UGAC logo on the left edge with "DAV Team" + DAV logo on the right.
+   Row 2: menu + search under the UGAC logo, theme + print under the DAV logo. */
 @media (max-width: 1000px) {
-  .site-header { padding: 9px 10px; gap: 6px; }
+  .site-header { padding: 10px 10px; gap: 10px 6px; }
   .brand { margin-right: auto; }
   .brand-logo { height: 30px; transform: translate(-5px, -4px); }
-  .hamburger { padding: 5px 9px; font-size: 16px; border-radius: 7px; }
   .header-team { gap: 6px; }
   .header-team-name { font-size: 12px; }
   .header-logo { height: 30px; }
-  .header-tools { gap: 5px; }
+  .header-actions {
+    display: flex; width: 100%;
+    justify-content: flex-start; align-items: center; gap: 6px;
+  }
+  .header-tools { margin-left: auto; gap: 5px; }
+  .hamburger { padding: 5px 9px; font-size: 16px; border-radius: 7px; }
   .icon-btn { width: 32px; height: 32px; font-size: 15px; border-radius: 7px; }
   .header-cta { display: none; }
 }
 @media (max-width: 340px) {
   .header-team-name { display: none; }
+}
+
+/* ---------- Mobile footer ----------
+   Stack the two footer lines: "Made with ..." first, the live-data note
+   underneath it, both centred. */
+@media (max-width: 640px) {
+  .site-footer { grid-template-columns: 1fr; gap: 5px; }
+  .site-footer > span:first-child { grid-column: 1; }
+  .site-footer > span:last-child {
+    grid-column: 1; justify-self: center; text-align: center; font-size: 12px;
+  }
 }
 
 /* ---------- Search input / history ---------- */
